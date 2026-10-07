@@ -92,6 +92,12 @@ body.oncover{background:#120c08;background-image:none}
 .edsearch{margin-bottom:8px}
 .edsearch .inp{flex:1;min-width:0;width:auto;text-transform:none}
 .guide{line-height:1.7;padding-bottom:40px}
+.note-v{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:4px 16px 12px;margin-top:14px}
+.note-v h2{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:12px 0 6px}
+.note-v h3{font-size:.95rem;margin:12px 0 2px;color:var(--hpc)}
+.note-v .ver{background:var(--seal);color:#fff2dc;border-radius:6px;padding:0 8px;font-size:.9rem}
+.note-v .date{margin-left:auto;font-size:.8rem;color:var(--muted);font-weight:400}
+.newdot{display:inline-block;margin-left:6px;background:#ff4a3d;color:#fff;font-size:.62rem;font-weight:800;border-radius:8px;padding:1px 6px;vertical-align:middle}
 .guidetop h1{font-size:clamp(1.8rem,6vw,2.6rem)}
 .guide .lead{font-size:1rem;color:var(--muted);margin:4px 0 6px}
 .guide h2{font-size:1.2rem;margin:28px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);scroll-margin-top:16px}
@@ -348,6 +354,7 @@ details p{margin:.4em 0}
       <button class="btn" id="goBattle">AI와 전투</button>
       <button class="btn ghost" id="goEdit">덱 편집</button>
       <button class="btn ghost" id="goGuide">게임 설명</button>
+      <button class="btn ghost" id="goNotes">패치 노트<span class="newdot" id="notesNew" hidden>NEW</span></button>
     </div>
     <div class="sub" id="mNote"></div>
   </div>
@@ -561,6 +568,110 @@ details p{margin:.4em 0}
     <li><b>효과 표시:</b> 일반 공격은 사선으로 베이고, 불·얼음·빛·비전·독·어둠·화살 공격은 각자 다른 이펙트로 터지며, 피해와 회복 수치가 숫자로 떠오릅니다.</li>
   </ul>
   <div class="row" style="justify-content:center;margin:24px 0 8px"><button class="btn" id="guideBack2">메뉴로 돌아가기</button></div>
+</section>
+
+<!-- PATCH NOTES -->
+<section id="notes" class="wrap guide notes" hidden>
+  <div class="row guidetop"><button class="btn ghost" id="notesBack">메뉴로</button><h1>Acta</h1></div>
+  <p class="lead">패치 노트. 게임에 바뀐 내용을 최신 순서로 정리했습니다.</p>
+
+  <article class="note-v"><h2><span class="ver">v1.9</span> 전체 밸런스 조정 <span class="date">2026.10.07</span></h2>
+    <p>AI끼리 2,700판을 대전시켜 진영 승률을 49~52%로 맞췄습니다. (조정 전 망령 57%, 왕국 46%)</p>
+    <h3>규칙</h3>
+    <ul><li><b>빙결</b>된 유닛은 얼어 있는 동안 공격받아도 반격하지 못합니다.</li></ul>
+    <h3>왕국 (상향)</h3>
+    <ul>
+      <li>성벽 수비대 1/4 → 2/4 · 기마 전령 3/1 → 3/2 · 왕국 기수 2/3 → 3/3 · 왕실 근위대 3/5 → 4/5</li>
+      <li>왕국 챔피언 5코 → 4코 · 백마 기사 6코 5/4 → 5코 4/4 · 마상 결투 3코 → 2코</li>
+      <li>방패벽: 체력 +2 → 공격력과 체력 +1/+1 · 방패의 맹세: 방어도 +5에 카드 1장 뽑기 추가</li>
+      <li>사자왕 7코 → 6코 · 백합의 왕비 7코 4/7 → 6코 5/7</li>
+    </ul>
+    <h3>교단</h3>
+    <ul><li>대성녀 8코 → 7코 · 대천사 과부하 3 → 2 · 수호 천사 4/5 → 5/5 · 성스러운 갑주 방어도 +3 → +4</li></ul>
+    <h3>용병</h3>
+    <ul><li>철갑 흉갑 2코 → 1코 · 황금 늑대 용병왕 아군 공격력 +2 → +1</li></ul>
+    <h3>비전</h3>
+    <ul><li>운석 낙하 3코 5피해 과부하 3 → 5코 4피해 과부하 2 · 그리스의 불 4코 → 3코 · 마법사의 올빼미 2/1 → 2/2</li></ul>
+    <h3>망령 (하향)</h3>
+    <ul>
+      <li>뼈 거인 3코 6/6 과부하 3 → 4코 5/5 과부하 2 · 뼈 갑옷 2코 → 3코</li>
+      <li>죽음의 기사 5/5 → 4/5 · 흡혈 백작 4/5 → 4/4 · 망각의 여왕 5/7 → 4/7 · 리치 왕 죽음 효과 3피해 → 2피해</li>
+      <li>역병: 모든 유닛 1피해 → <b>적 유닛만</b> 1피해</li>
+      <li>영혼 수확: 4코, 모든 유닛 2피해, 회복 3 → 5코, <b>적 유닛만</b> 2피해, 회복 4</li>
+      <li>밴시: 모든 적 유닛 빙결 → 무작위 적 유닛 2기 빙결</li>
+    </ul>
+    <h3>중립</h3>
+    <ul><li>뺑이: 턴마다 회복 3 → 2</li></ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.8</span> 이벤트 개편 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li>이벤트 <b>어려움 점수 2배</b> (쉬움 0.5배)</li>
+      <li>점수 작업 방지: 이벤트 점수에서 <b>체력은 30까지만</b> 인정</li>
+      <li>다른 컴퓨터나 휴대폰에서도 <b>같은 메일을 입력하면 기존 점수와 승수를 이어 가기</b>, "다른 메일로 바꾸기" 버튼 추가</li>
+      <li>이벤트 상품과 마감 안내: 2026년 10월 10일(토) 오전 9시 집계, 1등 치킨 · 2등 메가커피 · 3등 친필 편지, 마감 카운트다운</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.7</span> 맹독 개편과 카드 정리 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li><b>맹독:</b> 즉시 파괴 → <b>중독</b> 상태가 되어 주인의 다음 턴이 끝날 때 파괴, 그 전에 체력을 회복하면 해독</li>
+      <li>판 갈아엎기, 운명의 수레바퀴를 <b>중립</b>으로 이동</li>
+      <li>운명의 수레바퀴: 손패 교체 → 3코스트 카드 3장 뽑기</li>
+      <li>마지막 기도: 체력 4 회복, 카드 1장 뽑기</li>
+      <li>지식의 두루마리 3코 → 2코</li>
+      <li><b>중립 전설</b>(서아린, 뺑이)은 덱에 1종만 넣을 수 있음</li>
+      <li>영주와 유닛 모두 <b>최대 체력을 넘어서</b> 회복</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.6</span> 전투 연출 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li>전투 기록 6줄 표시, 최근 60줄까지 스크롤, 라운드 구분선</li>
+      <li>공격 이펙트: 사선 베기, 흡혈 할퀴기, 불, 얼음, 빛, 비전, 독·어둠, 화살, 처형, 그리고 피해·회복 숫자</li>
+      <li>상태별 테두리 색: 수호 노랑, 보호막 파랑, 빙결 서리, 중독 독빛, 공격 가능 초록, 대상 빨강</li>
+      <li>휴대폰에서 카드를 길게 누르면 설명이 나오는 기능 개선</li>
+      <li>죽음 효과가 발동하면 기록에 표시</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.5</span> 이벤트 난이도와 편의 기능 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li>이벤트 난이도를 <b>쉬움</b>과 <b>어려움</b>으로 분리</li>
+      <li>게임 설명서와 패치 노트 페이지 추가</li>
+      <li>덱 편집: 카드 <b>검색</b>, 이름을 붙이는 <b>내 덱 프리셋 3개</b></li>
+      <li>신규 중립 전설 <b>뺑이</b>(수도사), 서아린의 빙결을 <b>매혹</b>(50% 확률로 적이 자기 편을 공격)으로 변경</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.4</span> 이벤트 랭킹과 새 그림 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li>메일로 참가하는 <b>이벤트 랭킹</b>, 승리 점수, 메일을 가린 공개 랭킹</li>
+      <li>표지와 모든 카드 그림을 <b>회화풍</b>으로 교체</li>
+      <li>신규 중립 전설 <b>서아린</b>(댄서)</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.3</span> 카드 설명과 장비 <span class="date">2026.10.07</span></h2>
+    <ul>
+      <li>카드에 마우스를 올리면 뒤집히며 효과, 용어 설명, 이야기 표시</li>
+      <li>신규 장비 <b>별철 장검</b>, 손패 교체 카드 2종</li>
+      <li>보호막 유닛 수와 능력치 하향</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.2</span> 새 메커니즘과 친구 대전 <span class="date">2026.10.06</span></h2>
+    <ul>
+      <li>마지막 카드, 과부하, 유지비, 영주 방어도 추가, 흡혈은 최대 체력을 넘어 회복</li>
+      <li>덱 47장, 전장 7칸, 시작 손패 7장, 손이 비면 9장까지 뽑기</li>
+      <li>AI 난이도(초급·중급·고급)와 <b>친구 대전</b></li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v1.0</span> 첫 공개 <span class="date">2026.10.06</span></h2>
+    <ul><li>다섯 진영 카드, 덱 편집, AI 대전</li></ul>
+  </article>
+  <div class="row" style="justify-content:center;margin:24px 0 8px"><button class="btn" id="notesBack2">메뉴로 돌아가기</button></div>
 </section>
 
 <!-- BATTLE -->
@@ -1292,7 +1403,7 @@ function sanitizeDeck(d){const out=[];(Array.isArray(d)?d:[]).forEach(k=>{if(typ
 /* =============== UI helpers =============== */
 const $=id=>document.getElementById(id);
 let toastT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1700)}
-function show(id){['menu','editor','battle','guide'].forEach(x=>$(x).hidden=x!==id);document.body.classList.toggle('oncover',id==='menu');window.scrollTo(0,0);if(id==='menu')setTimeout(drawCover,30)}
+function show(id){['menu','editor','battle','guide','notes'].forEach(x=>$(x).hidden=x!==id);document.body.classList.toggle('oncover',id==='menu');window.scrollTo(0,0);if(id==='menu')setTimeout(drawCover,30)}
 function mixChips(d){const m={};d.forEach(k=>{const h=CARDS[k].h;m[h]=(m[h]||0)+1});
   return HO.filter(h=>m[h]).map(h=>`<span class="chip" style="background:${H[h].c}">${H[h].sym} ${H[h].n} ${m[h]}</span>`).join('')||'<span class="sub">아직 카드가 없습니다</span>'}
 
@@ -1818,7 +1929,12 @@ $('endturn').onclick=()=>{if(S&&S.cur===0&&!S.busy&&!S.over)act({t:'end'})};
 $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFlip').firstChild;f&&f.classList.toggle('flipped')};
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
-$('goGuide').onclick=()=>show('guide');$('guideBack').onclick=$('guideBack2').onclick=()=>{renderMenu();show('menu')};
+$('goGuide').onclick=()=>show('guide');
+const NOTES_VER='1.9';
+function markNotes(){let seen='';try{seen=localStorage.getItem('cg-notes-seen')||''}catch(e){}$('notesNew').hidden=seen===NOTES_VER}
+$('goNotes').onclick=()=>{try{localStorage.setItem('cg-notes-seen',NOTES_VER)}catch(e){}markNotes();show('notes')};
+$('notesBack').onclick=$('notesBack2').onclick=()=>{renderMenu();show('menu')};
+markNotes();$('guideBack').onclick=$('guideBack2').onclick=()=>{renderMenu();show('menu')};
 $('evJoin').onclick=openEv;
 $('evSwitch').onclick=()=>{EV.acct=null;EV.match=null;try{localStorage.removeItem('cg-event')}catch(e){}$('evEmail').value='';loadBoard();openEv()};$('evRefresh').onclick=loadBoard;$('evSubmit').onclick=evRegister;$('evCancel').onclick=closeEv;
 $('evEmail').addEventListener('keydown',e=>{if(e.key==='Enter')evRegister()});
