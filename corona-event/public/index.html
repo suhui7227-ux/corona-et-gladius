@@ -175,7 +175,7 @@ body.oncover{background:#120c08;background-image:none}
 .curve i{display:block;width:100%;background:var(--gold);border-radius:3px 3px 0 0;min-height:2px}
 .dlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;max-height:52vh;overflow-y:auto}
 .drow{width:100%;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--vellum);color:var(--vellum-ink);padding:3px 8px 3px 3px;cursor:pointer;text-align:left;font-size:.82rem}
-.drow .dc{width:22px;height:22px;border-radius:50%;background:var(--seal);color:#fff2dc;display:grid;place-items:center;font-weight:700;font-size:.75rem;flex:none}
+.drow .dc{width:22px;height:22px;border-radius:50%;border:2px solid #5c0f10;background:var(--seal);color:#fff2dc;display:grid;place-items:center;font-weight:700;font-size:.75rem;flex:none}
 .drow .dn{flex:1}
 .drow .dh{width:6px;align-self:stretch;border-radius:3px}
 .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -323,6 +323,11 @@ details p{margin:.4em 0}
 @media (prefers-reduced-motion:reduce){.flipper{transition:none}}
 .toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#2b1f15;color:#f4ebd2;padding:.5em 1em;border-radius:8px;font-size:.85rem;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
+.mgroup{display:flex;flex-direction:column;gap:10px;border:1px solid rgba(224,189,79,.3);border-radius:10px;padding:12px 14px;background:rgba(0,0,0,.2)}
+.mghead{font-size:.8rem;font-weight:700;color:#e0bd4f;letter-spacing:.02em}
+.mgroup .sub{margin:0}
+.btn.go{padding:.7em 1.8em;font-size:1.05rem}
+.segsep{width:1px;background:rgba(224,189,79,.45);margin:5px 0}
 </style>
 </head>
 <body>
@@ -349,14 +354,20 @@ details p{margin:.4em 0}
   <div class="panel">
     <div class="row"><h2>내 덱</h2><span class="cnt" id="mCount"></span></div>
     <div class="chips" id="mMix"></div>
-    <div class="row"><span class="lbl">AI 난이도</span><div class="seg" id="diff" role="group" aria-label="AI 난이도"></div></div>
-    <div class="row">
-      <button class="btn" id="goBattle">AI와 전투</button>
-      <button class="btn ghost" id="goEdit">덱 편집</button>
-      <button class="btn ghost" id="goGuide">게임 설명</button>
-      <button class="btn ghost" id="goNotes">패치 노트<span class="newdot" id="notesNew" hidden>NEW</span></button>
+    <div class="mgroup" role="group" aria-label="AI 대전">
+      <div class="mghead">AI 대전 · 이벤트</div>
+      <div class="row"><span class="lbl">AI 난이도</span><div class="seg" id="diff" role="group" aria-label="AI 난이도"></div></div>
+      <div class="sub" id="mNote"></div>
+      <div class="row"><button class="btn go" id="goBattle">AI와 전투</button></div>
     </div>
-    <div class="sub" id="mNote"></div>
+    <div class="mgroup" role="group" aria-label="덱과 안내">
+      <div class="mghead">덱과 안내</div>
+      <div class="row">
+        <button class="btn ghost" id="goEdit">덱 편집</button>
+        <button class="btn ghost" id="goGuide">게임 설명</button>
+        <button class="btn ghost" id="goNotes">패치 노트<span class="newdot" id="notesNew" hidden>NEW</span></button>
+      </div>
+    </div>
   </div>
   <div class="panel">
     <h2>친구와 대전</h2>
@@ -404,7 +415,7 @@ details p{margin:.4em 0}
     <div>
       <div class="row edsearch"><input class="inp" id="edQ" type="search" placeholder="카드 검색: 이름, 효과, 진영, 키워드" aria-label="카드 검색" autocomplete="off"><span class="sub" id="edHits"></span></div>
       <div class="tabs" id="tabs"></div>
-      <div class="sub">카드를 누르면 덱에 추가됩니다. 같은 카드는 2장, 전설은 1장까지, 중립 전설은 1종만. 마우스를 올리거나 길게 누르면 카드 설명과 이야기를 볼 수 있어요.</div>
+      <div class="sub">카드를 누르면 덱에 추가됩니다. 같은 카드는 2장, 전설은 1장까지. 한 진영을 주력으로 최소 35장, 나머지는 다른 1개 진영과 중립(중립은 5장까지, 중립 전설은 1종). 마우스를 올리거나 길게 누르면 카드 설명과 이야기를 볼 수 있어요.</div>
       <div class="coll" id="coll"></div>
     </div>
     <aside class="deckpane">
@@ -414,9 +425,10 @@ details p{margin:.4em 0}
       </div>
       <div class="sub" style="margin-top:2px">추천 덱</div>
       <div class="row"><select id="preset" aria-label="추천 덱"></select><button class="btn ghost" id="loadPreset">불러오기</button></div>
-      <div class="row"><button class="btn ghost" id="fitDeck">47장 자동 맞춤</button><button class="btn ghost" id="clearDeck">비우기</button><span class="sub">덱의 카드를 누르면 한 장 뺍니다.</span></div>
+      <div class="row"><button class="btn ghost" id="fitDeck">50장 자동 맞춤</button><button class="btn ghost" id="clearDeck">비우기</button><span class="sub">덱의 카드를 누르면 한 장 뺍니다.</span></div>
       <div class="curve" id="curve" aria-label="비용 분포"></div>
       <div class="chips" id="eMix"></div>
+      <div class="sub" id="eRule"></div>
       <ol class="dlist" id="dlist"></ol>
     </aside>
   </div>
@@ -441,13 +453,13 @@ details p{margin:.4em 0}
     <dt><span class="chip" style="background:#2f5a3a">⚔︎ 용병</span> 회색 늑대 용병단</dt><dd>돌진으로 바로 때리고, 영주에게 직접 피해를 주는 빠른 공격형입니다. 유지비가 드는 거인도 있습니다.</dd>
     <dt><span class="chip" style="background:#55346b">✦ 비전</span> 백탑의 마법사들</dt><dd>카드 뽑기, 빙결, 변이, 추방, 광역 마법으로 판을 통제합니다.</dd>
     <dt><span class="chip" style="background:#3a332c">☠︎ 망령</span> 망각의 묘역</dt><dd>흡혈과 맹독, 죽음 효과, 확정 처치 주문으로 끈질기게 싸웁니다.</dd>
-    <dt><span class="chip" style="background:#7a5a2e">✶ 중립</span> 떠돌이와 유물</dt><dd>별철 장검, 판 갈아엎기, 운명의 수레바퀴, 무희 서아린, 수도사 뺑이처럼 어느 덱에나 넣을 수 있는 카드입니다.</dd>
+    <dt><span class="chip" style="background:#7a5a2e">✶ 중립</span> 떠돌이와 유물</dt><dd>별철 장검과 가죽 갑옷·철 단검·판금 갑주 같은 장비 10종, 판 갈아엎기, 운명의 수레바퀴, 무희 서아린, 수도사 뺑이처럼 어느 덱에나 넣을 수 있는 카드입니다. 중립 카드는 덱에 5장까지 넣을 수 있습니다.</dd>
   </dl>
 
   <h2 id="g-win">승리 조건과 시작</h2>
   <ul>
     <li>상대 <b>영주의 체력을 0</b>으로 만들면 이깁니다. 양쪽 영주는 체력 <b>30</b>으로 시작합니다.</li>
-    <li>덱은 <b>47장</b>입니다. 덱이 47장이 아니면 전투를 시작할 때 자동으로 맞춰집니다.</li>
+    <li>덱은 <b>50장</b>입니다. 덱이 50장이 아니면 전투를 시작할 때 자동으로 맞춰집니다.</li>
     <li>첫 턴을 시작할 때 손에 카드가 <b>7장</b> 있습니다. 먼저 하는 쪽과 나중에 하는 쪽 모두 같습니다.</li>
   </ul>
 
@@ -464,7 +476,7 @@ details p{margin:.4em 0}
 
   <h2 id="g-card">카드 읽는 법</h2>
   <ul>
-    <li><b>왼쪽 위 붉은 인장:</b> 내는 데 드는 금화(비용)</li>
+    <li><b>왼쪽 위 둥근 인장:</b> 내는 데 드는 금화(비용). 인장 색은 진영을 따릅니다: 왕국 파랑, 교단 빨강, 용병 초록, 비전 보라, 망령 잿빛, 중립 황동</li>
     <li><b>가운데 띠:</b> 진영과 직업, 전설 여부</li>
     <li><b>아래 ⚔ 숫자:</b> 공격력, <b>♥ 숫자:</b> 체력 (유닛만)</li>
     <li><b>카드 종류:</b> 전장에 남는 <b>유닛</b>, 한 번 쓰고 사라지는 <b>주문</b>, 아군 유닛에 붙는 <b>장비</b></li>
@@ -476,6 +488,7 @@ details p{margin:.4em 0}
     <li>전장에는 유닛을 <b>7기</b>까지 둘 수 있습니다.</li>
     <li>낸 유닛은 <b>다음 턴부터</b> 공격합니다. 돌진 유닛은 낸 턴에 바로 공격합니다.</li>
     <li>유닛은 한 턴에 한 번 공격합니다. 적 유닛이나 적 영주를 고를 수 있습니다.</li>
+    <li>공격력이 <b>0</b>인 유닛은 적 전장에 유닛이 하나도 없을 때만 영주를 공격할 수 있고, 이때 <b>1 피해</b>를 줍니다.</li>
     <li>유닛끼리 싸우면 <b>서로 공격력만큼</b> 피해를 주고받습니다. 체력이 0이 되면 쓰러집니다.</li>
     <li>적 전장에 <b>수호</b> 유닛이 있으면 그 유닛부터 공격해야 합니다.</li>
     <li>영주와 유닛 모두 <b>최대 체력을 넘어서</b> 회복할 수 있습니다. 회복이 쌓일수록 버티기 좋아집니다.</li>
@@ -523,11 +536,11 @@ details p{margin:.4em 0}
 
   <h2 id="g-deck">덱 만들기</h2>
   <ul>
-    <li><b>규칙:</b> 47장, 같은 카드 2장까지, 전설 1장까지. <b>중립 전설</b>(서아린, 뺑이)은 그중 1종만 넣을 수 있습니다. 두 진영에 중립 카드를 몇 장 섞는 구성이 기본입니다.</li>
+    <li><b>규칙:</b> 50장, 같은 카드 2장까지, 전설 1장까지. 한 진영을 <b>주력</b>으로 <b>최소 35장</b> 넣고, 나머지(최대 15장)는 <b>다른 1개 진영</b>과 중립으로 채웁니다. 중립은 그중 <b>5장</b>까지 넣을 수 있습니다. <b>중립 전설</b>(서아린, 뺑이)은 1종만 넣을 수 있습니다.</li>
     <li><b>검색:</b> 이름, 효과, 진영, 직업, 키워드, 비용으로 찾을 수 있습니다. 예: <code>흡혈 5코</code>, <code>수도사</code>, <code>전설</code></li>
-    <li><b>47장 자동 맞춤:</b> 일부만 골라 두고 누르면 주력 두 진영에서 나머지를 채웁니다.</li>
+    <li><b>50장 자동 맞춤:</b> 일부만 골라 두고 누르면 가장 많이 넣은 주력 진영에서 나머지를 채웁니다.</li>
     <li><b>내 덱 프리셋:</b> 이름을 붙여 3개까지 저장하고 불러올 수 있습니다. 이 브라우저에만 저장됩니다.</li>
-    <li><b>추천 덱:</b> 두 진영을 섞은 완성 덱 6종을 바로 불러올 수 있습니다.</li>
+    <li><b>추천 덱:</b> 주력 진영 35장에 보조 진영 11장, 중립 4장을 더한 완성 덱 6종을 바로 불러올 수 있습니다.</li>
     <li><b>비용 분포:</b> 1~3코 카드가 15장 이상이면 초반에 밀리지 않습니다.</li>
   </ul>
 
@@ -574,6 +587,26 @@ details p{margin:.4em 0}
 <section id="notes" class="wrap guide notes" hidden>
   <div class="row guidetop"><button class="btn ghost" id="notesBack">메뉴로</button><h1>Acta</h1></div>
   <p class="lead">패치 노트. 게임에 바뀐 내용을 최신 순서로 정리했습니다.</p>
+
+  <article class="note-v"><h2><span class="ver">v2.0</span> 덱 규칙과 능력치 개편, 장비 10종 <span class="date">2026.10.07</span></h2>
+    <h3>덱</h3>
+    <ul>
+      <li>덱 <b>47장 → 50장</b></li>
+      <li>한 진영을 <b>최소 35장</b> 넣고, 나머지는 <b>다른 1개 진영 + 중립</b>(중립은 <b>5장</b>까지)</li>
+      <li>추천 덱을 주력 진영 35장 + 보조 진영 11장 + 중립 4장 구성으로 변경</li>
+    </ul>
+    <h3>카드</h3>
+    <ul>
+      <li>유닛 공격력+체력 합을 비용 기준으로 정리: 1코 3, 2코 4, 3코 5 … (비용 + 2). 키워드나 효과가 있으면 합이 1, 효과가 여러 개면 2 줄어듭니다. <b>전설 카드는 원래 능력치 그대로</b>입니다. 유지비·과부하는 합이 늘어납니다.</li>
+      <li>신규 중립 장비 10종: 가죽 갑옷, 철 단검, 나무 방패, 철제 투구, 전투 도끼, 강철 방패, 수호의 부적, 독 바른 칼날, 박차, 판금 갑주</li>
+      <li>코스트 인장 색을 진영별로 구분 (왕국 파랑, 교단 빨강, 용병 초록, 비전 보라, 망령 잿빛, 중립 황동)</li>
+    </ul>
+    <ul><li>투석병 1/2 → 1/1 (등장 피해에 비해 능력치가 높았음)</li></ul>
+    <h3>규칙</h3>
+    <ul><li>공격력 0인 유닛도 <b>적 전장에 유닛이 없으면</b> 영주를 공격해 1 피해를 줍니다.</li></ul>
+    <h3>화면</h3>
+    <ul><li>시작 화면을 "AI 난이도·이벤트" 묶음과 "덱 편집·게임 설명·패치 노트" 묶음으로 정리</li></ul>
+  </article>
 
   <article class="note-v"><h2><span class="ver">v1.9</span> 전체 밸런스 조정 <span class="date">2026.10.07</span></h2>
     <p>AI끼리 2,700판을 대전시켜 진영 승률을 49~52%로 맞췄습니다. (조정 전 망령 57%, 왕국 46%)</p>
@@ -714,8 +747,11 @@ details p{margin:.4em 0}
 const VS='\uFE0E';
 const H={k:{n:'왕국',c:'#27417a',sym:'⚜'+VS},c:{n:'교단',c:'#7c1d22',sym:'✠'},m:{n:'용병',c:'#2f5a3a',sym:'⚔'+VS},s:{n:'비전',c:'#55346b',sym:'✦'},d:{n:'망령',c:'#3a332c',sym:'☠'+VS},n:{n:'중립',c:'#7a5a2e',sym:'✶'}};
 const HO=['k','c','m','s','d','n'];
+/* 코스트 인장 색: 진영별 (밝은색, 어두운색, 테두리, 글자색) */
+const SEAL={k:['#6c97e6','#2a4a9a','#13265c'],c:['#e4584f','#a1242a','#5c0f10'],m:['#6fbf7a','#2f6b3f','#173a21'],s:['#b184e6','#6a3a9c','#341a52'],d:['#a9c2bb','#3f4d50','#14191a','#e6fff4'],n:['#ecca7a','#a07a2a','#5a420e']};
+const sealSty=h=>{const q=SEAL[h]||SEAL.n;return `background:radial-gradient(circle at 35% 28%,${q[0]},${q[1]} 72%);border-color:${q[2]};color:${q[3]||'#fffaf0'};text-shadow:0 1px 1px rgba(0,0,0,.45)`};
 const KW={taunt:'수호',charge:'돌진',lifesteal:'흡혈',poison:'맹독',divine:'보호막'};
-const MAXH=9,BOARD=7,DECKSIZE=47,START_HAND=7;
+const MAXH=9,BOARD=7,DECKSIZE=50,START_HAND=7,OTHER_MAX=15,NEUT_MAX=5;
 
 /* =============== Illustration kit =============== */
 function star(cx,cy,R,r,n){let p='';for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,q=i%2?r:R;p+=(i?'L':'M')+(cx+q*Math.cos(a)).toFixed(1)+' '+(cy+q*Math.sin(a)).toFixed(1)}return p+'Z'}
@@ -781,152 +817,163 @@ const others=(s,me)=>units(s).filter(u=>u!==me);
 const CARDS={
  // 왕국
  squire:{h:'k',name:'견습 종자',cost:1,atk:1,hp:2,art:['helm','#27417a']},
- wall:{h:'k',name:'성벽 수비대',cost:2,atk:2,hp:4,kw:['taunt'],art:['tower']},
- herald:{h:'k',name:'기마 전령',cost:3,atk:3,hp:2,kw:['charge'],art:['horse']},
- bannerman:{h:'k',name:'왕국 기수',cost:3,atk:3,hp:3,text:'등장: 다른 아군 유닛 공격력 +1',art:['banner','#27417a'],onPlay:(s,me)=>others(s,me).forEach(u=>u.atk++)},
+ wall:{h:'k',name:'성벽 수비대',cost:2,atk:1,hp:2,kw:['taunt'],art:['tower']},
+ herald:{h:'k',name:'기마 전령',cost:3,atk:3,hp:1,kw:['charge'],art:['horse']},
+ bannerman:{h:'k',name:'왕국 기수',cost:3,atk:2,hp:2,text:'등장: 다른 아군 유닛 공격력 +1',art:['banner','#27417a'],onPlay:(s,me)=>others(s,me).forEach(u=>u.atk++)},
  dub:{h:'k',type:'spell',name:'기사 서임',cost:2,target:'friendlyUnit',text:'아군 유닛 +2/+2',art:['sword'],effect:(s,t)=>buff(unitAt(t),2,2)},
- guard:{h:'k',name:'왕실 근위대',cost:4,atk:4,hp:5,kw:['taunt'],art:['shield','#27417a','#e0bd4f']},
- marshal:{h:'k',name:'왕국 원수',cost:5,atk:4,hp:5,text:'등장: 견습 종자 2명 소환',art:['helm','#e0bd4f'],onPlay:s=>{summon(s,'squire');summon(s,'squire')}},
+ guard:{h:'k',name:'왕실 근위대',cost:4,atk:2,hp:3,kw:['taunt'],art:['shield','#27417a','#e0bd4f']},
+ marshal:{h:'k',name:'왕국 원수',cost:5,atk:2,hp:3,text:'등장: 견습 종자 2명 소환',art:['helm','#e0bd4f'],onPlay:s=>{summon(s,'squire');summon(s,'squire')}},
  lionking:{h:'k',leg:1,name:'사자왕',cost:6,atk:7,hp:7,text:'등장: 다른 아군 유닛 +1/+1',art:['lion'],onPlay:(s,me)=>others(s,me).forEach(u=>buff(u,1,1))},
  // 교단
  water:{h:'c',type:'spell',name:'성수',cost:1,target:'friendlyAny',text:'아군 하나 체력 4 회복',art:['chalice','#3d6fb0'],effect:(s,t)=>heal(t,4)},
- monk:{h:'c',name:'탁발 수도사',cost:2,atk:1,hp:3,text:'등장: 내 영주 체력 3 회복',art:['hood','#6b4a2e','cross'],onPlay:s=>healLord(s,3)},
- nun:{h:'c',name:'치유의 수녀',cost:3,atk:2,hp:4,text:'등장: 모든 아군 유닛 체력 2 회복',art:['hood','#e9e2cc','cross'],onPlay:s=>units(s).forEach(u=>healUnit(u,2))},
+ monk:{h:'c',name:'탁발 수도사',cost:2,atk:1,hp:2,text:'등장: 내 영주 체력 3 회복',art:['hood','#6b4a2e','cross'],onPlay:s=>healLord(s,3)},
+ nun:{h:'c',name:'치유의 수녀',cost:3,atk:1,hp:3,text:'등장: 모든 아군 유닛 체력 2 회복',art:['hood','#e9e2cc','cross'],onPlay:s=>units(s).forEach(u=>healUnit(u,2))},
  smite:{h:'c',type:'spell',name:'신의 심판',cost:3,target:'enemyAny',dmg:3,text:'적 하나에게 3 피해',art:['holy']},
- pilgrim:{h:'c',name:'순례 기사',cost:4,atk:4,hp:4,art:['shield','#f4ebd2','#b8322c']},
- inquisitor:{h:'c',name:'이단 심문관',cost:4,atk:3,hp:3,target:'enemyUnit',dmg:2,text:'등장: 적 유닛 하나에 2 피해',art:['hood','#7c1d22','#ffd36e']},
- templar:{h:'c',name:'성전 기사단장',cost:6,atk:5,hp:6,kw:['taunt'],art:['shield','#7c1d22','#f4ebd2']},
+ pilgrim:{h:'c',name:'순례 기사',cost:4,atk:3,hp:3,art:['shield','#f4ebd2','#b8322c']},
+ inquisitor:{h:'c',name:'이단 심문관',cost:4,atk:3,hp:2,target:'enemyUnit',dmg:2,text:'등장: 적 유닛 하나에 2 피해',art:['hood','#7c1d22','#ffd36e']},
+ templar:{h:'c',name:'성전 기사단장',cost:6,atk:3,hp:4,kw:['taunt'],art:['shield','#7c1d22','#f4ebd2']},
  saint:{h:'c',leg:1,name:'대성녀',cost:7,atk:6,hp:8,kw:['taunt'],text:'등장: 내 영주 체력 8 회복',art:['hood','#f4ebd2','halo'],onPlay:s=>healLord(s,8)},
  // 용병
  volley:{h:'m',type:'spell',name:'화살 세례',cost:1,target:'enemyAny',dmg:2,text:'적 하나에게 2 피해',art:['arrows']},
  archer:{h:'m',name:'장궁병',cost:2,atk:2,hp:1,text:'등장: 적 영주에게 1 피해',art:['bow'],onPlay:s=>hurtLord(1-s,1)},
- pike:{h:'m',name:'창병',cost:2,atk:2,hp:3,art:['spear']},
- sword:{h:'m',name:'용병 검사',cost:3,atk:3,hp:3,art:['sword']},
- berserker:{h:'m',name:'광전사',cost:3,atk:4,hp:2,kw:['charge'],art:['axe',null,'double']},
- ram:{h:'m',name:'공성 망치병',cost:4,atk:4,hp:4,text:'등장: 적 영주에게 2 피해',art:['hammer'],onPlay:s=>hurtLord(1-s,2)},
- captain:{h:'m',name:'용병대장',cost:5,atk:5,hp:3,kw:['charge'],art:['helm','#2f5a3a']},
+ pike:{h:'m',name:'창병',cost:2,atk:2,hp:2,art:['spear']},
+ sword:{h:'m',name:'용병 검사',cost:3,atk:3,hp:2,art:['sword']},
+ berserker:{h:'m',name:'광전사',cost:3,atk:3,hp:1,kw:['charge'],art:['axe',null,'double']},
+ ram:{h:'m',name:'공성 망치병',cost:4,atk:3,hp:2,text:'등장: 적 영주에게 2 피해',art:['hammer'],onPlay:s=>hurtLord(1-s,2)},
+ captain:{h:'m',name:'용병대장',cost:5,atk:4,hp:2,kw:['charge'],art:['helm','#2f5a3a']},
  warlord:{h:'m',leg:1,name:'철혈 군주',cost:7,atk:6,hp:6,kw:['charge'],text:'등장: 다른 아군 유닛도 이번 턴 공격 가능',art:['crown','#2f5a3a'],onPlay:(s,me)=>others(s,me).forEach(u=>u.canAttack=true)},
  // 비전
  apprentice:{h:'s',name:'견습 마법사',cost:1,atk:1,hp:1,target:'enemyAny',dmg:1,text:'등장: 적 하나에게 1 피해',art:['staff','#9fd3ff']},
  bolt:{h:'s',type:'spell',name:'비전 화살',cost:2,target:'enemyUnit',dmg:3,text:'적 유닛 하나에 3 피해',art:['burst','#c7a3ff']},
- golem:{h:'s',name:'석상 수호자',cost:3,atk:2,hp:5,kw:['taunt'],art:['tower','#7d7a8a']},
+ golem:{h:'s',name:'석상 수호자',cost:3,atk:0,hp:4,kw:['taunt'],art:['tower','#7d7a8a']},
  tome:{h:'s',type:'spell',name:'지식의 두루마리',cost:2,ai:'draw',text:'카드 2장 뽑기',art:['scroll'],effect:s=>draw(s,2)},
  frogify:{h:'s',type:'spell',name:'변이 물약',cost:3,target:'enemyUnit',text:'적 유닛 하나를 1/1 개구리로 변이',art:['potion','#5fbf4a'],effect:(s,t)=>transform(t,'frog')},
  fire:{h:'s',type:'spell',name:'그리스의 불',cost:3,ai:'aoe',text:'모든 적 유닛에게 2 피해',art:['flame','#e8641e'],effect:s=>hitAll(1-s,2)},
- arcanist:{h:'s',name:'대마법사',cost:5,atk:4,hp:4,text:'등장: 카드 1장 뽑기',art:['staff','#ff7ad1'],onPlay:s=>draw(s,1)},
+ arcanist:{h:'s',name:'대마법사',cost:5,atk:3,hp:3,text:'등장: 카드 1장 뽑기',art:['staff','#ff7ad1'],onPlay:s=>draw(s,1)},
  dragon:{h:'s',leg:1,name:'붉은 용',cost:9,atk:7,hp:7,text:'등장: 모든 적 유닛에게 3 피해',art:['dragon','#9c2a1e'],onPlay:s=>hitAll(1-s,3)},
  // 망령
  bat:{h:'d',name:'흡혈 박쥐',cost:1,atk:1,hp:1,kw:['lifesteal'],art:['bat']},
- skeleton:{h:'d',name:'해골 병사',cost:2,atk:2,hp:2,text:'죽음: 뼈 조각(1/1) 소환',art:['skull'],onDeath:s=>summon(s,'bone')},
+ skeleton:{h:'d',name:'해골 병사',cost:2,atk:1,hp:2,text:'죽음: 뼈 조각(1/1) 소환',art:['skull'],onDeath:s=>summon(s,'bone')},
  plague:{h:'d',type:'spell',name:'역병',cost:2,ai:'aoe',dmgAll:1,text:'모든 적 유닛에게 1 피해',art:['flame','#7fbf3a'],effect:s=>hitAll(1-s,1)},
- ghoul:{h:'d',name:'구울',cost:3,atk:3,hp:2,kw:['poison'],art:['hood','#4a5d3a','#9cff6a']},
- wraith:{h:'d',name:'원혼',cost:4,atk:3,hp:4,kw:['lifesteal'],art:['hood','#9fb3b8','#7df9ff']},
+ ghoul:{h:'d',name:'구울',cost:3,atk:2,hp:2,kw:['poison'],art:['hood','#4a5d3a','#9cff6a']},
+ wraith:{h:'d',name:'원혼',cost:4,atk:3,hp:2,kw:['lifesteal'],art:['hood','#9fb3b8','#7df9ff']},
  execute:{h:'d',type:'spell',name:'사형 집행',cost:5,target:'enemyUnit',text:'적 유닛 하나 파괴',art:['axe','#3d3d44'],effect:(s,t)=>{unitAt(t).hp=0;flash(key(t))}},
- count:{h:'d',name:'흡혈 백작',cost:5,atk:4,hp:4,kw:['lifesteal'],text:'등장: 적 영주에게 2 피해, 내 영주 2 회복',art:['crown','#5a0f1a'],onPlay:s=>{hurtLord(1-s,2);healLord(s,2)}},
+ count:{h:'d',name:'흡혈 백작',cost:5,atk:3,hp:2,kw:['lifesteal'],text:'등장: 적 영주에게 2 피해, 내 영주 2 회복',art:['crown','#5a0f1a'],onPlay:s=>{hurtLord(1-s,2);healLord(s,2)}},
  lich:{h:'d',leg:1,name:'리치 왕',cost:8,atk:6,hp:8,kw:['taunt'],text:'죽음: 모든 적 유닛에게 2 피해',art:['skull','#7df9ff','crown'],onDeath:s=>hitAll(1-s,2)},
  // 왕국 (추가)
  militia:{h:'k',name:'민병대',cost:1,atk:2,hp:1,art:['spear','#27417a']},
- shieldboy:{h:'k',name:'방패 종자',cost:1,atk:0,hp:3,kw:['taunt'],art:['shield','#6a7896','#e0bd4f']},
+ shieldboy:{h:'k',name:'방패 종자',cost:1,atk:0,hp:2,kw:['taunt'],art:['shield','#6a7896','#e0bd4f']},
  treasury:{h:'k',type:'spell',name:'국고 개방',cost:1,ai:'mana',gain:2,text:'이번 턴 금화 +2',art:['coin','#27417a'],effect:s=>gainMana(s,2)},
  page:{h:'k',name:'왕실 시종',cost:2,atk:1,hp:2,text:'등장: 카드 1장 뽑기',art:['key'],onPlay:s=>draw(s,1)},
- crossbow:{h:'k',name:'석궁병',cost:2,atk:2,hp:2,target:'enemyUnit',dmg:1,text:'등장: 적 유닛 하나에 1 피해',art:['bow','#27417a']},
+ crossbow:{h:'k',name:'석궁병',cost:2,atk:2,hp:1,target:'enemyUnit',dmg:1,text:'등장: 적 유닛 하나에 1 피해',art:['bow','#27417a']},
  shieldwall:{h:'k',type:'spell',name:'방패벽',cost:2,ai:'team',text:'모든 아군 유닛 +1/+1',art:['shield','#e0bd4f','#27417a'],effect:s=>units(s).forEach(u=>buff(u,1,1))},
  errant:{h:'k',name:'편력 기사',cost:3,atk:2,hp:2,kw:['divine'],art:['mace','#27417a']},
  rally:{h:'k',type:'spell',name:'총동원령',cost:3,ai:'summon',text:'견습 종자 3명 소환',art:['horn'],effect:s=>{for(let i=0;i<3;i++)summon(s,'squire')}},
  joust:{h:'k',type:'spell',name:'마상 결투',cost:2,target:'enemyUnit',dmg:4,text:'적 유닛 하나에 4 피해',art:['lance','#b8322c']},
- castellan:{h:'k',name:'성주',cost:4,atk:2,hp:6,kw:['taunt'],text:'내 턴 시작: 내 영주 체력 2 회복',art:['tower','#a89a7e'],onTurn:s=>healLord(s,2)},
- lancer:{h:'k',name:'창기병',cost:4,atk:4,hp:3,kw:['charge'],art:['lance','#27417a']},
- champion:{h:'k',name:'왕국 챔피언',cost:4,atk:4,hp:4,kw:['divine'],art:['mace','#e0bd4f']},
- gate:{h:'k',name:'강철 성문',cost:5,atk:0,hp:10,kw:['taunt'],art:['gate']},
- whiteknight:{h:'k',name:'백마 기사',cost:5,atk:4,hp:4,kw:['charge','divine'],art:['horse','#e9e2cc']},
+ castellan:{h:'k',name:'성주',cost:4,atk:1,hp:3,kw:['taunt'],text:'내 턴 시작: 내 영주 체력 2 회복',art:['tower','#a89a7e'],onTurn:s=>healLord(s,2)},
+ lancer:{h:'k',name:'창기병',cost:4,atk:3,hp:2,kw:['charge'],art:['lance','#27417a']},
+ champion:{h:'k',name:'왕국 챔피언',cost:4,atk:3,hp:2,kw:['divine'],art:['mace','#e0bd4f']},
+ gate:{h:'k',name:'강철 성문',cost:5,atk:0,hp:6,kw:['taunt'],art:['gate']},
+ whiteknight:{h:'k',name:'백마 기사',cost:5,atk:3,hp:2,kw:['charge','divine'],art:['horse','#e9e2cc']},
  queen:{h:'k',leg:1,name:'백합의 왕비',cost:6,atk:5,hp:7,text:'등장: 다른 아군 유닛 +1/+1, 내 영주 체력 5 회복',art:['rose','#f4ebd2'],onPlay:(s,me)=>{others(s,me).forEach(u=>buff(u,1,1));healLord(s,5)}},
  // 교단 (추가)
- acolyte:{h:'c',name:'복사',cost:1,atk:1,hp:2,text:'등장: 내 영주 체력 2 회복',art:['candle'],onPlay:s=>healLord(s,2)},
+ acolyte:{h:'c',name:'복사',cost:1,atk:1,hp:1,text:'등장: 내 영주 체력 2 회복',art:['candle'],onPlay:s=>healLord(s,2)},
  hymn:{h:'c',type:'spell',name:'성가',cost:1,text:'이번 턴 금화 +1, 카드 1장 뽑기',art:['bell','#e9e2cc'],effect:s=>{gainMana(s,1);draw(s,1)}},
  prayer:{h:'c',type:'spell',name:'기도',cost:2,text:'내 영주 체력 5 회복, 카드 1장 뽑기',art:['candle','#fff1b8'],effect:s=>{healLord(s,5);draw(s,1)}},
  martyr:{h:'c',name:'순교자',cost:2,atk:2,hp:1,text:'죽음: 내 영주 체력 4 회복',art:['rose'],onDeath:s=>healLord(s,4)},
- bellringer:{h:'c',name:'종지기',cost:2,atk:2,hp:2,target:'friendlyUnit',text:'등장: 아군 유닛 하나 +1/+1',art:['bell'],onPlay:(s,me,t)=>{if(t&&unitAt(t))buff(unitAt(t),1,1)}},
+ bellringer:{h:'c',name:'종지기',cost:2,atk:1,hp:2,target:'friendlyUnit',text:'등장: 아군 유닛 하나 +1/+1',art:['bell'],onPlay:(s,me,t)=>{if(t&&unitAt(t))buff(unitAt(t),1,1)}},
  relic:{h:'c',type:'spell',name:'성유물',cost:2,target:'friendlyUnit',text:'아군 유닛 하나 체력 +2, 보호막',art:['chalice','#e0bd4f'],effect:(s,t)=>{const u=unitAt(t);buff(u,0,2);u.divine=true}},
- paladin:{h:'c',name:'성기사',cost:3,atk:2,hp:3,kw:['divine'],art:['mace','#f4ebd2']},
- confessor:{h:'c',name:'고해 신부',cost:3,atk:2,hp:3,target:'enemyUnit',text:'등장: 적 유닛 하나 공격력 -2',art:['book','#7c1d22'],onPlay:(s,me,t)=>{if(t&&unitAt(t))weaken(unitAt(t),2)}},
- cathguard:{h:'c',name:'성당 경비병',cost:3,atk:2,hp:5,kw:['taunt'],art:['shield','#e9e2cc','#27417a']},
+ paladin:{h:'c',name:'성기사',cost:3,atk:2,hp:2,kw:['divine'],art:['mace','#f4ebd2']},
+ confessor:{h:'c',name:'고해 신부',cost:3,atk:2,hp:2,target:'enemyUnit',text:'등장: 적 유닛 하나 공격력 -2',art:['book','#7c1d22'],onPlay:(s,me,t)=>{if(t&&unitAt(t))weaken(unitAt(t),2)}},
+ cathguard:{h:'c',name:'성당 경비병',cost:3,atk:1,hp:3,kw:['taunt'],art:['shield','#e9e2cc','#27417a']},
  bless:{h:'c',type:'spell',name:'축복',cost:3,ai:'team',text:'모든 아군 유닛 +1/+1',art:['wisp','#fff6cf'],effect:s=>units(s).forEach(u=>buff(u,1,1))},
- crusader:{h:'c',name:'십자군',cost:4,atk:4,hp:3,kw:['charge'],art:['lance','#f4ebd2']},
- abbess:{h:'c',name:'수녀원장',cost:5,atk:3,hp:6,kw:['taunt'],text:'내 턴 시작: 모든 아군 유닛 체력 1 회복',art:['hood','#3a332c','cross'],onTurn:s=>units(s).forEach(u=>healUnit(u,1))},
+ crusader:{h:'c',name:'십자군',cost:4,atk:4,hp:1,kw:['charge'],art:['lance','#f4ebd2']},
+ abbess:{h:'c',name:'수녀원장',cost:5,atk:2,hp:3,kw:['taunt'],text:'내 턴 시작: 모든 아군 유닛 체력 1 회복',art:['hood','#3a332c','cross'],onTurn:s=>units(s).forEach(u=>healUnit(u,1))},
  purge:{h:'c',type:'spell',name:'정화의 불길',cost:5,ai:'aoe',text:'모든 적 유닛에게 3 피해',art:['flame','#ffd36e'],effect:s=>hitAll(1-s,3)},
- angel:{h:'c',name:'수호 천사',cost:6,atk:5,hp:5,kw:['taunt','divine'],art:['bell','url(#gold)']},
+ angel:{h:'c',name:'수호 천사',cost:6,atk:3,hp:3,kw:['taunt','divine'],art:['bell','url(#gold)']},
  archbishop:{h:'c',leg:1,name:'성좌의 대주교',cost:7,atk:5,hp:7,text:'등장: 모든 아군 유닛 보호막. 내 턴 시작: 내 영주 체력 3 회복',art:['book','#e0bd4f'],onPlay:s=>units(s).forEach(u=>u.divine=true),onTurn:s=>healLord(s,3)},
  // 용병 (추가)
  thug:{h:'m',name:'불량배',cost:1,atk:2,hp:1,art:['mace','#5a3a22']},
- scout:{h:'m',name:'정찰병',cost:1,atk:1,hp:2,kw:['charge'],art:['raven','#3a2e1e']},
+ scout:{h:'m',name:'정찰병',cost:1,atk:1,hp:1,kw:['charge'],art:['raven','#3a2e1e']},
  rage:{h:'m',type:'spell',name:'분노',cost:1,target:'friendlyUnit',text:'아군 유닛 공격력 +3, 이번 턴 공격 가능',art:['flame','#c4352c'],effect:(s,t)=>{const u=unitAt(t);u.atk+=3;u.canAttack=true}},
- slinger:{h:'m',name:'투석병',cost:2,atk:1,hp:2,target:'enemyAny',dmg:1,text:'등장: 적 하나에게 1 피해',art:['bow','#2f5a3a']},
+ slinger:{h:'m',name:'투석병',cost:2,atk:1,hp:1,target:'enemyAny',dmg:1,text:'등장: 적 하나에게 1 피해',art:['bow','#2f5a3a']},
  warhorn:{h:'m',type:'spell',name:'전쟁 나팔',cost:2,ai:'team',text:'모든 아군 유닛 공격력 +2',art:['horn','#c9b27a'],effect:s=>units(s).forEach(u=>u.atk+=2)},
  bounty:{h:'m',type:'spell',name:'현상금 사냥',cost:2,target:'enemyUnit',dmg:2,text:'적 유닛 하나에 2 피해, 카드 1장 뽑기',art:['coin'],effect:(s,t)=>{hit(t,2);draw(s,1)}},
- hunter:{h:'m',name:'늑대 사냥꾼',cost:3,atk:2,hp:2,text:'등장: 늑대(2/1 돌진) 소환',art:['wolf','#8a6a4a'],onPlay:s=>summon(s,'wolf')},
- duelist:{h:'m',name:'결투사',cost:3,atk:3,hp:2,kw:['charge'],art:['lance','#2f5a3a']},
- sellshield:{h:'m',name:'방패 용병',cost:3,atk:3,hp:4,kw:['taunt'],art:['shield','#2f5a3a','#e0bd4f']},
+ hunter:{h:'m',name:'늑대 사냥꾼',cost:3,atk:1,hp:2,text:'등장: 늑대(2/1 돌진) 소환',art:['wolf','#8a6a4a'],onPlay:s=>summon(s,'wolf')},
+ duelist:{h:'m',name:'결투사',cost:3,atk:2,hp:2,kw:['charge'],art:['lance','#2f5a3a']},
+ sellshield:{h:'m',name:'방패 용병',cost:3,atk:1,hp:3,kw:['taunt'],art:['shield','#2f5a3a','#e0bd4f']},
  ambush:{h:'m',type:'spell',name:'매복',cost:3,ai:'summon',text:'창병 2명 소환',art:['spear','#2f5a3a'],effect:s=>{summon(s,'pike');summon(s,'pike')}},
- raider:{h:'m',name:'약탈자',cost:4,atk:4,hp:2,kw:['charge','lifesteal'],art:['axe','#8a5a3b']},
+ raider:{h:'m',name:'약탈자',cost:4,atk:3,hp:1,kw:['charge','lifesteal'],art:['axe','#8a5a3b']},
  pillage:{h:'m',type:'spell',name:'약탈',cost:4,text:'적 영주에게 4 피해, 카드 1장 뽑기',art:['coin','#7c1d22'],effect:s=>{hurtLord(1-s,4);draw(s,1)}},
- catapult:{h:'m',name:'투석기',cost:5,atk:2,hp:5,text:'내 턴 시작: 적 영주에게 2 피해',art:['catapult'],onTurn:s=>hurtLord(1-s,2)},
- bandit:{h:'m',name:'산적 두목',cost:6,atk:6,hp:6,target:'enemyUnit',dmg:2,text:'등장: 적 유닛 하나에 2 피해',art:['axe','url(#gold)','double']},
+ catapult:{h:'m',name:'투석기',cost:5,atk:1,hp:4,text:'내 턴 시작: 적 영주에게 2 피해',art:['catapult'],onTurn:s=>hurtLord(1-s,2)},
+ bandit:{h:'m',name:'산적 두목',cost:6,atk:4,hp:3,target:'enemyUnit',dmg:2,text:'등장: 적 유닛 하나에 2 피해',art:['axe','url(#gold)','double']},
  mercking:{h:'m',leg:1,name:'황금 늑대 용병왕',cost:8,atk:7,hp:6,kw:['charge'],text:'등장: 모든 적 유닛에게 1 피해, 다른 아군 유닛 공격력 +1',art:['wolf','#e0bd4f'],onPlay:(s,me)=>{hitAll(1-s,1);others(s,me).forEach(u=>u.atk+=1)}},
  // 비전 (추가)
- manawisp:{h:'s',name:'마나 정령',cost:1,atk:1,hp:2,text:'등장: 이번 턴 금화 +1',art:['crystal'],onPlay:s=>gainMana(s,1)},
+ manawisp:{h:'s',name:'마나 정령',cost:1,atk:1,hp:1,text:'등장: 이번 턴 금화 +1',art:['crystal'],onPlay:s=>gainMana(s,1)},
  scry:{h:'s',type:'spell',name:'예지',cost:1,ai:'draw',text:'카드 1장 뽑기',art:['eye'],effect:s=>draw(s,1)},
  ward:{h:'s',type:'spell',name:'비전 결계',cost:1,target:'friendlyUnit',text:'아군 유닛 하나 보호막',art:['burst','#9fd3ff'],effect:(s,t)=>{unitAt(t).divine=true}},
  frostbolt:{h:'s',type:'spell',name:'서리 화살',cost:2,target:'enemyAny',dmg:2,text:'적 하나에게 2 피해, 유닛이면 빙결',art:['crystal','#cfefff'],effect:(s,t)=>{hit(t,2);if(!t.lord&&unitAt(t))unitAt(t).frozen=true}},
- owl:{h:'s',name:'마법사의 올빼미',cost:2,atk:2,hp:2,text:'등장: 카드 1장 뽑기',art:['raven','#a8804a'],onPlay:s=>draw(s,1)},
+ owl:{h:'s',name:'마법사의 올빼미',cost:2,atk:1,hp:2,text:'등장: 카드 1장 뽑기',art:['raven','#a8804a'],onPlay:s=>draw(s,1)},
  mirror:{h:'s',type:'spell',name:'거울상',cost:2,target:'friendlyUnit',text:'아군 유닛 하나를 복제해 소환',art:['crystal','#e9e2cc'],effect:(s,t)=>summon(s,unitAt(t).key)},
  banish:{h:'s',type:'spell',name:'추방',cost:2,target:'enemyUnit',text:'적 유닛 하나를 주인의 손으로 되돌림',art:['hourglass','#c7a3ff'],effect:(s,t)=>bounce(t)},
- flamesprite:{h:'s',name:'불꽃 정령',cost:2,atk:3,hp:1,kw:['charge'],art:['flame','#ff7a3c']},
+ flamesprite:{h:'s',name:'불꽃 정령',cost:2,atk:2,hp:1,kw:['charge'],art:['flame','#ff7a3c']},
  timewarp:{h:'s',type:'spell',name:'시간 왜곡',cost:3,ai:'never',text:'모든 아군 유닛 다시 공격 가능',art:['hourglass'],effect:s=>units(s).forEach(u=>{u.canAttack=true})},
- witch:{h:'s',name:'서리 마녀',cost:4,atk:3,hp:4,target:'enemyUnit',dmg:1,text:'등장: 적 유닛 하나에 1 피해, 빙결',art:['hood','#2d4a7a','#9fd3ff'],onPlay:(s,me,t)=>{if(t&&unitAt(t))unitAt(t).frozen=true}},
- seer:{h:'s',name:'점성술사',cost:4,atk:3,hp:3,text:'등장: 카드 2장 뽑기',art:['eye','#e0bd4f'],onPlay:s=>draw(s,2)},
- pyro:{h:'s',name:'화염술사',cost:4,atk:3,hp:3,text:'등장: 모든 적 유닛에게 1 피해',art:['staff','#ff7a3c'],onPlay:s=>hitAll(1-s,1)},
- arcgolem:{h:'s',name:'비전 골렘',cost:5,atk:5,hp:6,art:['crystal','#7d7a8a']},
+ witch:{h:'s',name:'서리 마녀',cost:4,atk:3,hp:2,target:'enemyUnit',dmg:1,text:'등장: 적 유닛 하나에 1 피해, 빙결',art:['hood','#2d4a7a','#9fd3ff'],onPlay:(s,me,t)=>{if(t&&unitAt(t))unitAt(t).frozen=true}},
+ seer:{h:'s',name:'점성술사',cost:4,atk:2,hp:2,text:'등장: 카드 2장 뽑기',art:['eye','#e0bd4f'],onPlay:s=>draw(s,2)},
+ pyro:{h:'s',name:'화염술사',cost:4,atk:2,hp:2,text:'등장: 모든 적 유닛에게 1 피해',art:['staff','#ff7a3c'],onPlay:s=>hitAll(1-s,1)},
+ arcgolem:{h:'s',name:'비전 골렘',cost:5,atk:4,hp:3,art:['crystal','#7d7a8a']},
  storm:{h:'s',type:'spell',name:'마력 폭풍',cost:6,ai:'aoe',text:'모든 적 유닛에게 4 피해',art:['burst','#ff7ad1'],effect:s=>hitAll(1-s,4)},
  sage:{h:'s',leg:1,name:'백탑의 대현자',cost:7,atk:4,hp:6,text:'등장: 카드 2장 뽑기. 내 턴 시작: 적 영주에게 2 피해',art:['book','#55346b'],onPlay:s=>draw(s,2),onTurn:s=>hurtLord(1-s,2)},
  // 망령 (추가)
  spider:{h:'d',name:'독거미',cost:1,atk:1,hp:1,kw:['poison'],art:['spider']},
  curse:{h:'d',type:'spell',name:'저주',cost:1,target:'enemyUnit',text:'적 유닛 하나 공격력 -3',art:['skull','#9cff6a'],effect:(s,t)=>weaken(unitAt(t),3)},
- zombie:{h:'d',name:'되살아난 시체',cost:2,atk:2,hp:3,art:['coffin']},
+ zombie:{h:'d',name:'되살아난 시체',cost:2,atk:1,hp:3,art:['coffin']},
  deadcrow:{h:'d',name:'망자의 까마귀',cost:2,atk:2,hp:1,kw:['charge'],art:['raven']},
- cultist:{h:'d',name:'사교도',cost:2,atk:2,hp:2,text:'죽음: 카드 1장 뽑기',art:['candle','#7fbf3a'],onDeath:s=>draw(s,1)},
+ cultist:{h:'d',name:'사교도',cost:2,atk:1,hp:2,text:'죽음: 카드 1장 뽑기',art:['candle','#7fbf3a'],onDeath:s=>draw(s,1)},
  drain:{h:'d',type:'spell',name:'생명 흡수',cost:2,target:'enemyAny',dmg:2,text:'적 하나에게 2 피해, 내 영주 체력 2 회복',art:['eye','#c4352c'],effect:(s,t)=>{hit(t,2);healLord(s,2)}},
- bonewall:{h:'d',name:'뼈의 벽',cost:3,atk:1,hp:6,kw:['taunt'],art:['gate','#d9d0b4']},
- gargoyle:{h:'d',name:'석상귀',cost:3,atk:2,hp:4,kw:['taunt'],art:['bat','#6b6b72']},
- bride:{h:'d',name:'흡혈귀 신부',cost:3,atk:3,hp:3,kw:['lifesteal'],art:['rose','#3a0a12']},
+ bonewall:{h:'d',name:'뼈의 벽',cost:3,atk:1,hp:3,kw:['taunt'],art:['gate','#d9d0b4']},
+ gargoyle:{h:'d',name:'석상귀',cost:3,atk:2,hp:2,kw:['taunt'],art:['bat','#6b6b72']},
+ bride:{h:'d',name:'흡혈귀 신부',cost:3,atk:3,hp:1,kw:['lifesteal'],art:['rose','#3a0a12']},
  graverise:{h:'d',type:'spell',name:'무덤 깨우기',cost:3,ai:'summon',text:'뼈 조각 3개 소환',art:['coffin','#2b2b30'],effect:s=>{for(let i=0;i<3;i++)summon(s,'bone')}},
- banshee:{h:'d',name:'밴시',cost:4,atk:3,hp:3,text:'등장: 무작위 적 유닛 2기 빙결',art:['wisp','#9fb3b8'],onPlay:s=>{const e=units(1-s).filter(u=>!u.frozen);for(let i=0;i<2&&e.length;i++){const u=e.splice(Math.floor(Math.random()*e.length),1)[0];u.frozen=true;fxq(keyOfUnit(u),'ice')}}},
- necro:{h:'d',name:'강령술사',cost:4,atk:2,hp:4,text:'내 턴 시작: 뼈 조각 소환',art:['book','#3a5a3a'],onTurn:s=>summon(s,'bone')},
+ banshee:{h:'d',name:'밴시',cost:4,atk:3,hp:2,text:'등장: 무작위 적 유닛 2기 빙결',art:['wisp','#9fb3b8'],onPlay:s=>{const e=units(1-s).filter(u=>!u.frozen);for(let i=0;i<2&&e.length;i++){const u=e.splice(Math.floor(Math.random()*e.length),1)[0];u.frozen=true;fxq(keyOfUnit(u),'ice')}}},
+ necro:{h:'d',name:'강령술사',cost:4,atk:1,hp:3,text:'내 턴 시작: 뼈 조각 소환',art:['book','#3a5a3a'],onTurn:s=>summon(s,'bone')},
  harvest:{h:'d',type:'spell',name:'영혼 수확',cost:5,ai:'aoe',dmgAll:2,text:'모든 적 유닛에게 2 피해, 내 영주 체력 4 회복',art:['flame','#7df9ff'],effect:s=>{hitAll(1-s,2);healLord(s,4)}},
- deathknight:{h:'d',name:'죽음의 기사',cost:6,atk:4,hp:5,kw:['charge','lifesteal'],art:['helm','#5a0f1a']},
+ deathknight:{h:'d',name:'죽음의 기사',cost:6,atk:4,hp:2,kw:['charge','lifesteal'],art:['helm','#5a0f1a']},
  oblivion:{h:'d',leg:1,name:'망각의 여왕',cost:7,atk:4,hp:7,kw:['lifesteal'],target:'enemyUnit',text:'등장: 적 유닛 하나 파괴',art:['wisp','#c9b8e8'],onPlay:(s,me,t)=>{if(t&&unitAt(t))unitAt(t).hp=0}},
  // 신규 메커니즘: 마지막 카드 · 과부하 · 유지비 · 방어도
  courier:{h:'k',type:'spell',name:'전령의 서신',cost:1,text:'카드 1장 뽑기. 마지막 카드였다면 대신 3장',art:['scroll'],effect:(s,t,last)=>draw(s,last?3:1)},
- royalguard:{h:'k',name:'국왕 근위 기사단',cost:4,atk:6,hp:6,kw:['taunt'],overload:2,art:['shield','#27417a','#f4ebd2']},
- cannon:{h:'k',name:'공성 대포',cost:3,atk:5,hp:5,upkeep:1,art:['catapult']},
+ royalguard:{h:'k',name:'국왕 근위 기사단',cost:4,atk:3,hp:4,kw:['taunt'],overload:2,art:['shield','#27417a','#f4ebd2']},
+ cannon:{h:'k',name:'공성 대포',cost:3,atk:3,hp:3,upkeep:1,art:['catapult']},
  oath:{h:'k',type:'spell',name:'방패의 맹세',cost:2,text:'내 영주 방어도 +5, 카드 1장 뽑기',art:['shield','#e0bd4f','#7c1d22'],effect:s=>{gainArmor(s,5);draw(s,1)}},
  lastprayer:{h:'c',type:'spell',name:'마지막 기도',cost:1,text:'내 영주 체력 4 회복, 카드 1장 뽑기',art:['candle','#ffd36e'],effect:s=>{healLord(s,4);draw(s,1)}},
- archangel:{h:'c',name:'대천사',cost:5,atk:6,hp:6,kw:['divine'],overload:2,art:['wisp','#ffe9a8']},
- pilgrims:{h:'c',name:'순례단',cost:2,atk:3,hp:4,upkeep:1,text:'내 턴 시작: 내 영주 체력 2 회복',art:['hood','#8a6f3d','cross'],onTurn:s=>healLord(s,2)},
+ archangel:{h:'c',name:'대천사',cost:5,atk:5,hp:3,kw:['divine'],overload:2,art:['wisp','#ffe9a8']},
+ pilgrims:{h:'c',name:'순례단',cost:2,atk:2,hp:2,upkeep:1,text:'내 턴 시작: 내 영주 체력 2 회복',art:['hood','#8a6f3d','cross'],onTurn:s=>healLord(s,2)},
  holyarmor:{h:'c',type:'spell',name:'성스러운 갑주',cost:1,text:'내 영주 방어도 +4, 체력 2 회복',art:['shield','#f4ebd2','#e0bd4f'],effect:s=>{gainArmor(s,4);healLord(s,2)}},
- gambler:{h:'m',name:'도박꾼',cost:1,atk:2,hp:1,text:'등장: 마지막 카드였다면 카드 3장 뽑기',art:['coin','#3a2e1e'],onPlay:(s,me,t,last)=>{if(last)draw(s,3)}},
+ gambler:{h:'m',name:'도박꾼',cost:1,atk:1,hp:1,text:'등장: 마지막 카드였다면 카드 3장 뽑기',art:['coin','#3a2e1e'],onPlay:(s,me,t,last)=>{if(last)draw(s,3)}},
  frenzy:{h:'m',type:'spell',name:'광폭한 돌격',cost:1,ai:'team',overload:2,text:'모든 아군 유닛 공격력 +3',art:['horn','#b8322c'],effect:s=>units(s).forEach(u=>u.atk+=3)},
- giant:{h:'m',name:'거인 용병',cost:4,atk:8,hp:8,upkeep:2,art:['mace','#3a2e1e']},
+ giant:{h:'m',name:'거인 용병',cost:4,atk:4,hp:4,upkeep:2,art:['mace','#3a2e1e']},
  breastplate:{h:'m',type:'spell',name:'철갑 흉갑',cost:1,text:'내 영주 방어도 +4',art:['shield','#8d8478','#2f5a3a'],effect:s=>gainArmor(s,4)},
  finalspell:{h:'s',type:'spell',name:'최후의 주문',cost:2,target:'enemyAny',dmg:3,text:'적 하나에게 3 피해. 마지막 카드였다면 카드 2장 뽑기',art:['burst','#ffb347'],effect:(s,t,last)=>{hit(t,3);if(last)draw(s,2)}},
  meteor:{h:'s',type:'spell',name:'운석 낙하',cost:5,ai:'aoe',overload:2,text:'모든 적 유닛에게 4 피해',art:['flame','#ff5a2a'],effect:s=>hitAll(1-s,4)},
- manatower:{h:'s',name:'마력 수정탑',cost:3,atk:0,hp:6,kw:['taunt'],upkeep:2,text:'내 턴 시작: 적 영주에게 3 피해',art:['crystal','#c7a3ff'],onTurn:s=>hurtLord(1-s,3)},
+ manatower:{h:'s',name:'마력 수정탑',cost:3,atk:0,hp:5,kw:['taunt'],upkeep:2,text:'내 턴 시작: 적 영주에게 3 피해',art:['crystal','#c7a3ff'],onTurn:s=>hurtLord(1-s,3)},
  barrier:{h:'s',type:'spell',name:'마력 장벽',cost:1,text:'내 영주 방어도 +2, 카드 1장 뽑기',art:['eye','#9fd3ff'],effect:s=>{gainArmor(s,2);draw(s,1)}},
  pact:{h:'d',type:'spell',name:'절망의 계약',cost:1,ai:'draw',text:'내 영주 체력 -3, 카드 2장 뽑기. 마지막 카드였다면 대신 4장',art:['book','#5a0f1a'],effect:(s,t,last)=>{S.p[s].hp-=3;flash('l'+s);draw(s,last?4:2)}},
- bonegiant:{h:'d',name:'뼈 거인',cost:4,atk:5,hp:5,kw:['lifesteal'],overload:2,art:['skull','#ff3b3b']},
- altar:{h:'d',name:'피의 제단',cost:2,atk:1,hp:5,upkeep:1,text:'내 턴 시작: 적 영주에게 2 피해, 내 영주 2 회복',art:['chalice','#5a0f1a'],onTurn:s=>{hurtLord(1-s,2);healLord(s,2)}},
+ bonegiant:{h:'d',name:'뼈 거인',cost:4,atk:4,hp:3,kw:['lifesteal'],overload:2,art:['skull','#ff3b3b']},
+ altar:{h:'d',name:'피의 제단',cost:2,atk:1,hp:2,upkeep:1,text:'내 턴 시작: 적 영주에게 2 피해, 내 영주 2 회복',art:['chalice','#5a0f1a'],onTurn:s=>{hurtLord(1-s,2);healLord(s,2)}},
  bonearmor:{h:'d',type:'spell',name:'뼈 갑옷',cost:3,text:'내 영주 방어도 +2, 뼈 조각 2개 소환',art:['coffin','#ebe3cc'],effect:s=>{gainArmor(s,2);summon(s,'bone');summon(s,'bone')}},
  // 장비 (중립)
  starblade:{h:'n',type:'spell',item:1,name:'별철 장검',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +2, 체력 +1, 흡혈',art:['sword'],effect:(s,t)=>{const u=unitAt(t);buff(u,2,1);u.lifesteal=true;u.gear=(u.gear||[]).concat('starblade')}},
+ // 장비 (중립 · 추가 10종)
+ g_leather:{h:'n',type:'spell',item:1,name:'가죽 갑옷',cost:1,target:'friendlyUnit',text:'장착: 아군 유닛 체력 +3',art:['shield','#8a5a3b','#c9a66b'],effect:(s,t)=>equip(t,'g_leather',0,3)},
+ g_dagger:{h:'n',type:'spell',item:1,name:'철 단검',cost:1,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +2',art:['spear','#8d8478'],effect:(s,t)=>equip(t,'g_dagger',2,0)},
+ g_woodshield:{h:'n',type:'spell',item:1,name:'나무 방패',cost:1,target:'friendlyUnit',text:'장착: 아군 유닛 체력 +1, 수호',art:['shield','#7a5230','#c9a66b'],effect:(s,t)=>equip(t,'g_woodshield',0,1,{taunt:true})},
+ g_ironhelm:{h:'n',type:'spell',item:1,name:'철제 투구',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +1, 체력 +2',art:['helm','#8d8478'],effect:(s,t)=>equip(t,'g_ironhelm',1,2)},
+ g_waraxe:{h:'n',type:'spell',item:1,name:'전투 도끼',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +3, 체력 +1',art:['axe','#8d8478','double'],effect:(s,t)=>equip(t,'g_waraxe',3,1)},
+ g_steelshield:{h:'n',type:'spell',item:1,name:'강철 방패',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 체력 +3, 수호',art:['shield','#6a7896','#f4ebd2'],effect:(s,t)=>equip(t,'g_steelshield',0,3,{taunt:true})},
+ g_amulet:{h:'n',type:'spell',item:1,name:'수호의 부적',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 체력 +1, 보호막',art:['holy'],effect:(s,t)=>equip(t,'g_amulet',0,1,{divine:true})},
+ g_poisonblade:{h:'n',type:'spell',item:1,name:'독 바른 칼날',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +1, 맹독',art:['potion','#7fbf3a'],effect:(s,t)=>equip(t,'g_poisonblade',1,0,{poison:true})},
+ g_spurs:{h:'n',type:'spell',item:1,name:'박차',cost:2,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +1, 돌진. 얼지 않았다면 이번 턴 바로 공격 가능',art:['horse','#b08850'],effect:(s,t)=>equip(t,'g_spurs',1,0,{charge:true,canAttack:u=>!u.frozen})},
+ g_plate:{h:'n',type:'spell',item:1,name:'판금 갑주',cost:3,target:'friendlyUnit',text:'장착: 아군 유닛 공격력 +2, 체력 +4, 수호',art:['shield','#aeb2b8','#e0bd4f'],effect:(s,t)=>equip(t,'g_plate',2,4,{taunt:true})},
  // 사진 카드 (중립)
  serain:{h:'n',leg:1,role:'댄서',name:'서아린',cost:4,atk:3,hp:4,target:'enemyUnit',img:'data:image/jpeg;base64,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',imgPos:'50% 22%',art:['wisp','#7fd8ff'],
    text:'등장: 적 유닛 하나를 매혹. 50% 확률로 그 유닛이 즉시 자기 편을 공격. 내 턴 시작: 무작위 다른 아군 유닛 하나 +1/+1',
@@ -949,20 +996,20 @@ const COLLECTIBLE=Object.keys(CARDS).filter(k=>!CARDS[k].token);
 const maxCopies=k=>CARDS[k].leg?1:2;
 
 const PRESETS=[
- {name:'성왕의 군대 (왕국·교단)',h:['k','c']},
- {name:'철과 불 (용병·비전)',h:['m','s']},
- {name:'밤의 군세 (망령·비전)',h:['d','s']},
- {name:'피의 맹약 (망령·용병)',h:['d','m']},
- {name:'성벽과 화살 (왕국·용병)',h:['k','m']},
- {name:'죽음과 기도 (망령·교단)',h:['d','c']},
+ {name:'성왕의 군대 (왕국 주력 · 교단)',h:['k','c']},
+ {name:'철과 불 (용병 주력 · 비전)',h:['m','s']},
+ {name:'밤의 군세 (망령 주력 · 비전)',h:['d','s']},
+ {name:'피의 맹약 (망령 주력 · 용병)',h:['d','m']},
+ {name:'성벽과 화살 (왕국 주력 · 용병)',h:['k','m']},
+ {name:'죽음과 기도 (망령 주력 · 교단)',h:['d','c']},
 ];
-function presetDeck(hs){const per=[Math.ceil((DECKSIZE-1)/2),Math.floor((DECKSIZE-1)/2)],d=[];
-  hs.forEach((h,j)=>{const pool=COLLECTIBLE.filter(k=>CARDS[k].h===h).sort((a,b)=>CARDS[a].cost-CARDS[b].cost);
-    const drop=Math.max(0,pool.length-per[j]),rm=new Set();
-    for(let i=0;i<drop;i++){let idx=Math.min(pool.length-1,Math.floor((i+0.5)*pool.length/drop));while(idx>0&&(CARDS[pool[idx]].leg||rm.has(idx)))idx--;rm.add(idx)}
-    pool.forEach((k,i)=>{if(!rm.has(i))d.push(k)})});
-  d.push('starblade');
-  for(const k of COLLECTIBLE.filter(k=>hs.includes(CARDS[k].h)&&!CARDS[k].leg).sort((a,b)=>CARDS[a].cost-CARDS[b].cost)){if(d.length>=DECKSIZE)break;if(countIn(d,k)<maxCopies(k))d.push(k)}
+function presetDeck(hs){const main=hs[0],sec=hs[1],d=[];
+  const poolOf=h=>COLLECTIBLE.filter(k=>CARDS[k].h===h).sort((a,b)=>CARDS[a].cost-CARDS[b].cost);
+  const mp=poolOf(main);mp.forEach(k=>d.push(k));
+  for(const k of mp.filter(k=>!CARDS[k].leg)){if(d.length>=DECKSIZE-OTHER_MAX)break;d.push(k)}
+  const sp=poolOf(sec).filter(k=>!CARDS[k].leg),n2=OTHER_MAX-4;
+  for(let i=0;i<n2;i++)d.push(sp[Math.floor((i+.5)*sp.length/n2)]);
+  ['starblade','g_ironhelm','g_waraxe','g_amulet'].forEach(k=>d.push(k));
   return d.slice(0,DECKSIZE)}
 
 const ART={};
@@ -971,7 +1018,7 @@ function art(k){if(ART[k])return ART[k];const c=CARDS[k];if(c.img)return ART[k]=
   return ART[k]=`<svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${BG[c.h]}${SUBJ[s](t,x)}</svg>`}
 function desc(c){const kw=[...(c.kw||[]).map(k=>KW[k]),c.overload&&`과부하 ${c.overload}`,c.upkeep&&`유지비 ${c.upkeep}`].filter(Boolean).join(', ');return [kw&&`<b>${kw}</b>`,c.text].filter(Boolean).join('. ')}
 function cardFace(k){const c=CARDS[k];
-  return `<span class="seal">${c.cost}</span><span class="art" data-art="${k}">${artHTML(k)}</span><span class="hb" style="background:${H[c.h].c}">${H[c.h].n}${c.role?' · '+c.role:''}${c.leg?' 전설':''}</span><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span>${c.type==='spell'?`<span class="kind">${c.item?'장비':'주문'}</span>`:`<span class="st"><span>⚔${VS} ${c.atk}</span><span class="ch">♥ ${c.hp}</span></span>`}`}
+  return `<span class="seal" style="${sealSty(c.h)}">${c.cost}</span><span class="art" data-art="${k}">${artHTML(k)}</span><span class="hb" style="background:${H[c.h].c}">${H[c.h].n}${c.role?' · '+c.role:''}${c.leg?' 전설':''}</span><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span>${c.type==='spell'?`<span class="kind">${c.item?'장비':'주문'}</span>`:`<span class="st"><span>⚔${VS} ${c.atk}</span><span class="ch">♥ ${c.hp}</span></span>`}`}
 
 const LORE={
 squire:'기사가 되겠다는 꿈 하나로 칼을 닦고 말을 돌본다. 첫 전투에서 가장 먼저 앞으로 나선 것도 그였다.',
@@ -1118,6 +1165,18 @@ fatewheel:'떠돌이 점술사가 들고 다니는 운명의 수레바퀴. 한 �
 newdeal:'계약이 마음에 들지 않으면 판을 엎는다. 진영을 가리지 않고 전장 어디서나 통하는 오래된 협상법이다.',
 frog:'변이 물약의 희생자. 개굴. 본래 무엇이었는지는 본인만 안다.'
 };
+Object.assign(LORE,{
+g_leather:'소가죽을 겹쳐 박은 평범한 갑옷. 화려하지 않아도 첫 화살 한 번쯤은 막아 준다.',
+g_dagger:'대장간 뒷문에서 싸게 팔리는 단검. 이름은 없지만 날은 살아 있다.',
+g_woodshield:'참나무 널빤지에 쇠 테를 두른 방패. 그 뒤에 서면 이상하게 마음이 놓인다.',
+g_ironhelm:'이마에 흠집이 난 철 투구. 흠집 하나마다 살아남은 싸움이 하나씩 있다.',
+g_waraxe:'장작 패던 도끼를 전장에 맞게 벼렸다. 나무도, 방패도 똑같이 쪼갠다.',
+g_steelshield:'성문 경첩을 녹여 만든 방패. 두드려 보면 종소리가 난다.',
+g_amulet:'순례자의 목에서 떨어진 작은 부적. 한 번은, 반드시 한 번은 지켜 준다.',
+g_poisonblade:'칼날에 바른 것이 무엇인지 아는 사람은 칼을 건넨 상인뿐이다.',
+g_spurs:'말이 없어도 박차를 차면 발이 먼저 나간다. 기다리는 법을 잊게 만드는 물건.',
+g_plate:'한 벌에 영지 하나 값이 든다는 판금 갑주. 입은 자는 걷는 성벽이 된다.'
+});
 
 const KWX={taunt:'수호: 상대는 이 유닛부터 공격해야 합니다.',charge:'돌진: 낸 턴에 바로 공격할 수 있습니다.',
   lifesteal:'흡혈: 준 피해만큼 내 영주가 회복합니다. 영주 체력은 30을 넘길 수 있습니다.',poison:'맹독: 이 유닛에게 피해를 입은 유닛은 중독됩니다. 중독된 유닛은 주인의 다음 턴이 끝날 때 파괴되며, 그 전에 체력을 회복하면 해독됩니다.',divine:'보호막: 처음 받는 피해 한 번을 막아 냅니다.'};
@@ -1129,11 +1188,12 @@ function explain(c){const L=(c.kw||[]).map(k=>KWX[k]);
    ['마지막 카드','마지막 카드: 이 카드를 내서 손에 카드가 한 장도 남지 않으면 발동합니다.'],['빙결','빙결: 얼어붙은 유닛은 다음 턴에 공격하지 못하고, 얼어 있는 동안 공격받아도 반격하지 못합니다.'],
    ['매혹','매혹: 50% 확률로 그 유닛이 즉시 자기 편 유닛(없으면 자기 영주)을 공격합니다. 서로 공격력만큼 피해를 주고받습니다.'],['장착','장착: 아군 유닛에게 붙어 그 유닛이 살아 있는 동안 효과가 유지됩니다.'],['방어도','방어도: 영주가 받는 피해를 체력보다 먼저 막아 주며 계속 쌓입니다.'],['보호막','보호막: 처음 받는 피해 한 번을 막아 냅니다.']]
    .forEach(([k,v])=>{if(t.includes(k)&&!L.includes(v))L.push(v)});
+  if(c.item)Object.entries(KW).forEach(([kk,nn])=>{if(t.includes(nn)&&!L.includes(KWX[kk]))L.push(KWX[kk])});
   return L}
-function backHTML(k,u){const c=CARDS[k],L=explain(c);if(u&&u.gear)u.gear.forEach(g=>{L.push(`${CARDS[g].name}: ${CARDS[g].text.replace('장착: ','')}`);if(!L.includes(KWX.lifesteal))L.push(KWX.lifesteal)});
+function backHTML(k,u){const c=CARDS[k],L=explain(c);if(u&&u.gear)u.gear.forEach(g=>{L.push(`${CARDS[g].name}: ${CARDS[g].text.replace('장착: ','')}`);Object.entries(KW).forEach(([kk,nn])=>{if(CARDS[g].text.includes(nn)&&!L.includes(KWX[kk]))L.push(KWX[kk])})});
   const stats=c.type==='unit'?(u?`공격력 ${u.atk} · 체력 ${u.hp}/${u.maxHp}${(u.atk!==c.atk||u.maxHp!==c.hp)?` <span class="base">(기본 ${c.atk}/${c.hp})</span>`:''}`:`공격력 ${c.atk} · 체력 ${c.hp}`):(c.item?'장비 카드: 아군 유닛에게 장착합니다':'주문 카드');
   const st=u?[u.divine&&'보호막 남음',u.frozen&&'빙결됨',u.taunt&&'수호 중',u.poisoned&&'중독: 다음 자기 턴이 끝나면 파괴 (회복하면 해독)',...(u.gear||[]).map(g=>'장착: '+CARDS[g].name)].filter(Boolean):[];
-  return `<div class="bk-head"><span class="seal">${c.cost}</span><div><div class="bk-name">${c.name}</div><div class="bk-sub"><span class="chip" style="background:${H[c.h].c}">${H[c.h].sym} ${H[c.h].n}</span>${c.role?`<span class="chip tok">${c.role}</span>`:''}${c.leg?'<span class="chip leg">전설</span>':''}${c.token?'<span class="chip tok">소환물</span>':''}</div></div></div>
+  return `<div class="bk-head"><span class="seal" style="${sealSty(c.h)}">${c.cost}</span><div><div class="bk-name">${c.name}</div><div class="bk-sub"><span class="chip" style="background:${H[c.h].c}">${H[c.h].sym} ${H[c.h].n}</span>${c.role?`<span class="chip tok">${c.role}</span>`:''}${c.leg?'<span class="chip leg">전설</span>':''}${c.token?'<span class="chip tok">소환물</span>':''}</div></div></div>
   <div class="bk-stats">${stats}</div>${st.length?`<div class="bk-state">${st.map(x=>`<span>${x}</span>`).join('')}</div>`:''}
   <div class="bk-sec">효과</div><p>${desc(c)||'특별한 효과가 없는 유닛입니다.'}</p>
   ${L.length?`<div class="bk-sec">용어 설명</div><ul class="bk-kw">${L.map(l=>{const i=l.indexOf(': ');return `<li><b>${l.slice(0,i)}</b> ${l.slice(i+2)}</li>`}).join('')}</ul>`:''}
@@ -1380,15 +1440,10 @@ async function pump(){if(painting)return;painting=true;
 /* =============== Deck storage =============== */
 let DECK;
 function autoFit(d){
-  const out=sanitizeDeck(d);
-  if(out.length>=DECKSIZE)return out;
-  const cnt={};out.forEach(k=>cnt[CARDS[k].h]=(cnt[CARDS[k].h]||0)+1);
-  let hs=Object.keys(cnt).filter(h=>h!=='n').sort((a,b)=>cnt[b]-cnt[a]).slice(0,2);if(!hs.length)hs=PRESETS[0].h.slice();
-  const order=[...hs,...HO.filter(h=>!hs.includes(h))];
-  const fill=(houses,pass)=>{for(const h of houses)for(const k of COLLECTIBLE.filter(k=>CARDS[k].h===h).sort((a,b)=>CARDS[a].cost-CARDS[b].cost)){
-      if(out.length>=DECKSIZE)return;if(countIn(out,k)<Math.min(pass,maxCopies(k)))out.push(k)}};
-  if(hs.length<2)hs.push(HO.find(h=>!hs.includes(h)));
-  fill(hs,1);fill(hs,2);fill(order,1);fill(order,2);
+  const out=sanitizeDeck(d);if(out.length>=DECKSIZE)return out;
+  const main=deckStat(out).main||PRESETS[0].h[0];
+  const pool=COLLECTIBLE.filter(k=>CARDS[k].h===main).sort((a,b)=>CARDS[a].cost-CARDS[b].cost);
+  for(const pass of [1,2])for(const k of pool){if(out.length>=DECKSIZE)return out;if(countIn(out,k)<Math.min(pass,maxCopies(k)))out.push(k)}
   return out}
 function ensureDeck(){if(DECK.length===DECKSIZE)return true;DECK=autoFit(DECK);saveDeck();toast(`덱을 ${DECKSIZE}장으로 자동으로 맞췄습니다.`);return true}
 function loadDeck(){try{const v=JSON.parse(localStorage.getItem('cg-deck')||'null');
@@ -1397,8 +1452,28 @@ function saveDeck(){try{localStorage.setItem('cg-deck',JSON.stringify(DECK))}cat
 const countIn=(d,k)=>d.filter(x=>x===k).length;
 const isNLeg=k=>CARDS[k]&&CARDS[k].h==='n'&&CARDS[k].leg;
 const nLegIn=d=>d.find(isNLeg);
-function sanitizeDeck(d){const out=[];(Array.isArray(d)?d:[]).forEach(k=>{if(typeof k!=='string'||!CARDS[k]||CARDS[k].token)return;if(countIn(out,k)>=maxCopies(k)||out.length>=DECKSIZE)return;
-  if(isNLeg(k)){const o=nLegIn(out);if(o&&o!==k)return}out.push(k)});return out}
+/* 덱 규칙: 주력 진영 최소 35장, 나머지는 다른 1개 진영+중립(합 15장 이하), 중립은 5장까지 */
+function deckStat(d){const m={};let neut=0;d.forEach(k=>{const h=CARDS[k].h;if(h==='n')neut++;else m[h]=(m[h]||0)+1});
+  let main=null,mc=0,tot=0;Object.keys(m).forEach(h=>{tot+=m[h];if(m[h]>mc){main=h;mc=m[h]}});
+  return{main,mainN:mc,off:tot-mc,neut,other:tot-mc+neut,houses:Math.max(0,Object.keys(m).length-1)}}
+function addReason(d,k){const c=CARDS[k];
+  if(d.length>=DECKSIZE)return{code:'full',msg:`덱은 ${DECKSIZE}장까지입니다.`};
+  if(countIn(d,k)>=maxCopies(k))return{code:'copy',msg:c.leg?'전설 카드는 1장만 넣을 수 있습니다.':'같은 카드는 2장까지입니다.'};
+  if(isNLeg(k)){const o=nLegIn(d);if(o&&o!==k)return{code:'nleg',msg:`중립 전설은 덱에 1종만 넣을 수 있어요. 지금 ${CARDS[o].name}이(가) 들어 있습니다.`}}
+  const st=deckStat(d.concat(k));
+  if(st.neut>NEUT_MAX)return{code:'neut',msg:`중립 카드는 덱에 ${NEUT_MAX}장까지 넣을 수 있어요.`};
+  if(st.houses>1)return{code:'sec',msg:'주력 진영 외에는 다른 1개 진영과 중립만 넣을 수 있어요. 주력 + 다른 1개 진영 + 중립으로 구성해 주세요.'};
+  if(st.other>OTHER_MAX)return{code:'oth',msg:`다른 1개 진영+중립은 합쳐서 ${OTHER_MAX}장까지예요. 주력 진영 카드가 최소 ${DECKSIZE-OTHER_MAX}장 필요합니다.`};
+  return null}
+function ruleText(d){const st=deckStat(d);return `주력 ${st.main?H[st.main].n+' '+st.mainN+'장':'—'} (최소 ${DECKSIZE-OTHER_MAX}장) · 보조 진영+중립 ${st.other}/${OTHER_MAX} · 중립 ${st.neut}/${NEUT_MAX}`}
+function sanitizeDeck(d){const L=[];(Array.isArray(d)?d:[]).forEach(k=>{if(typeof k!=='string'||!CARDS[k]||CARDS[k].token)return;if(countIn(L,k)>=maxCopies(k))return;
+    if(isNLeg(k)){const o=nLegIn(L);if(o&&o!==k)return}L.push(k)});
+  const main=deckStat(L).main,out=[];let neut=0,off=0;
+  const cnt={};L.forEach(k=>{const h=CARDS[k].h;if(h!=='n'&&h!==main)cnt[h]=(cnt[h]||0)+1});const sec=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  L.forEach(k=>{if(out.length>=DECKSIZE)return;const h=CARDS[k].h;
+    if(h==='n'){if(neut>=NEUT_MAX||neut+off>=OTHER_MAX)return;neut++}
+    else if(h!==main){if(h!==sec||neut+off>=OTHER_MAX)return;off++}
+    out.push(k)});return out}
 
 /* =============== UI helpers =============== */
 const $=id=>document.getElementById(id);
@@ -1455,7 +1530,7 @@ async function submitWin(){const hp=Math.min(200,Math.max(1,S.p[0].hp)),deckLeft
 const LEVELS={easy:'초급',normal:'중급',hard:'고급',eveasy:'이벤트 쉬움',evhard:'이벤트 어려움'};
 const isEv=l=>l==='eveasy'||l==='evhard',EV_MULT={eveasy:.5,evhard:2};
 let LEVEL='easy';try{let v=localStorage.getItem('cg-level');if(v==='event')v='evhard';if(LEVELS[v])LEVEL=v}catch(e){}
-function renderDiff(){if($('mNote'))$('mNote').textContent=LEVEL==='eveasy'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 쉬움: 중급 수준의 AI와 싸웁니다. 이기면 랭킹 점수가 기록되지만, 획득 점수는 절반(50%)만 인정됩니다.':LEVEL==='evhard'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 어려움: AI가 한 턴 전체의 행동 순서를 여러 갈래로 미리 짜 보고 가장 좋은 수를 고르며, 체력 40과 카드 2장, 매 턴 금화 1개를 더 받습니다. 고급보다 훨씬 어렵고, 점수는 2배로 인정됩니다.':'초급은 단순하게, 중급은 수를 따져 보고, 고급은 매 행동을 미리 계산해 최선을 고릅니다. 상대 덱은 추천 덱 중 무작위입니다.';$('diff').innerHTML=Object.entries(LEVELS).map(([k,v])=>`<button data-level="${k}" aria-pressed="${LEVEL===k}">${v}</button>`).join('')}
+function renderDiff(){if($('mNote'))$('mNote').textContent=LEVEL==='eveasy'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 쉬움: 중급 수준의 AI와 싸웁니다. 이기면 랭킹 점수가 기록되지만, 획득 점수는 절반(50%)만 인정됩니다.':LEVEL==='evhard'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 어려움: AI가 한 턴 전체의 행동 순서를 여러 갈래로 미리 짜 보고 가장 좋은 수를 고르며, 체력 40과 카드 2장, 매 턴 금화 1개를 더 받습니다. 고급보다 훨씬 어렵고, 점수는 2배로 인정됩니다.':'초급은 단순하게, 중급은 수를 따져 보고, 고급은 매 행동을 미리 계산해 최선을 고릅니다. 상대 덱은 추천 덱 중 무작위입니다.';$('diff').innerHTML=Object.entries(LEVELS).map(([k,v])=>(k==='eveasy'?'<span class="segsep" aria-hidden="true"></span>':'')+`<button data-level="${k}" aria-pressed="${LEVEL===k}">${v}</button>`).join('')}
 function renderMenu(){
   renderDiff();
   const n=DECK.length;$('mCount').textContent=(ACTIVE>=0&&SLOTS[ACTIVE]&&SLOTS[ACTIVE].deck.join()===DECK.join()?SLOTS[ACTIVE].name+' · ':'')+`${n}/${DECKSIZE}`;$('mCount').className='cnt'+(n===DECKSIZE?' ok':'');
@@ -1496,18 +1571,15 @@ function renderEditor(){
   $('edHits').textContent=q?`${list.length}장 찾음`:'';
   if(!list.length){$('coll').innerHTML='<div class="empty">찾는 카드가 없습니다. 다른 단어로 검색하거나 진영 탭을 "전체"로 바꿔 보세요.</div>'}else
   $('coll').innerHTML=list.map(k=>{const c=CARDS[k],have=countIn(DECK,k),mx=maxCopies(k);
-    const nl=nLegIn(DECK),blocked=isNLeg(k)&&nl&&nl!==k;
-    return `<button class="card ${c.leg?'leg':''} ${have>=mx||blocked?'maxed':''}" data-add="${k}" aria-label="${c.name} 추가, 덱에 ${have}장">${cardFace(k)}<span class="own">${blocked?'중립 전설 1종':have+'/'+mx}</span></button>`}).join('');
+    const why=addReason(DECK,k),lock=why&&why.code!=='full'&&why.code!=='copy'?{nleg:'중립 전설 1종',neut:`중립 ${NEUT_MAX}장 한도`,oth:`보조+중립 ${OTHER_MAX}장 한도`,sec:'타 진영 1개만'}[why.code]:'';
+    return `<button class="card ${c.leg?'leg':''} ${have>=mx||lock?'maxed':''}" data-add="${k}" aria-label="${c.name} 추가, 덱에 ${have}장${lock?', '+lock:''}">${cardFace(k)}<span class="own">${lock||have+'/'+mx}</span></button>`}).join('');
   const uniq=[...new Set(DECK)].sort((a,b)=>CARDS[a].cost-CARDS[b].cost||CARDS[a].name.localeCompare(CARDS[b].name,'ko'));
-  $('dlist').innerHTML=uniq.length?uniq.map(k=>{const c=CARDS[k];return `<li><button class="drow" data-rem="${k}" aria-label="${c.name} 한 장 빼기"><span class="dc">${c.cost}</span><span class="dn">${c.name}</span><span>×${countIn(DECK,k)}</span><span class="dh" style="background:${H[c.h].c}"></span></button></li>`}).join('')
+  $('dlist').innerHTML=uniq.length?uniq.map(k=>{const c=CARDS[k];return `<li><button class="drow" data-rem="${k}" aria-label="${c.name} 한 장 빼기"><span class="dc" style="${sealSty(c.h)}">${c.cost}</span><span class="dn">${c.name}</span><span>×${countIn(DECK,k)}</span><span class="dh" style="background:${H[c.h].c}"></span></button></li>`}).join('')
     :'<li class="empty">덱이 비어 있습니다. 왼쪽 카드를 눌러 채우거나 추천 덱을 불러오세요.</li>';
   const cv=[0,0,0,0,0,0,0];DECK.forEach(k=>cv[Math.min(6,Math.max(1,CARDS[k].cost)-1)]++);const mx=Math.max(4,...cv);
   $('curve').innerHTML=cv.map((v,i)=>`<div><span>${v}</span><i style="height:${v/mx*44}px"></i><span>${i===6?'7+':i+1}</span></div>`).join('');
-  $('eMix').innerHTML=mixChips(DECK)}
-function addCard(k){if(isNLeg(k)){const o=nLegIn(DECK);if(o&&o!==k)return toast(`중립 전설은 덱에 1종만 넣을 수 있어요. 지금 ${CARDS[o].name}이(가) 들어 있습니다.`)}
-  if(DECK.length>=DECKSIZE)return toast(`덱은 ${DECKSIZE}장까지입니다.`);
-  if(countIn(DECK,k)>=maxCopies(k))return toast(CARDS[k].leg?'전설 카드는 1장만 넣을 수 있습니다.':'같은 카드는 2장까지입니다.');
-  if(isNLeg(k)){const o=nLegIn(DECK);if(o&&o!==k)return toast(`중립 전설은 덱에 1종만 넣을 수 있어요. 지금 ${CARDS[o].name}이(가) 들어 있습니다.`)}
+  $('eMix').innerHTML=mixChips(DECK);$('eRule').textContent=ruleText(DECK)}
+function addCard(k){const why=addReason(DECK,k);if(why)return toast(why.msg);
   DECK.push(k);saveDeck();renderEditor()}
 function remCard(k){const i=DECK.lastIndexOf(k);if(i>=0){DECK.splice(i,1);saveDeck();renderEditor()}}
 
@@ -1564,6 +1636,8 @@ function makeUnit(k){const c=CARDS[k],kw=c.kw||[];return{id:++uid,key:k,name:c.n
 function summon(s,k){const b=S.p[s].board,i=b.indexOf(null);if(i<0)return null;const u=makeUnit(k);b[i]=u;return u}
 function transform(t,k){S.p[t.side].board[t.slot]=makeUnit(k);flash(key(t))}
 function buff(u,a,h){u.atk+=a;u.hp+=h;u.maxHp+=h;fxq(keyOfUnit(u),'buff')}
+function equip(t,k,a,h,f){const u=unitAt(t);if(!u)return;if(a||h)buff(u,a,h);else fxq(keyOfUnit(u),'buff');
+  if(f)Object.keys(f).forEach(x=>{u[x]=typeof f[x]==='function'?f[x](u):f[x]});u.gear=(u.gear||[]).concat(k)}
 function charm(t){const u=unitAt(t);if(!u)return;flash(key(t),'charm');const pf=CUR_FX;CUR_FX='slash';try{
   if(Math.random()<.5){const own=S.p[t.side].board.map((x,i)=>x&&x!==u?i:-1).filter(i=>i>=0);
     if(own.length){const i=own[Math.floor(Math.random()*own.length)],d=S.p[t.side].board[i],aa=u.atk,da=d.frozen?0:d.atk;
@@ -1604,6 +1678,7 @@ function validSpell(c,t,s){switch(c.target){
   case 'enemyAny':return t.side!==s;case 'friendlyAny':return t.side===s;
   case 'friendlyUnit':return t.side===s&&!t.lord;case 'enemyUnit':return t.side!==s&&!t.lord}return false}
 const hasTarget=(c,s)=>allTargets().some(t=>validSpell(c,t,s));
+const canSwing=(s,u)=>u.atk>0||units(1-s).length===0;
 function validAttack(s,t){if(t.side===s)return false;const taunts=units(t.side).filter(u=>u.taunt);
   if(taunts.length)return !t.lord&&unitAt(t).taunt;return true}
 
@@ -1616,7 +1691,7 @@ function play(s,hi,t){const p=S.p[s],h=p.hand[hi],c=CARDS[h.key];const prevFx=CU
   cleanup()}finally{CUR_FX=prevFx}}
 function attack(s,slot,t){const a=S.p[s].board[slot];a.canAttack=false;
   const kindOf=u=>u.poison?'poison':u.lifesteal?'bite':'slash';const prev=CUR_FX;CUR_FX=kindOf(a);
-  if(t.lord){hurtLord(t.side,a.atk);if(a.lifesteal)healLord(s,a.atk,true);log(`${a.name}이(가) ${nm(t.side)} 영주를 ${a.atk} 공격`)}
+  if(t.lord){const dm=a.atk>0?a.atk:(units(t.side).length?0:1);hurtLord(t.side,dm);if(a.lifesteal)healLord(s,dm,true);log(`${a.name}이(가) ${nm(t.side)} 영주를 ${dm} 공격${a.atk<=0?' (공격력 0이라도 빈 전장에서는 1 피해)':''}`)}
   else{const d=unitAt(t),aa=a.atk,da=d.frozen?0:d.atk,hd=d.divine,ha=a.divine;const g1=damage(d,aa,a),g2=damage(a,da,d);
     flash(key(t),hd&&!d.divine?'shield':kindOf(a),hd&&!d.divine?null:-aa);
     if(da>0)flash(key({side:s,slot}),ha&&!a.divine?'shield':kindOf(d),ha&&!a.divine?null:-da);
@@ -1671,7 +1746,7 @@ async function aiTurn(){S.busy=true;renderBattle();await sleep(800);if(!S)return
       if(t===false){if(o.c.type==='unit'){t=allTargets().find(x=>validSpell(o.c,x,1))}else continue}
       if(o.c.type==='unit'&&o.c.target&&!t&&hasTarget(o.c,1))t=allTargets().find(x=>validSpell(o.c,x,1));
       play(1,o.i,t);renderBattle();await sleep(750);acted=true;break}}
-  for(let s=0;s<BOARD&&S&&!S.over;s++){const u=S.p[1].board[s];if(!u||!u.canAttack||u.atk<=0)continue;
+  for(let s=0;s<BOARD&&S&&!S.over;s++){const u=S.p[1].board[s];if(!u||!u.canAttack||!canSwing(1,u))continue;
     const foe=S.p[0].board.map((v,i)=>v&&{v,t:{side:0,slot:i}}).filter(Boolean),taunts=foe.filter(o=>o.v.taunt);let t;
     if(taunts.length)t=(taunts.find(o=>o.v.hp<=u.atk||u.poison)||taunts[0]).t;
     else{const tr=foe.filter(o=>(o.v.hp<=u.atk||u.poison)&&!o.v.divine&&(o.v.frozen?0:o.v.atk)<u.hp&&o.v.atk>=2).sort((a,b)=>b.v.atk-a.v.atk)[0];t=tr?tr.t:{side:0,lord:true}}
@@ -1696,7 +1771,7 @@ function enumActions(s){const p=S.p[s],acts=[];
   p.hand.forEach((h,i)=>{const c=CARDS[h.key];if(c.cost>p.mana)return;if(c.type==='unit'&&!p.board.includes(null))return;
     if(c.target&&hasTarget(c,s))allTargets().filter(t=>validSpell(c,t,s)).forEach(t=>acts.push({t:'play',i,tg:t}));
     else if(!(c.type==='spell'&&c.target))acts.push({t:'play',i})});
-  p.board.forEach((u,slot)=>{if(u&&u.canAttack&&u.atk>0)allTargets().filter(t=>t.side!==s&&(t.lord||unitAt(t))&&validAttack(s,t)).forEach(t=>acts.push({t:'atk',s:slot,tg:t}))});
+  p.board.forEach((u,slot)=>{if(u&&u.canAttack&&canSwing(s,u))allTargets().filter(t=>t.side!==s&&(t.lord||unitAt(t))&&validAttack(s,t)).forEach(t=>acts.push({t:'atk',s:slot,tg:t}))});
   return acts}
 function applyAction(s,a){if(a.t==='play')play(s,a.i,a.tg);else if(a.t==='atk')attack(s,a.s,a.tg)}
 function fastClone(st){return{...st,sim:true,fxOut:null,fx:new Set(),log:[],p:st.p.map(p=>({...p,hand:p.hand.slice(),deck:p.deck.slice(),board:p.board.map(u=>u?{...u,gear:u.gear?u.gear.slice():u.gear}:null)}))}}
@@ -1742,7 +1817,7 @@ function onHand(i){if(S.cur!==0||S.busy||S.over)return;const p=S.p[0],c=CARDS[p.
 function onTarget(t){const u=!t.lord&&unitAt(t);
   if(S.cur!==0||S.busy||S.over)return;
   if(S.pending!=null){const c=CARDS[S.p[0].hand[S.pending].key];if(validSpell(c,t,0)){const i=S.pending;S.pending=null;act({t:'play',i,tg:t})}return}
-  if(t.side===0&&!t.lord){if(u&&u.canAttack&&u.atk>0){S.sel=(S.sel&&S.sel.slot===t.slot)?null:{side:0,slot:t.slot};renderBattle()}return}
+  if(t.side===0&&!t.lord){if(u&&u.canAttack&&canSwing(0,u)){S.sel=(S.sel&&S.sel.slot===t.slot)?null:{side:0,slot:t.slot};renderBattle()}return}
   if(S.sel&&validAttack(0,t)){const s=S.sel.slot;S.sel=null;act({t:'atk',s,tg:t})}
   else if(S.sel)toast('수호 유닛을 먼저 공격해야 합니다.')}
 
@@ -1803,7 +1878,7 @@ function onGuestAct(m){
   if(a.t==='play'){const i=+a.i|0,h=p.hand[i];if(!h)return scheduleBroadcast();const c=CARDS[h.key];
     if(c.cost>p.mana||(c.type==='unit'&&!p.board.includes(null))||!ACT_OK(c,tg,1))return scheduleBroadcast();
     play(1,i,tg);renderBattle();return}
-  if(a.t==='atk'){const u=p.board[+a.s|0];if(!u||!u.canAttack||u.atk<=0||!tg||!(tg.lord||unitAt(tg))||!validAttack(1,tg))return scheduleBroadcast();
+  if(a.t==='atk'){const u=p.board[+a.s|0];if(!u||!u.canAttack||!canSwing(1,u)||!tg||!(tg.lord||unitAt(tg))||!validAttack(1,tg))return scheduleBroadcast();
     attack(1,+a.s|0,tg);renderBattle()}}
 function setPvpUI(state){$('pvpCtl').hidden=state!=='idle';$('pvpWait').hidden=state!=='wait'}
 async function hostRoom(){
@@ -1883,7 +1958,7 @@ function renderLord(s){const p=S.p[s],tg=isTarget({side:s,lord:true});
     ${s===1?`<div class="ehand">${p.hand.map(()=>'<span class="back"></span>').join('')}</div>`:''}</div>`}
 function renderBoard(s){$('board'+s).innerHTML=S.p[s].board.map((u,i)=>{const t={side:s,slot:i};
   if(!u)return `<button class="slot" disabled aria-label="빈 자리" data-pos="${i}"></button>`;
-  const ready=s===0&&S.cur===0&&!S.busy&&u.canAttack&&u.atk>0&&S.pending==null,sel=S.sel&&S.sel.side===s&&S.sel.slot===i;
+  const ready=s===0&&S.cur===0&&!S.busy&&u.canAttack&&canSwing(s,u)&&S.pending==null,sel=S.sel&&S.sel.side===s&&S.sel.slot===i;
   const chips=[u.poisoned&&'중독',u.divine&&'보호막',u.frozen&&'빙결',u.lifesteal&&'흡혈',u.poison&&'맹독',CARDS[u.key].onDeath&&'죽음',CARDS[u.key].onTurn&&'매턴',CARDS[u.key].upkeep&&'유지',u.gear&&u.gear.length&&'장비'].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
   return `<button class="slot filled ${isTarget(t)?'target':''}" data-side="${s}" data-slot="${i}" data-pos="${i}" aria-label="${u.name} 공격력 ${u.atk} 체력 ${u.hp}">
     <div class="unit ${u.taunt?'taunt':''} ${u.divine?'divine':''} ${u.frozen?'frozen':''} ${u.poisoned?'poisoned':''} ${ready?'ready':''} ${sel?'selected':''} ${S.fx.has(key(t))?'hit':''}">
@@ -1930,7 +2005,7 @@ $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFl
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
 $('goGuide').onclick=()=>show('guide');
-const NOTES_VER='1.9';
+const NOTES_VER='2.0';
 function markNotes(){let seen='';try{seen=localStorage.getItem('cg-notes-seen')||''}catch(e){}$('notesNew').hidden=seen===NOTES_VER}
 $('goNotes').onclick=()=>{try{localStorage.setItem('cg-notes-seen',NOTES_VER)}catch(e){}markNotes();show('notes')};
 $('notesBack').onclick=$('notesBack2').onclick=()=>{renderMenu();show('menu')};
@@ -1948,10 +2023,10 @@ $('quit').onclick=quitBattle;$('toMenu').onclick=quitBattle;
 $('preset').innerHTML=PRESETS.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('');
 $('loadPreset').onclick=()=>{DECK=presetDeck(PRESETS[+$('preset').value].h);saveDeck();renderEditor();toast('추천 덱을 불러왔습니다.')};
 $('edQ').addEventListener('input',e=>{edQ=e.target.value;renderEditor()});
-$('fitDeck').onclick=()=>{const n=DECK.length;DECK=autoFit(DECK);saveDeck();renderEditor();toast(n===DECKSIZE?'이미 47장입니다.':`덱을 ${DECKSIZE}장으로 맞췄습니다.`)};
+$('fitDeck').onclick=()=>{const n=DECK.length;DECK=autoFit(DECK);saveDeck();renderEditor();toast(n===DECKSIZE?`이미 ${DECKSIZE}장입니다.`:`덱을 ${DECKSIZE}장으로 맞췄습니다.`)};
 $('clearDeck').onclick=()=>{DECK=[];saveDeck();renderEditor()};
 
-DECK=loadDeck();if(DECK.length!==DECKSIZE){DECK=autoFit(DECK);saveDeck()}renderMenu();document.body.classList.add('oncover');
+DECK=loadDeck();if(DECK.length!==DECKSIZE){const was=DECK.length;DECK=autoFit(DECK);saveDeck();if(was)setTimeout(()=>toast(`덱 규칙이 바뀌어 ${DECKSIZE}장으로 자동으로 맞췄습니다.`),700)}renderMenu();document.body.classList.add('oncover');
 let coverKey='';
 function drawCover(){const cv=$('coverCv');if(!cv||$('menu').hidden)return;const b=cv.parentElement.getBoundingClientRect();if(!b.width)return;
   const dpr=Math.min(1.5,window.devicePixelRatio||1),H=Math.round(b.height*dpr),W=Math.round(Math.min(2400,Math.max(b.width*dpr,H*1.6)));
