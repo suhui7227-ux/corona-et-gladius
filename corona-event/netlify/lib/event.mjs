@@ -8,7 +8,9 @@ export const SETTINGS = {
   maxPlayers: 5000,
 };
 
-export const score = (hp, deckLeft) => hp * 10 + deckLeft * 5;
+// 이벤트 모드별 점수 배율: 쉬움은 50%, 어려움은 100%
+export const MODES = { eveasy: 0.5, evhard: 1 };
+export const score = (hp, deckLeft, mode = "evhard") => Math.round((hp * 10 + deckLeft * 5) * (MODES[mode] ?? 1));
 
 export const store = () => getStore({ name: "corona-event", consistency: "strong" });
 

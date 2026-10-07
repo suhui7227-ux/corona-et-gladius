@@ -381,7 +381,7 @@ details p{margin:.4em 0}
     <div class="sub">이벤트 난이도로 이기면 <b>남은 체력 × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다(쉬움은 50%, 어려움은 100%). 다른 참가자의 메일 주소는 가려서 보입니다.</div>
     <div class="sub" id="evMe">이벤트 서버 확인 중…</div>
     <ol class="evlist" id="evList"></ol>
-    <div class="row"><button class="btn" id="evJoin" hidden>메일로 참가하기</button><button class="btn ghost" id="evRefresh">새로고침</button></div>
+    <div class="row"><button class="btn" id="evJoin" hidden>메일로 참가하기 / 기록 불러오기</button><button class="btn ghost" id="evSwitch" hidden>다른 메일로 바꾸기</button><button class="btn ghost" id="evRefresh">새로고침</button></div>
   </div>
   </div>
 </section>
@@ -536,7 +536,7 @@ details p{margin:.4em 0}
     <li>이길 때마다 <b>남은 체력 × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다. 빨리, 그리고 덜 다치고 이길수록 점수가 높습니다. <b>이벤트 쉬움</b>은 이 점수의 50%, <b>이벤트 어려움</b>은 100%가 인정됩니다.</li>
     <li>랭킹에서 다른 참가자의 메일은 <code>ab***@gmail.com</code>처럼 가려서 보입니다.</li>
     <li>시작 후 60초 안에 끝난 승리는 기록되지 않고, 하루에 40승까지 인정합니다.</li>
-    <li>점수는 처음 등록한 브라우저에서만 올릴 수 있습니다.</li>
+    <li>다른 컴퓨터나 휴대폰에서도 같은 메일 주소를 입력하면 기존 점수와 승수를 그대로 이어 갑니다. 공용 컴퓨터에서는 다 한 뒤 "다른 메일로 바꾸기"를 눌러 두세요.</li>
     <li><b>상품:</b> 2026년 10월 10일(토) 오전 9시까지 집계한 최종 순위로 <b>1등 치킨 기프티콘, 2등 메가커피 기프티콘, 3등 친필 편지</b>를 드립니다. 마감 뒤에는 이벤트 난이도도 연습으로만 진행되고 점수가 기록되지 않습니다.</li>
   </ul>
 
@@ -589,7 +589,7 @@ details p{margin:.4em 0}
 <div class="peek" id="peek" aria-hidden="true"><div class="flip" id="peekFlip"></div></div>
 <div class="overlay" id="evModal" role="dialog" aria-label="이벤트 참가"><div class="scroll evform">
   <h2>Eventum</h2>
-  <p>메일 주소가 참가자 아이디가 됩니다. 다른 참가자에게는 <b>ab***@gmail.com</b>처럼 가려서 보입니다.</p>
+  <p>메일 주소가 참가자 아이디가 됩니다. 다른 참가자에게는 <b>ab***@gmail.com</b>처럼 가려서 보입니다. 이미 참가한 메일을 입력하면 다른 기기에서도 <b>기존 점수와 승수를 그대로 이어 갑니다.</b></p>
   <input class="inp" id="evEmail" type="email" placeholder="you@example.com" autocomplete="email" aria-label="메일 주소">
   <label class="agree"><input type="checkbox" id="evAgree"> 이벤트 운영과 순위 안내를 위해 메일 주소를 수집·이용하는 데 동의합니다. 메일 주소는 운영자만 볼 수 있고 이벤트가 끝나면 삭제합니다.</label>
   <div class="row" style="justify-content:center"><button class="btn" id="evSubmit">참가하기</button><button class="btn ghost" id="evCancel">취소</button></div>
@@ -1322,8 +1322,8 @@ function renderEvPanel(d){
     [['rk',x.rank],['nmx',x.name],['sc',x.score+'점'],['wn',x.wins+'승']].forEach(([c,v])=>{const sp=document.createElement('span');sp.className=c;
       if(c==='nmx'){const n=document.createElement('span');n.className='nm2';n.textContent=v;sp.appendChild(n);if(x.rank<=3){const pz=document.createElement('span');pz.className='prize';pz.textContent=PRIZES[x.rank-1];sp.appendChild(pz)}}
       else sp.textContent=v;li.appendChild(sp)});L.appendChild(li)});
-  $('evMe').textContent=EV.acct?(d.me?`내 기록: ${d.me.name} · ${d.me.score}점 · ${d.me.rank?d.me.rank+'위':'아직 순위 없음'}`:`참가 정보를 확인할 수 없습니다. 처음 등록한 브라우저에서 접속해 주세요.`):'아직 참가하지 않았습니다. 메일로 참가한 뒤 이벤트 난이도로 이기면 랭킹에 오릅니다.';
-  $('evJoin').hidden=!!EV.acct||!d.open||evOver()}
+  $('evMe').textContent=EV.acct?(d.me?`내 기록: ${d.me.name} · ${d.me.score}점 · ${d.me.rank?d.me.rank+'위':'아직 순위 없음'}`:`참가 정보를 확인할 수 없습니다. "다른 메일로 바꾸기"를 눌러 메일을 다시 입력해 주세요.`):'아직 참가하지 않았습니다. 메일로 참가한 뒤 이벤트 난이도로 이기면 랭킹에 오릅니다.';
+  $('evJoin').hidden=!!EV.acct||!d.open||evOver();$('evSwitch').hidden=!EV.acct}
 function openEv(){$('evErr').textContent='';$('evModal').classList.add('show');setTimeout(()=>$('evEmail').focus(),50)}
 function closeEv(){$('evModal').classList.remove('show');EV.pendingStart=false}
 async function evRegister(){const email=$('evEmail').value.trim().toLowerCase();
@@ -1331,7 +1331,7 @@ async function evRegister(){const email=$('evEmail').value.trim().toLowerCase();
   if(!$('evAgree').checked){$('evErr').textContent='메일 주소 수집·이용에 동의해야 참가할 수 있습니다.';return}
   $('evSubmit').disabled=true;$('evErr').textContent='';
   try{const d=await api('/register',{email,agree:true});EV.acct={email,token:d.token,masked:d.masked};try{localStorage.setItem('cg-event',JSON.stringify(EV.acct))}catch(e){}
-    const again=EV.pendingStart;$('evModal').classList.remove('show');EV.pendingStart=false;toast('이벤트에 참가했습니다.');loadBoard();if(again)startBattle()}
+    const again=EV.pendingStart;$('evModal').classList.remove('show');EV.pendingStart=false;toast(d.resumed?`기존 기록을 이어 갑니다: ${d.score}점 · ${d.wins}승`:'이벤트에 참가했습니다.');loadBoard();if(again)startBattle()}
   catch(e){$('evErr').textContent=e.message}finally{$('evSubmit').disabled=false}}
 async function submitWin(){const hp=Math.min(200,Math.max(1,S.p[0].hp)),deckLeft=S.p[0].deck.length,el=$('overScore');
   if(evOver()){el.textContent='이벤트 집계가 끝나 점수는 기록되지 않습니다.';return}
@@ -1802,7 +1802,7 @@ function startBattle(){ensureDeck();
   S={mode:'ai',level:LEVEL,p:[newPlayer('당신',DECK),newPlayer('흑기사 영주',presetDeck(ai.h))],cur:0,sel:null,pending:null,busy:false,over:false,log:[],fx:new Set()};
   draw(0,START_HAND-1);draw(1,START_HAND-1);if(LEVEL==='evhard'){S.p[1].hp=S.p[1].maxHp=40;draw(1,2)}
   $('overScore').textContent='';log(`${LEVELS[LEVEL]} · 상대 덱: ${ai.name}. 당신이 먼저 움직인다.`);show('battle');startTurn(0)}
-function quitBattle(){if(S)S.over=true;S=null;if(NET.room)leaveRoom();$('over').classList.remove('show');renderMenu();show('menu')}
+function quitBattle(){if(S)S.over=true;S=null;if(NET.room)leaveRoom();$('over').classList.remove('show');renderMenu();show('menu');loadBoard()}
 
 /* =============== Events =============== */
 document.addEventListener('click',e=>{
@@ -1819,7 +1819,8 @@ $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFl
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
 $('goGuide').onclick=()=>show('guide');$('guideBack').onclick=$('guideBack2').onclick=()=>{renderMenu();show('menu')};
-$('evJoin').onclick=openEv;$('evRefresh').onclick=loadBoard;$('evSubmit').onclick=evRegister;$('evCancel').onclick=closeEv;
+$('evJoin').onclick=openEv;
+$('evSwitch').onclick=()=>{EV.acct=null;EV.match=null;try{localStorage.removeItem('cg-event')}catch(e){}$('evEmail').value='';loadBoard();openEv()};$('evRefresh').onclick=loadBoard;$('evSubmit').onclick=evRegister;$('evCancel').onclick=closeEv;
 $('evEmail').addEventListener('keydown',e=>{if(e.key==='Enter')evRegister()});
 $('evModal').addEventListener('click',e=>{if(e.target.id==='evModal')closeEv()});
 $('host').onclick=hostRoom;$('join').onclick=joinRoom;$('cancelHost').onclick=leaveRoom;

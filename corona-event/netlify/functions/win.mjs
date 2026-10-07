@@ -15,13 +15,14 @@ export default async (req) => {
   const today = kstDay();
   if (p.day !== today) { p.day = today; p.dayWins = 0; }
   if (p.dayWins >= SETTINGS.maxWinsPerDay) return bad("오늘 기록할 수 있는 승리 횟수를 모두 채웠습니다.", 429);
-  const gained = score(hp, deckLeft);
+  const mode = p.match.mode === "eveasy" ? "eveasy" : "evhard";
+  const gained = score(hp, deckLeft, mode);
   p.score += gained; p.wins += 1; p.dayWins += 1; p.best = Math.max(p.best, gained);
   p.lastWinAt = new Date().toISOString(); p.match = null;
   await store().setJSON(a.key, p);
   const board = ranked(await allPlayers());
   const rank = board.findIndex((x) => x._key === a.key) + 1;
-  return json({ ok: true, gained, score: p.score, wins: p.wins, rank, players: board.length });
+  return json({ ok: true, gained, mode, score: p.score, wins: p.wins, rank, players: board.length });
 };
 
 export const config = { path: "/api/win" };
