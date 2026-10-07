@@ -378,7 +378,7 @@ details p{margin:.4em 0}
         <li><span class="medal m3">3등</span>친필 편지</li>
       </ol>
     </div>
-    <div class="sub">이벤트 난이도로 이기면 <b>남은 체력(최대 30) × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다(쉬움은 50%, 어려움은 100%). 다른 참가자의 메일 주소는 가려서 보입니다.</div>
+    <div class="sub">이벤트 난이도로 이기면 <b>남은 체력(최대 30) × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다(쉬움은 0.5배, 어려움은 2배). 다른 참가자의 메일 주소는 가려서 보입니다.</div>
     <div class="sub" id="evMe">이벤트 서버 확인 중…</div>
     <ol class="evlist" id="evList"></ol>
     <div class="row"><button class="btn" id="evJoin" hidden>메일로 참가하기 / 기록 불러오기</button><button class="btn ghost" id="evSwitch" hidden>다른 메일로 바꾸기</button><button class="btn ghost" id="evRefresh">새로고침</button></div>
@@ -533,7 +533,7 @@ details p{margin:.4em 0}
   <h2 id="g-event">이벤트 랭킹</h2>
   <ul>
     <li>난이도를 <b>이벤트 쉬움</b> 또는 <b>이벤트 어려움</b>으로 고르고 처음 전투를 시작하면 메일 주소로 참가합니다. 메일 주소가 아이디가 됩니다.</li>
-    <li>이길 때마다 <b>남은 체력 × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다. 체력은 <b>30까지만</b> 점수로 인정되므로, 회복으로 체력을 부풀려도 점수는 늘지 않습니다. 빨리, 그리고 덜 다치고 이길수록 점수가 높습니다. <b>이벤트 쉬움</b>은 이 점수의 50%, <b>이벤트 어려움</b>은 100%가 인정됩니다.</li>
+    <li>이길 때마다 <b>남은 체력 × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다. 체력은 <b>30까지만</b> 점수로 인정되므로, 회복으로 체력을 부풀려도 점수는 늘지 않습니다. 빨리, 그리고 덜 다치고 이길수록 점수가 높습니다. <b>이벤트 쉬움</b>은 이 점수의 0.5배, <b>이벤트 어려움</b>은 2배가 인정됩니다.</li>
     <li>랭킹에서 다른 참가자의 메일은 <code>ab***@gmail.com</code>처럼 가려서 보입니다.</li>
     <li>시작 후 60초 안에 끝난 승리는 기록되지 않고, 하루에 40승까지 인정합니다.</li>
     <li>다른 컴퓨터나 휴대폰에서도 같은 메일 주소를 입력하면 기존 점수와 승수를 그대로 이어 갑니다. 공용 컴퓨터에서는 다 한 뒤 "다른 메일로 바꾸기"를 눌러 두세요.</li>
@@ -1342,9 +1342,9 @@ async function submitWin(){const hp=Math.min(200,Math.max(1,S.p[0].hp)),deckLeft
 
 /* =============== Menu =============== */
 const LEVELS={easy:'초급',normal:'중급',hard:'고급',eveasy:'이벤트 쉬움',evhard:'이벤트 어려움'};
-const isEv=l=>l==='eveasy'||l==='evhard',EV_MULT={eveasy:.5,evhard:1};
+const isEv=l=>l==='eveasy'||l==='evhard',EV_MULT={eveasy:.5,evhard:2};
 let LEVEL='easy';try{let v=localStorage.getItem('cg-level');if(v==='event')v='evhard';if(LEVELS[v])LEVEL=v}catch(e){}
-function renderDiff(){if($('mNote'))$('mNote').textContent=LEVEL==='eveasy'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 쉬움: 중급 수준의 AI와 싸웁니다. 이기면 랭킹 점수가 기록되지만, 획득 점수는 절반(50%)만 인정됩니다.':LEVEL==='evhard'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 어려움: AI가 한 턴 전체의 행동 순서를 여러 갈래로 미리 짜 보고 가장 좋은 수를 고르며, 체력 40과 카드 2장, 매 턴 금화 1개를 더 받습니다. 고급보다 훨씬 어렵고, 점수는 100% 인정됩니다.':'초급은 단순하게, 중급은 수를 따져 보고, 고급은 매 행동을 미리 계산해 최선을 고릅니다. 상대 덱은 추천 덱 중 무작위입니다.';$('diff').innerHTML=Object.entries(LEVELS).map(([k,v])=>`<button data-level="${k}" aria-pressed="${LEVEL===k}">${v}</button>`).join('')}
+function renderDiff(){if($('mNote'))$('mNote').textContent=LEVEL==='eveasy'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 쉬움: 중급 수준의 AI와 싸웁니다. 이기면 랭킹 점수가 기록되지만, 획득 점수는 절반(50%)만 인정됩니다.':LEVEL==='evhard'?'[10/10(토) 오전 9시 마감 · 1등 치킨, 2등 메가커피, 3등 친필 편지] 이벤트 어려움: AI가 한 턴 전체의 행동 순서를 여러 갈래로 미리 짜 보고 가장 좋은 수를 고르며, 체력 40과 카드 2장, 매 턴 금화 1개를 더 받습니다. 고급보다 훨씬 어렵고, 점수는 2배로 인정됩니다.':'초급은 단순하게, 중급은 수를 따져 보고, 고급은 매 행동을 미리 계산해 최선을 고릅니다. 상대 덱은 추천 덱 중 무작위입니다.';$('diff').innerHTML=Object.entries(LEVELS).map(([k,v])=>`<button data-level="${k}" aria-pressed="${LEVEL===k}">${v}</button>`).join('')}
 function renderMenu(){
   renderDiff();
   const n=DECK.length;$('mCount').textContent=(ACTIVE>=0&&SLOTS[ACTIVE]&&SLOTS[ACTIVE].deck.join()===DECK.join()?SLOTS[ACTIVE].name+' · ':'')+`${n}/${DECKSIZE}`;$('mCount').className='cnt'+(n===DECKSIZE?' ok':'');
