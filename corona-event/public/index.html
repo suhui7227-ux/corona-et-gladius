@@ -91,6 +91,28 @@ body.oncover{background:#120c08;background-image:none}
 .slotrow .btn{padding:.35em .8em;font-size:.82rem;white-space:nowrap}
 .edsearch{margin-bottom:8px}
 .edsearch .inp{flex:1;min-width:0;width:auto;text-transform:none}
+.guide{line-height:1.7;padding-bottom:40px}
+.guidetop h1{font-size:clamp(1.8rem,6vw,2.6rem)}
+.guide .lead{font-size:1rem;color:var(--muted);margin:4px 0 6px}
+.guide h2{font-size:1.2rem;margin:28px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);scroll-margin-top:16px}
+.guide ul,.guide ol{padding-left:1.3em;margin:6px 0}
+.guide li{margin:4px 0}
+.guide .note{background:var(--panel);border-left:3px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;font-size:.92rem}
+.guide code{background:var(--vellum);color:var(--vellum-ink);padding:0 5px;border-radius:4px;font-size:.88em}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.toc a{color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:.2em .8em;font-size:.85rem}
+.toc a:hover{background:var(--panel)}
+.houses dt{font-weight:700;margin-top:10px}.houses dd{margin:2px 0 0 0;color:var(--fg)}
+.houses .chip{margin-right:6px}
+.kwlist{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:8px 0}
+.kwlist dt{font-weight:700;color:var(--hpc)}.kwlist dd{margin:0}
+.colors{display:flex;flex-wrap:wrap;gap:10px 18px;margin:8px 0}
+.colors span{display:flex;align-items:center;gap:8px;font-size:.92rem}
+.colors i{width:22px;height:26px;border:3px solid;border-radius:4px 4px 50% 50% / 4px 4px 38% 38%;background:var(--panel);display:inline-block}
+.tablewrap{overflow-x:auto}
+.guide table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+.guide th,.guide td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.guide th{background:var(--panel)}
 .evlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto}
 .evlist li{display:grid;grid-template-columns:2.4em 1fr auto auto;gap:10px;align-items:center;padding:6px 10px;border-radius:6px;background:rgba(255,240,200,.06);font-size:.9rem}
 .evlist li.mine{background:rgba(224,189,79,.24)}
@@ -165,7 +187,9 @@ body.oncover{background:#120c08;background-image:none}
 .slot{aspect-ratio:4/5;border:1px dashed var(--line);border-radius:8px;background:none;padding:0;cursor:default;position:relative}
 .slot.filled{border:0}
 .slot.target{cursor:pointer}
-.slot.target .unit{box-shadow:0 0 0 3px var(--seal-hi)}
+.slot.target .unit{box-shadow:0 0 0 3px #ff4a3d,0 0 16px rgba(255,74,61,.8);animation:targetPulse 1s ease-in-out infinite}
+@keyframes targetPulse{0%,100%{box-shadow:0 0 0 3px #ff4a3d,0 0 16px rgba(255,74,61,.8)}50%{box-shadow:0 0 0 3px #ff4a3d,0 0 6px rgba(255,74,61,.4)}}
+.lordbtn.target{box-shadow:0 0 0 3px #ff4a3d,0 0 16px rgba(255,74,61,.7)}
 .unit{position:absolute;inset:0;border:2px solid var(--gold);border-radius:6px 6px 50% 50% / 6px 6px 36% 36%;overflow:visible;transition:transform .15s}
 .unit .uart{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
 .unit .uart svg{width:100%;height:100%;display:block}
@@ -176,13 +200,17 @@ body.oncover{background:#120c08;background-image:none}
 .unit .a{left:-3px;background:#e8dcbd;color:#2b1f15}
 .unit .h{right:-3px;background:var(--seal);color:#fff2dc}
 .unit .h.hurt{background:#e14b3b}
-.unit.taunt{border-width:4px;border-color:var(--gold-hi)}
+.unit.taunt{border-width:4px;border-color:#f2c43a;box-shadow:0 0 10px rgba(242,196,58,.55)}
 .unit.ready{cursor:pointer}
-.unit.ready::after{content:"";position:absolute;inset:-5px;border-radius:inherit;border:2px solid var(--gold-hi);pointer-events:none}
+.unit.ready::after{content:"";position:absolute;inset:-6px;border-radius:inherit;border:2px solid #3fd27a;box-shadow:0 0 12px rgba(63,210,122,.7);pointer-events:none;animation:readyPulse 1.6s ease-in-out infinite}
+@keyframes readyPulse{0%,100%{opacity:1}50%{opacity:.55}}
 .unit.selected{transform:translateY(-6px)}
-.unit.selected::after{border-color:#fff;border-width:3px}
-.unit.divine .uart{box-shadow:inset 0 0 0 3px #fff3b0,inset 0 0 14px rgba(255,240,170,.9)}
-.unit.frozen .uart{filter:saturate(.25) brightness(1.15) hue-rotate(160deg)}
+.unit.selected::after{border-color:#fff;border-width:3px;box-shadow:0 0 14px rgba(255,255,255,.9);animation:none}
+.unit.divine::before{content:"";position:absolute;inset:-3px;border-radius:inherit;box-shadow:0 0 0 3px #4da3ff,0 0 16px 4px rgba(77,163,255,.75);pointer-events:none;z-index:1}
+.unit.divine .uart{box-shadow:inset 0 0 18px rgba(120,190,255,.85)}
+.unit.frozen .uart{filter:saturate(.3) brightness(1.12)}
+.unit.frozen .uart::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(235,250,255,.55),rgba(170,225,255,.25) 45%,rgba(235,250,255,.5)),repeating-linear-gradient(60deg,rgba(255,255,255,.18) 0 2px,transparent 2px 9px);box-shadow:inset 0 0 0 3px #e9fbff,inset 0 0 16px #bfefff}
+.unit.frozen{border-color:#dff7ff}
 @media (max-width:560px){.unit .nm{display:none}.unit .kws{top:2px}.unit .a,.unit .h{min-width:17px;height:17px;font-size:.68rem;padding:0 3px}.unit .kws span{font-size:.5rem}}
 .mid{display:flex;align-items:center;gap:10px;padding:4px 0;min-height:48px}
 .hint{flex:1;font-size:.88rem;line-height:1.45}
@@ -194,7 +222,7 @@ body.oncover{background:#120c08;background-image:none}
 .hand .card.pending{transform:translateY(-10px);box-shadow:0 0 0 3px var(--seal-hi)}
 .hit{animation:hit .4s}
 @keyframes hit{0%,100%{translate:0}25%{translate:-4px 0}75%{translate:4px 0}}
-@media (prefers-reduced-motion:reduce){.hit{animation:none}.unit{transition:none}}
+@media (prefers-reduced-motion:reduce){.unit.ready::after,.slot.target .unit{animation:none}.hit{animation:none}.unit{transition:none}}
 details{font-size:.85rem;line-height:1.65;border-top:1px solid var(--line);padding-top:8px}
 details summary{cursor:pointer;color:var(--muted)}
 details p{margin:.4em 0}
@@ -264,6 +292,7 @@ details p{margin:.4em 0}
     <div class="row">
       <button class="btn" id="goBattle">AI와 전투</button>
       <button class="btn ghost" id="goEdit">덱 편집</button>
+      <button class="btn ghost" id="goGuide">게임 설명</button>
     </div>
     <div class="sub" id="mNote"></div>
   </div>
@@ -322,6 +351,150 @@ details p{margin:.4em 0}
   </div>
 </section>
 
+<!-- GUIDE -->
+<section id="guide" class="wrap guide" hidden>
+  <div class="row guidetop"><button class="btn ghost" id="guideBack">메뉴로</button><h1>Liber Regularum</h1></div>
+  <p class="lead">왕관과 칼날 게임 설명서. 처음 하는 사람도 이 페이지 하나로 규칙, 카드 읽는 법, 덱 만들기, 이벤트까지 익힐 수 있게 정리했습니다.</p>
+
+  <nav class="toc" aria-label="목차">
+    <a href="#g-world">세계와 세력</a><a href="#g-win">승리 조건과 시작</a><a href="#g-turn">한 턴의 흐름</a><a href="#g-card">카드 읽는 법</a>
+    <a href="#g-fight">전투</a><a href="#g-kw">키워드 사전</a><a href="#g-color">테두리 색</a><a href="#g-houses">진영별 특징</a>
+    <a href="#g-deck">덱 만들기</a><a href="#g-modes">게임 모드</a><a href="#g-event">이벤트 랭킹</a><a href="#g-tips">초보자 요령</a><a href="#g-ctrl">조작법</a>
+  </nav>
+
+  <h2 id="g-world">세계와 세력</h2>
+  <p>다섯 세력이 왕관을 두고 다투는 땅입니다. 모든 카드는 다섯 세력 중 하나이거나 어느 덱에나 넣을 수 있는 중립 카드입니다.</p>
+  <dl class="houses">
+    <dt><span class="chip" style="background:#27417a">⚜︎ 왕국</span> 백합 왕국</dt><dd>수호 유닛으로 벽을 쌓고, 아군 전체를 강화하며, 영주에게 두꺼운 방어도를 씌웁니다.</dd>
+    <dt><span class="chip" style="background:#7c1d22">✠ 교단</span> 성좌 교단</dt><dd>회복과 보호막, 단단한 수호 유닛, 적 전체를 태우는 정화의 불길이 특기입니다.</dd>
+    <dt><span class="chip" style="background:#2f5a3a">⚔︎ 용병</span> 회색 늑대 용병단</dt><dd>돌진으로 바로 때리고, 영주에게 직접 피해를 주는 빠른 공격형입니다. 유지비가 드는 거인도 있습니다.</dd>
+    <dt><span class="chip" style="background:#55346b">✦ 비전</span> 백탑의 마법사들</dt><dd>카드 뽑기, 빙결, 변이, 추방, 광역 마법으로 판을 통제합니다.</dd>
+    <dt><span class="chip" style="background:#3a332c">☠︎ 망령</span> 망각의 묘역</dt><dd>흡혈과 맹독, 죽음 효과, 확정 처치 주문으로 끈질기게 싸웁니다.</dd>
+    <dt><span class="chip" style="background:#7a5a2e">✶ 중립</span> 떠돌이와 유물</dt><dd>별철 장검, 무희 서아린, 수도사 뺑이처럼 어느 덱에나 넣을 수 있는 카드입니다.</dd>
+  </dl>
+
+  <h2 id="g-win">승리 조건과 시작</h2>
+  <ul>
+    <li>상대 <b>영주의 체력을 0</b>으로 만들면 이깁니다. 양쪽 영주는 체력 <b>30</b>으로 시작합니다.</li>
+    <li>덱은 <b>47장</b>입니다. 덱이 47장이 아니면 전투를 시작할 때 자동으로 맞춰집니다.</li>
+    <li>첫 턴을 시작할 때 손에 카드가 <b>7장</b> 있습니다. 먼저 하는 쪽과 나중에 하는 쪽 모두 같습니다.</li>
+  </ul>
+
+  <h2 id="g-turn">한 턴의 흐름</h2>
+  <ol>
+    <li><b>금화 충전:</b> 금화 최대치가 1 늘고(최대 10) 금화가 가득 찹니다. 과부하가 있으면 그만큼 줄어듭니다.</li>
+    <li><b>유지비 지불:</b> 유지비가 있는 유닛이 금화를 씁니다. 모자라면 그 유닛은 떠납니다.</li>
+    <li><b>카드 뽑기:</b> 1장을 뽑습니다. 손이 완전히 비어 있었다면 <b>9장까지</b> 한꺼번에 뽑습니다.</li>
+    <li><b>턴 시작 효과:</b> "내 턴 시작" 효과가 발동합니다.</li>
+    <li><b>행동:</b> 금화로 카드를 내고, 준비된 유닛으로 공격합니다. 순서는 자유입니다.</li>
+    <li><b>턴 종료</b>를 누르면 상대 차례가 됩니다.</li>
+  </ol>
+  <p class="note">손에는 최대 9장까지 들 수 있고, 넘치는 카드는 불타 없어집니다. 덱이 다 떨어진 뒤 카드를 뽑으면 1, 2, 3…씩 점점 큰 피해를 받습니다.</p>
+
+  <h2 id="g-card">카드 읽는 법</h2>
+  <ul>
+    <li><b>왼쪽 위 붉은 인장:</b> 내는 데 드는 금화(비용)</li>
+    <li><b>가운데 띠:</b> 진영과 직업, 전설 여부</li>
+    <li><b>아래 ⚔ 숫자:</b> 공격력, <b>♥ 숫자:</b> 체력 (유닛만)</li>
+    <li><b>카드 종류:</b> 전장에 남는 <b>유닛</b>, 한 번 쓰고 사라지는 <b>주문</b>, 아군 유닛에 붙는 <b>장비</b></li>
+    <li><b>전설</b> 카드는 덱에 1장만, 나머지는 같은 카드 2장까지 넣을 수 있습니다.</li>
+  </ul>
+
+  <h2 id="g-fight">전투</h2>
+  <ul>
+    <li>전장에는 유닛을 <b>7기</b>까지 둘 수 있습니다.</li>
+    <li>낸 유닛은 <b>다음 턴부터</b> 공격합니다. 돌진 유닛은 낸 턴에 바로 공격합니다.</li>
+    <li>유닛은 한 턴에 한 번 공격합니다. 적 유닛이나 적 영주를 고를 수 있습니다.</li>
+    <li>유닛끼리 싸우면 <b>서로 공격력만큼</b> 피해를 주고받습니다. 체력이 0이 되면 쓰러집니다.</li>
+    <li>적 전장에 <b>수호</b> 유닛이 있으면 그 유닛부터 공격해야 합니다.</li>
+    <li>영주와 유닛 모두 <b>최대 체력을 넘어서</b> 회복할 수 있습니다. 회복이 쌓일수록 버티기 좋아집니다.</li>
+  </ul>
+
+  <h2 id="g-kw">키워드 사전</h2>
+  <dl class="kwlist">
+    <dt>수호</dt><dd>상대는 이 유닛부터 공격해야 합니다.</dd>
+    <dt>돌진</dt><dd>낸 턴에 바로 공격할 수 있습니다.</dd>
+    <dt>흡혈</dt><dd>준 피해만큼 내 영주가 회복합니다. 최대 체력을 넘을 수 있습니다.</dd>
+    <dt>맹독</dt><dd>이 유닛에게 피해를 입은 유닛은 즉시 파괴됩니다.</dd>
+    <dt>보호막</dt><dd>처음 받는 피해 한 번을 통째로 막아 냅니다.</dd>
+    <dt>빙결</dt><dd>얼어붙은 유닛은 다음 턴에 공격하지 못합니다.</dd>
+    <dt>매혹</dt><dd>50% 확률로 그 유닛이 즉시 자기 편 유닛(없으면 자기 영주)을 공격합니다.</dd>
+    <dt>등장</dt><dd>카드를 낼 때 한 번 발동합니다.</dd>
+    <dt>죽음</dt><dd>유닛이 쓰러질 때 발동합니다.</dd>
+    <dt>내 턴 시작</dt><dd>내 턴이 시작될 때마다 발동합니다.</dd>
+    <dt>마지막 카드</dt><dd>이 카드를 내서 손이 완전히 비면 추가 효과가 발동합니다.</dd>
+    <dt>과부하 N</dt><dd>강한 대신 다음 턴 금화가 N 줄어듭니다.</dd>
+    <dt>유지비 N</dt><dd>내 턴마다 금화 N을 씁니다. 못 내면 유닛이 떠납니다.</dd>
+    <dt>방어도</dt><dd>영주가 받는 피해를 체력보다 먼저 막아 주며, 사라지지 않고 계속 쌓입니다.</dd>
+    <dt>장착</dt><dd>장비 카드를 아군 유닛에 붙입니다. 그 유닛이 살아 있는 동안 효과가 유지됩니다.</dd>
+  </dl>
+
+  <h2 id="g-color">테두리 색</h2>
+  <div class="colors">
+    <span><i style="border-color:#f2c43a"></i>노란색: 수호</span>
+    <span><i style="border-color:#4da3ff;box-shadow:0 0 8px #4da3ff"></i>파란 빛: 보호막</span>
+    <span><i style="border-color:#e9fbff;background:#cfeefa"></i>하얀 서리: 빙결</span>
+    <span><i style="border-color:#3fd27a"></i>초록: 지금 공격 가능</span>
+    <span><i style="border-color:#ff4a3d"></i>빨강: 고를 수 있는 대상</span>
+    <span><i style="border-color:#fff;background:#fff"></i>흰색: 선택한 유닛</span>
+  </div>
+
+  <h2 id="g-houses">진영별 특징</h2>
+  <div class="tablewrap"><table>
+    <tr><th>진영</th><th>강점</th><th>약점</th><th>눈여겨볼 카드</th></tr>
+    <tr><td>왕국</td><td>수호 벽, 아군 강화, 방어도</td><td>처리 주문이 적음</td><td>사자왕, 백합의 왕비, 강철 성문, 방패의 맹세</td></tr>
+    <tr><td>교단</td><td>회복, 보호막, 광역 정화</td><td>공격 속도가 느림</td><td>대성녀, 성좌의 대주교, 정화의 불길, 신의 심판</td></tr>
+    <tr><td>용병</td><td>돌진, 영주 직접 피해</td><td>오래 끌면 불리</td><td>철혈 군주, 황금 늑대 용병왕, 약탈, 투석기</td></tr>
+    <tr><td>비전</td><td>카드 뽑기, 광역·통제 마법</td><td>유닛이 약한 편</td><td>붉은 용, 운석 낙하, 변이 물약, 백탑의 대현자</td></tr>
+    <tr><td>망령</td><td>흡혈, 맹독, 확정 처치</td><td>초반 유닛이 작음</td><td>리치 왕, 망각의 여왕, 사형 집행, 죽음의 기사</td></tr>
+  </table></div>
+
+  <h2 id="g-deck">덱 만들기</h2>
+  <ul>
+    <li><b>규칙:</b> 47장, 같은 카드 2장까지, 전설 1장까지. 두 진영에 중립 카드를 몇 장 섞는 구성이 기본입니다.</li>
+    <li><b>검색:</b> 이름, 효과, 진영, 직업, 키워드, 비용으로 찾을 수 있습니다. 예: <code>흡혈 5코</code>, <code>수도사</code>, <code>전설</code></li>
+    <li><b>47장 자동 맞춤:</b> 일부만 골라 두고 누르면 주력 두 진영에서 나머지를 채웁니다.</li>
+    <li><b>내 덱 프리셋:</b> 이름을 붙여 3개까지 저장하고 불러올 수 있습니다. 이 브라우저에만 저장됩니다.</li>
+    <li><b>추천 덱:</b> 두 진영을 섞은 완성 덱 6종을 바로 불러올 수 있습니다.</li>
+    <li><b>비용 분포:</b> 1~3코 카드가 15장 이상이면 초반에 밀리지 않습니다.</li>
+  </ul>
+
+  <h2 id="g-modes">게임 모드</h2>
+  <ul>
+    <li><b>AI와 전투:</b> 초급(단순한 규칙), 중급(수를 따져 보되 가끔 실수), 고급(매 행동을 미리 계산), 이벤트(고급보다 한 수 더 깊게 계산) 중에서 고릅니다. 상대 덱은 추천 덱 중 무작위입니다.</li>
+    <li><b>친구와 대전:</b> 한 사람이 방을 만들면 5자리 코드가 나옵니다. 다른 사람이 같은 주소에서 코드를 입력하면 각자 자기 덱으로 싸웁니다. 선공은 무작위입니다. 회사나 학교 네트워크에서는 연결이 막힐 수 있습니다.</li>
+  </ul>
+
+  <h2 id="g-event">이벤트 랭킹</h2>
+  <ul>
+    <li>난이도를 <b>이벤트</b>로 고르고 처음 전투를 시작하면 메일 주소로 참가합니다. 메일 주소가 아이디가 됩니다.</li>
+    <li>이길 때마다 <b>남은 체력 × 10 + 덱에 남은 카드 × 5</b>점이 쌓입니다. 빨리, 그리고 덜 다치고 이길수록 점수가 높습니다.</li>
+    <li>랭킹에서 다른 참가자의 메일은 <code>ab***@gmail.com</code>처럼 가려서 보입니다.</li>
+    <li>시작 후 60초 안에 끝난 승리는 기록되지 않고, 하루에 40승까지 인정합니다.</li>
+    <li>점수는 처음 등록한 브라우저에서만 올릴 수 있습니다.</li>
+  </ul>
+
+  <h2 id="g-tips">초보자 요령</h2>
+  <ol>
+    <li><b>금화를 남기지 마세요.</b> 매 턴 금화를 최대한 쓰는 쪽이 대부분 이깁니다.</li>
+    <li><b>교환을 따져 보세요.</b> 내 작은 유닛으로 상대의 큰 유닛을 잡을 수 있다면 영주보다 유닛을 먼저 노리세요.</li>
+    <li><b>수호는 아끼지 마세요.</b> 체력이 높은 수호 유닛 하나가 상대의 돌진 공세를 한 턴 통째로 막아 줍니다.</li>
+    <li><b>처리 주문은 큰 적에게.</b> 사형 집행이나 변이 물약은 전설급 유닛을 위해 남겨 두세요.</li>
+    <li><b>손이 비는 순간을 노리세요.</b> 손을 다 쓰면 다음 턴에 9장을 뽑고, 마지막 카드 효과도 발동합니다.</li>
+    <li><b>과부하는 다음 턴을 생각하고.</b> 다음 턴에 낼 카드가 적을 때 쓰면 손해가 없습니다.</li>
+  </ol>
+  <p class="note">공격과 수비가 고른 입문용 조합으로는 <b>망령 + 교단</b>을 추천합니다. 흡혈로 체력을 쌓으면서 교단의 수호 유닛으로 버티고, 사형 집행과 망각의 여왕으로 큰 적을 지웁니다.</p>
+
+  <h2 id="g-ctrl">조작법</h2>
+  <ul>
+    <li><b>카드 내기:</b> 손의 카드를 누릅니다. 대상이 필요하면 빨갛게 빛나는 대상을 누릅니다. 같은 카드를 다시 누르면 취소됩니다.</li>
+    <li><b>공격:</b> 초록 테두리 유닛을 누른 뒤, 빨갛게 빛나는 적 유닛이나 적 영주를 누릅니다.</li>
+    <li><b>카드 설명 보기:</b> 컴퓨터는 마우스를 올리고, 휴대폰은 길게 누릅니다. 카드가 뒤집히며 효과, 용어 설명, 이야기가 나옵니다.</li>
+    <li><b>턴 넘기기:</b> 가운데 <b>턴 종료</b> 버튼을 누릅니다.</li>
+  </ul>
+  <div class="row" style="justify-content:center;margin:24px 0 8px"><button class="btn" id="guideBack2">메뉴로 돌아가기</button></div>
+</section>
+
 <!-- BATTLE -->
 <section id="battle" class="wrap" hidden>
   <div class="row"><h1 style="font-size:1.5rem">Corona et Gladius</h1><button class="btn ghost" id="quit" style="margin-left:auto">메뉴로</button></div>
@@ -338,6 +511,7 @@ details p{margin:.4em 0}
     <p>유닛은 낸 다음 턴부터 공격합니다. 테두리가 빛나는 내 유닛을 누른 뒤 적 유닛이나 적 영주를 누르세요. 유닛끼리 싸우면 서로 공격력만큼 피해를 줍니다.</p>
     <p><b>수호</b> 이 유닛부터 공격해야 함. <b>돌진</b> 낸 턴에 바로 공격. <b>흡혈</b> 준 피해만큼 내 영주 회복. <b>맹독</b> 피해를 준 유닛을 즉시 파괴. <b>죽음</b> 쓰러질 때 효과 발동. <b>보호막</b> 첫 피해를 한 번 막음. <b>빙결</b> 다음 턴에 공격 불가.</p>
     <p>카드나 유닛에 마우스를 올리면 카드가 뒤집히며 능력 설명과 이야기가 나옵니다. 휴대폰에서는 길게 누르면 됩니다.</p>
+    <p><b>테두리 색</b> 노란색: 수호 · 파란 빛: 보호막 · 하얀 서리: 빙결 · 초록 테두리: 지금 공격 가능 · 빨간 테두리: 공격·주문 대상으로 고를 수 있음 · 흰색: 선택한 유닛</p>
     <p>전장에는 유닛을 7기까지 둘 수 있습니다. <b>방어도</b>는 영주가 받는 피해를 체력보다 먼저 막고 계속 쌓입니다. 영주 체력은 흡혈이든 일반 회복이든 30을 넘겨 계속 오를 수 있습니다. <b>과부하</b> N은 다음 턴 금화가 N 줄어듭니다. <b>유지비</b> N 유닛은 내 턴마다 금화 N을 쓰고, 못 내면 떠납니다. <b>마지막 카드</b> 효과는 그 카드를 내서 손이 비었을 때 발동합니다. 턴을 시작할 때 손에 카드가 한 장도 없으면 1장 대신 최대 소지 수인 9장까지 뽑습니다.</p>
   </details>
 </section>
@@ -1039,7 +1213,7 @@ const countIn=(d,k)=>d.filter(x=>x===k).length;
 /* =============== UI helpers =============== */
 const $=id=>document.getElementById(id);
 let toastT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1700)}
-function show(id){['menu','editor','battle'].forEach(x=>$(x).hidden=x!==id);document.body.classList.toggle('oncover',id==='menu');window.scrollTo(0,0);if(id==='menu')setTimeout(drawCover,30)}
+function show(id){['menu','editor','battle','guide'].forEach(x=>$(x).hidden=x!==id);document.body.classList.toggle('oncover',id==='menu');window.scrollTo(0,0);if(id==='menu')setTimeout(drawCover,30)}
 function mixChips(d){const m={};d.forEach(k=>{const h=CARDS[k].h;m[h]=(m[h]||0)+1});
   return HO.filter(h=>m[h]).map(h=>`<span class="chip" style="background:${H[h].c}">${H[h].sym} ${H[h].n} ${m[h]}</span>`).join('')||'<span class="sub">아직 카드가 없습니다</span>'}
 
@@ -1493,6 +1667,7 @@ $('endturn').onclick=()=>{if(S&&S.cur===0&&!S.busy&&!S.over)act({t:'end'})};
 $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFlip').firstChild;f&&f.classList.toggle('flipped')};
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
+$('goGuide').onclick=()=>show('guide');$('guideBack').onclick=$('guideBack2').onclick=()=>{renderMenu();show('menu')};
 $('evJoin').onclick=openEv;$('evRefresh').onclick=loadBoard;$('evSubmit').onclick=evRegister;$('evCancel').onclick=closeEv;
 $('evEmail').addEventListener('keydown',e=>{if(e.key==='Enter')evRegister()});
 $('evModal').addEventListener('click',e=>{if(e.target.id==='evModal')closeEv()});
