@@ -10,7 +10,9 @@ export const SETTINGS = {
 
 // 이벤트 모드별 점수 배율: 쉬움은 50%, 어려움은 100%
 export const MODES = { eveasy: 0.5, evhard: 1 };
-export const score = (hp, deckLeft, mode = "evhard") => Math.round((hp * 10 + deckLeft * 5) * (MODES[mode] ?? 1));
+// 체력은 30까지만 점수로 인정 (회복으로 체력을 부풀린 뒤 끄는 점수 작업 방지)
+export const HP_CAP = 30;
+export const score = (hp, deckLeft, mode = "evhard") => Math.round((Math.min(hp, HP_CAP) * 10 + deckLeft * 5) * (MODES[mode] ?? 1));
 
 export const store = () => getStore({ name: "corona-event", consistency: "strong" });
 
