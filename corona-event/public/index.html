@@ -452,36 +452,39 @@ details p{margin:.4em 0}
 .btn.go{padding:.7em 1.8em;font-size:1.05rem}
 .segsep{width:1px;background:rgba(224,189,79,.45);margin:5px 0}
 
-/* ---------- 카드 프레임 (테두리 디자인) ---------- */
+/* ---------- 카드 프레임 (장식 테두리) ---------- */
 .card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:visible}
-.card .cf{--u:calc(var(--w) / 100);position:absolute;inset:0;display:block;border-radius:calc(var(--u)*7);background:linear-gradient(155deg,var(--f1),var(--f2) 42%,var(--f3));
-  box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*5) rgba(0,0,0,.5),inset 0 0 0 calc(var(--u)*.9) rgba(255,255,255,.4),inset 0 0 0 calc(var(--u)*2.6) var(--f3),inset 0 0 0 calc(var(--u)*3.4) var(--f1);
-  font-size:calc(var(--u)*10.5);color:#2b1f15;text-align:center;line-height:1.2}
-.card .cf::before{content:"";position:absolute;inset:calc(var(--u)*4.2);border-radius:calc(var(--u)*5);border:calc(var(--u)*.7) solid rgba(255,255,255,.25);pointer-events:none}
-.cf.h-k{--f1:#f3cf86;--f2:#b47a32;--f3:#4e300c}.cf.h-c{--f1:#ffffff;--f2:#b9bec8;--f3:#3a3e48}.cf.h-m{--f1:#b7e08e;--f2:#3f7a34;--f3:#15331a}
-.cf.h-s{--f1:#d6b8ff;--f2:#6a3fa8;--f3:#24113f}.cf.h-d{--f1:#a9c2bf;--f2:#36484a;--f3:#0c1315}.cf.h-n{--f1:#e9c189;--f2:#8a5a2e;--f3:#352009}
-.card .cf.lg{--f1:#fff3b8;--f2:#e2a72c;--f3:#5e3c08;box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*5) rgba(0,0,0,.5),0 0 calc(var(--u)*7) rgba(255,200,80,.65),inset 0 0 0 calc(var(--u)*.9) rgba(255,255,255,.5),inset 0 0 0 calc(var(--u)*2.6) var(--f3),inset 0 0 0 calc(var(--u)*3.4) var(--f1)}
-.card .cf .art{position:absolute;left:9%;right:9%;top:6.5%;height:46%;border-radius:50% 50% 7% 7% / 36% 36% 7% 7%;overflow:hidden;border:calc(var(--u)*2.2) solid var(--f3);
-  box-shadow:0 0 0 calc(var(--u)*1.1) var(--f1),inset 0 0 calc(var(--u)*5) rgba(0,0,0,.55);background:#1a1410;margin:0}
+.card .cf{--u:calc(var(--w) / 100);position:absolute;inset:0;display:block;border-radius:calc(var(--u)*7);
+  background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.35),transparent 55%),repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 calc(var(--u)*1.2),rgba(0,0,0,.05) calc(var(--u)*1.2) calc(var(--u)*2.4)),linear-gradient(160deg,var(--f1),var(--f2) 45%,var(--f3));
+  box-shadow:0 calc(var(--u)*1.8) calc(var(--u)*6) rgba(0,0,0,.55);font-size:calc(var(--u)*10.5);color:#2b1f15;text-align:center;line-height:1.2}
+.card .cf::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--ov) center/100% 100% no-repeat;pointer-events:none;z-index:2}
+.cf.h-k{--f1:#f6d58c;--f2:#b5772c;--f3:#4a2a08}.cf.h-c{--f1:#ffffff;--f2:#b8bec9;--f3:#383d48}.cf.h-m{--f1:#bfe39a;--f2:#4a7d38;--f3:#16301a}
+.cf.h-s{--f1:#e2c8ff;--f2:#7444b4;--f3:#22103c}.cf.h-d{--f1:#b3c7c4;--f2:#3c4f52;--f3:#0b1214}.cf.h-n{--f1:#efc890;--f2:#8e5c2c;--f3:#33200c}
+.card .cf.lg{--f1:#fff4bf;--f2:#e3a92d;--f3:#5a3806;box-shadow:0 calc(var(--u)*1.8) calc(var(--u)*6) rgba(0,0,0,.55),0 0 calc(var(--u)*8) rgba(255,205,90,.7)}
+.card .cf .art{position:absolute;left:10%;right:10%;top:7%;height:47%;margin:0;border-radius:50% 50% 9% 9% / 40% 40% 7% 7%;overflow:hidden;background:#140f0b;
+  border:calc(var(--u)*1.6) solid var(--f3);box-shadow:0 0 0 calc(var(--u)*1.4) var(--f1),0 0 0 calc(var(--u)*2.6) var(--f3),inset 0 0 calc(var(--u)*6) rgba(0,0,0,.6);z-index:1}
 .card .cf .art img,.card .cf .art svg{width:100%;height:100%;object-fit:cover;display:block}
-.card .cf .seal{position:absolute;left:-5%;top:-3.5%;width:27%;height:auto;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.3em;color:#fff;
-  text-shadow:0 1px 2px #000,0 0 5px #000;background:radial-gradient(circle at 34% 28%,#fff 0,var(--f1) 20%,var(--f2) 58%,var(--f3));border:0;box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.2) var(--f1),0 calc(var(--u)*1.2) calc(var(--u)*3) rgba(0,0,0,.55);z-index:3}
-.card .cf .emb{position:absolute;right:-3%;top:-2.5%;width:20%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:.9em;color:var(--f1);
-  background:radial-gradient(circle at 34% 28%,var(--f2),var(--f3));box-shadow:0 0 0 calc(var(--u)*1.2) var(--f1),0 calc(var(--u)*1) calc(var(--u)*2.5) rgba(0,0,0,.5);z-index:3}
-.card .cf .rib{position:absolute;left:10%;right:10%;top:49.5%;padding:.18em .5em;font-size:.68em;font-weight:800;color:#fff;letter-spacing:.04em;
-  background:linear-gradient(var(--f2),var(--f3));clip-path:polygon(0 0,100% 0,93% 50%,100% 100%,0 100%,7% 50%);text-shadow:0 1px 1px #000;z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .cf .body{position:absolute;left:8%;right:8%;top:56.5%;bottom:10%;background:linear-gradient(#fbf4e2,#eadcbc);border-radius:calc(var(--u)*3.5);
-  box-shadow:inset 0 0 0 calc(var(--u)*.8) rgba(80,50,20,.4),inset 0 calc(var(--u)*2) calc(var(--u)*4) rgba(120,80,30,.18);display:flex;flex-direction:column;align-items:center;padding:.4em .35em .2em;overflow:hidden;gap:.15em}
-.card .cf .cn{font-weight:800;font-size:.95em;line-height:1.15;color:#2b1f15}
-.card .cf .ct{font-size:.66em;line-height:1.25;color:#4a3a2a;overflow:hidden;flex:1}
+.card .cf .seal{position:absolute;left:-4%;top:-3%;width:26%;height:auto;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.32em;color:#fff;
+  text-shadow:0 1px 2px #000,0 0 6px #000;background:radial-gradient(circle at 35% 30%,#fffbe8 0,var(--f1) 18%,var(--f2) 55%,var(--f3));border:0;
+  box-shadow:0 0 0 calc(var(--u)*1.2) #0b0806,0 0 0 calc(var(--u)*2.4) var(--f1),0 0 0 calc(var(--u)*3.4) #0b0806,0 calc(var(--u)*1.4) calc(var(--u)*3) rgba(0,0,0,.6);z-index:4}
+.card .cf .emb{position:absolute;right:-3%;top:-2%;width:20%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:.92em;color:var(--f1);
+  background:radial-gradient(circle at 35% 30%,var(--f2),var(--f3));box-shadow:0 0 0 calc(var(--u)*1.1) #0b0806,0 0 0 calc(var(--u)*2.2) var(--f1),0 0 0 calc(var(--u)*3.1) #0b0806;z-index:4}
+.card .cf .rib{position:absolute;left:8%;right:8%;top:50.5%;padding:.2em .6em;font-size:.68em;font-weight:800;color:#fff;letter-spacing:.05em;z-index:3;
+  background:linear-gradient(180deg,var(--f1) 0,var(--f2) 35%,var(--f3) 100%);clip-path:polygon(0 15%,7% 0,93% 0,100% 15%,95% 55%,100% 100%,0 100%,5% 55%);
+  text-shadow:0 1px 1px #000,0 0 3px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.card .cf .body{position:absolute;left:9%;right:9%;top:57.5%;bottom:11%;z-index:1;border-radius:calc(var(--u)*2.5);display:flex;flex-direction:column;align-items:center;padding:.45em .4em .25em;gap:.18em;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 0%,#fffaf0,#f1e4c6 60%,#e2cfa4);box-shadow:inset 0 0 0 calc(var(--u)*.8) rgba(70,45,15,.45),inset 0 0 calc(var(--u)*5) rgba(120,80,30,.25)}
+.card .cf .cn{font-weight:900;font-size:.98em;line-height:1.15;color:#2b1f15;padding-bottom:.18em;border-bottom:calc(var(--u)*.5) solid rgba(90,60,20,.35)}
+.card .cf .ct{font-size:.66em;line-height:1.26;color:#4a3a2a;overflow:hidden;flex:1}
 .card .cf .ct b{color:#2b1f15}
-.card .cf .atk,.card .cf .hpv{position:absolute;bottom:-3%;width:23%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.2em;color:#fff;text-shadow:0 1px 2px #000,0 0 4px #000;z-index:3}
-.card .cf .atk{left:-4%;background:radial-gradient(circle at 34% 28%,#fff6dc,#b9a16e 45%,#5a4420);box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.1) var(--f1)}
-.card .cf .atk::before{content:"⚔︎";position:absolute;font-size:1.6em;color:rgba(40,25,5,.28);text-shadow:none;z-index:-1}
-.card .cf .hpv{right:-4%;background:radial-gradient(circle at 34% 28%,#ffb0a0,#c8281f 50%,#5a0806);box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.1) var(--f1)}
-.card .cf .kind{position:absolute;bottom:2.6%;left:0;right:0;font-size:.6em;font-weight:800;color:var(--f1);text-shadow:0 1px 1px #000,0 0 3px #000}
-.coll .card .own{top:43%!important;right:10%!important;z-index:4}
-.face.card .cf{font-size:calc(var(--u)*10.5)}
+.card .cf .atk,.card .cf .hpv{position:absolute;bottom:-3%;width:24%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.25em;color:#fff;text-shadow:0 1px 2px #000,0 0 5px #000;z-index:4}
+.card .cf .atk{left:-4%;background:radial-gradient(circle at 35% 30%,#f7e7c2,#a68a52 45%,#43300f);box-shadow:0 0 0 calc(var(--u)*1.2) #0b0806,0 0 0 calc(var(--u)*2.4) var(--f1),0 0 0 calc(var(--u)*3.4) #0b0806}
+.card .cf .atk::before{content:"⚔︎";position:absolute;font-size:1.55em;color:rgba(30,18,4,.32);text-shadow:none;z-index:-1}
+.card .cf .hpv{right:-4%;background:radial-gradient(circle at 35% 30%,#ffb4a4,#c8261c 50%,#4a0604);box-shadow:0 0 0 calc(var(--u)*1.2) #0b0806,0 0 0 calc(var(--u)*2.4) var(--f1),0 0 0 calc(var(--u)*3.4) #0b0806}
+.card .cf .kind{position:absolute;bottom:3%;left:0;right:0;font-size:.6em;font-weight:800;color:var(--f1);text-shadow:0 1px 1px #000,0 0 3px #000;z-index:3}
+.card .cf .kind{display:none}
+.card .cf .cn{max-width:100%;overflow-wrap:anywhere}
+.coll .card .own{top:44%!important;right:12%!important;z-index:6}
 </style>
 </head>
 <body>
@@ -783,163 +786,15 @@ details p{margin:.4em 0}
   <div class="row guidetop"><button class="btn ghost" id="notesBack">메뉴로</button><h1>Acta</h1></div>
   <p class="lead">패치 노트. 게임에 바뀐 내용을 최신 순서로 정리했습니다.</p>
 
-  <article class="note-v"><h2><span class="ver">v2.4</span> 새 카드 일러스트와 카드 테두리 <span class="date">2026.10.08</span></h2>
+  <article class="note-v"><h2><span class="ver">v1.1</span> 정식 시작 <span class="date">2026.10.08</span></h2>
     <ul>
-      <li>카드 130장에 회화풍 일러스트 적용 (그림은 화면에 보일 때만 불러와 접속이 가볍습니다)</li>
-      <li>카드 테두리 새 디자인: 진영별 금속 테두리(왕국 금동, 교단 은, 용병 녹색, 비전 보라, 망령 흑철, 중립 나무), 아치형 그림 창, 진영 리본, 비용·공격력·체력 원형 인장, 전설은 금빛으로 빛남</li>
+      <li><b>메인 화면과 로비</b>: 메일로 로그인하면 덱·내 덱 프리셋·영웅이 계정에 저장되어 어느 기기에서든 이어집니다.</li>
+      <li><b>영웅 5명</b>: 레온하르트, 세라피나, 붉은 도끼 브란, 엘라라, 말카스</li>
+      <li><b>다섯 진영과 중립</b>: 왕국, 교단, 용병, 비전, 망령, 중립 카드 150여 장과 회화풍 일러스트</li>
+      <li><b>모드</b>: 혼자하기(초급·중급·고급), 이벤트 대전(쉬움·어려움, 랭킹과 상품), 친구 대전</li>
+      <li><b>덱 규칙</b>: 50장, 주력 진영 35장 이상 + 다른 1개 진영과 중립(5장까지), 같은 카드 2장·전설 1장·중립 전설 1종</li>
+      <li><b>전투</b>: 수호, 돌진, 흡혈, 맹독(중독), 보호막, 빙결, 매혹, 재생, 과부하, 유지비, 방어도, 장비, 전설 등장 연출, 강화·약화 표시</li>
     </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v2.3</span> 새 일러스트 <span class="date">2026.10.08</span></h2>
-    <ul><li>왕국 원수, 백마 기사, 사자왕, 백합의 왕비, 대천사 카드에 새로 그린 회화풍 일러스트 적용</li></ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v2.2</span> 움직이는 메인 화면 <span class="date">2026.10.08</span></h2>
-    <ul>
-      <li>배경이 천천히 확대·이동하고, 마우스(휴대폰은 기울기)를 따라 깊이감 있게 움직입니다.</li>
-      <li>햇살 줄기, 흘러가는 안개, 하늘을 가로지르는 용, 구름 속 번개, 더 풍성해진 불씨</li>
-      <li>금빛이 흐르는 제목, 빛이 도는 로그인 창 테두리, 영웅 5명이 차례로 소개되는 영웅 소개란</li>
-      <li>움직임을 줄이도록 설정한 기기에서는 애니메이션이 멈춥니다.</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v2.1</span> 메인 화면·영웅·로비, 인물 그림 <span class="date">2026.10.08</span></h2>
-    <h3>화면</h3>
-    <ul>
-      <li><b>메인 화면</b>: 메일로 로그인하면 덱·내 덱 프리셋·영웅이 계정에 저장되어 <b>다른 기기에서도 그대로</b> 이어집니다. 게스트로도 시작할 수 있습니다.</li>
-      <li><b>영웅 5명</b>: 레온하르트(왕국), 세라피나(교단), 붉은 도끼 브란(용병), 엘라라(비전), 말카스(망령). 전투에서 영주 자리에 초상화가 나옵니다.</li>
-      <li><b>로비</b>: 혼자하기 · 이벤트 대전(쉬움/어려움 버튼) · 친구 대전 · 내 덱 · 안내를 타일로 정리</li>
-      <li><b>카드 그림</b>: 유닛마다 다른 인물로 새로 그림 (사제는 사제, 광전사는 붉은 눈의 바이킹 등)</li>
-    </ul>
-    <h3>전투</h3>
-    <ul>
-      <li>유닛을 누르면 받은 <b>강화·약화</b>와 출처가 표시되고, 능력치 숫자가 초록(상승)·빨강(하락)으로 바뀝니다.</li>
-      <li><b>전설 카드 등장 연출</b>: 지진, 번개, 화염 소용돌이, 빛기둥, 어둠의 소용돌이 등</li>
-    </ul>
-    <h3>신규 카드</h3>
-    <ul>
-      <li><b>바위 트롤</b> (용병, 4코 2/3, 재생): 내 턴이 끝날 때 체력을 최대치까지 회복</li>
-      <li><b>행운의 동전</b> (중립, 0코): 이번 턴 금화 +1 · <b>상인의 어음</b> (중립, 1코): 이번 턴 금화 +2</li>
-    </ul>
-    <h3>이벤트</h3>
-    <ul><li>빠르게 이긴 판이 기록되지 않던 문제 수정: 기록 제외 기준을 시작 후 60초 → <b>20초</b>로 완화</li></ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v2.0</span> 덱 규칙과 능력치 개편, 장비 10종 <span class="date">2026.10.07</span></h2>
-    <h3>덱</h3>
-    <ul>
-      <li>덱 <b>47장 → 50장</b></li>
-      <li>한 진영을 <b>최소 35장</b> 넣고, 나머지는 <b>다른 1개 진영 + 중립</b>(중립은 <b>5장</b>까지)</li>
-      <li>추천 덱을 주력 진영 35장 + 보조 진영 11장 + 중립 4장 구성으로 변경</li>
-    </ul>
-    <h3>카드</h3>
-    <ul>
-      <li>유닛 공격력+체력 합을 비용 기준으로 정리: 1코 3, 2코 4, 3코 5 … (비용 + 2). 키워드나 효과가 있으면 합이 1, 효과가 여러 개면 2 줄어듭니다. <b>전설 카드는 원래 능력치 그대로</b>입니다. 유지비·과부하는 합이 늘어납니다.</li>
-      <li>신규 중립 장비 10종: 가죽 갑옷, 철 단검, 나무 방패, 철제 투구, 전투 도끼, 강철 방패, 수호의 부적, 독 바른 칼날, 박차, 판금 갑주</li>
-      <li>코스트 인장 색을 진영별로 구분 (왕국 파랑, 교단 빨강, 용병 초록, 비전 보라, 망령 잿빛, 중립 황동)</li>
-    </ul>
-    <ul><li>투석병 1/2 → 1/1 (등장 피해에 비해 능력치가 높았음)</li></ul>
-    <h3>규칙</h3>
-    <ul><li>공격력 0인 유닛도 <b>적 전장에 유닛이 없으면</b> 영주를 공격해 1 피해를 줍니다.</li></ul>
-    <h3>화면</h3>
-    <ul><li>시작 화면을 "AI 난이도·이벤트" 묶음과 "덱 편집·게임 설명·패치 노트" 묶음으로 정리</li></ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.9</span> 전체 밸런스 조정 <span class="date">2026.10.07</span></h2>
-    <p>AI끼리 2,700판을 대전시켜 진영 승률을 49~52%로 맞췄습니다. (조정 전 망령 57%, 왕국 46%)</p>
-    <h3>규칙</h3>
-    <ul><li><b>빙결</b>된 유닛은 얼어 있는 동안 공격받아도 반격하지 못합니다.</li></ul>
-    <h3>왕국 (상향)</h3>
-    <ul>
-      <li>성벽 수비대 1/4 → 2/4 · 기마 전령 3/1 → 3/2 · 왕국 기수 2/3 → 3/3 · 왕실 근위대 3/5 → 4/5</li>
-      <li>왕국 챔피언 5코 → 4코 · 백마 기사 6코 5/4 → 5코 4/4 · 마상 결투 3코 → 2코</li>
-      <li>방패벽: 체력 +2 → 공격력과 체력 +1/+1 · 방패의 맹세: 방어도 +5에 카드 1장 뽑기 추가</li>
-      <li>사자왕 7코 → 6코 · 백합의 왕비 7코 4/7 → 6코 5/7</li>
-    </ul>
-    <h3>교단</h3>
-    <ul><li>대성녀 8코 → 7코 · 대천사 과부하 3 → 2 · 수호 천사 4/5 → 5/5 · 성스러운 갑주 방어도 +3 → +4</li></ul>
-    <h3>용병</h3>
-    <ul><li>철갑 흉갑 2코 → 1코 · 황금 늑대 용병왕 아군 공격력 +2 → +1</li></ul>
-    <h3>비전</h3>
-    <ul><li>운석 낙하 3코 5피해 과부하 3 → 5코 4피해 과부하 2 · 그리스의 불 4코 → 3코 · 마법사의 올빼미 2/1 → 2/2</li></ul>
-    <h3>망령 (하향)</h3>
-    <ul>
-      <li>뼈 거인 3코 6/6 과부하 3 → 4코 5/5 과부하 2 · 뼈 갑옷 2코 → 3코</li>
-      <li>죽음의 기사 5/5 → 4/5 · 흡혈 백작 4/5 → 4/4 · 망각의 여왕 5/7 → 4/7 · 리치 왕 죽음 효과 3피해 → 2피해</li>
-      <li>역병: 모든 유닛 1피해 → <b>적 유닛만</b> 1피해</li>
-      <li>영혼 수확: 4코, 모든 유닛 2피해, 회복 3 → 5코, <b>적 유닛만</b> 2피해, 회복 4</li>
-      <li>밴시: 모든 적 유닛 빙결 → 무작위 적 유닛 2기 빙결</li>
-    </ul>
-    <h3>중립</h3>
-    <ul><li>뺑이: 턴마다 회복 3 → 2</li></ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.8</span> 이벤트 개편 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li>이벤트 <b>어려움 점수 2배</b> (쉬움 0.5배)</li>
-      <li>점수 작업 방지: 이벤트 점수에서 <b>체력은 30까지만</b> 인정</li>
-      <li>다른 컴퓨터나 휴대폰에서도 <b>같은 메일을 입력하면 기존 점수와 승수를 이어 가기</b>, "다른 메일로 바꾸기" 버튼 추가</li>
-      <li>이벤트 상품과 마감 안내: 2026년 10월 10일(토) 오전 9시 집계, 1등 치킨 · 2등 메가커피 · 3등 친필 편지, 마감 카운트다운</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.7</span> 맹독 개편과 카드 정리 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li><b>맹독:</b> 즉시 파괴 → <b>중독</b> 상태가 되어 주인의 다음 턴이 끝날 때 파괴, 그 전에 체력을 회복하면 해독</li>
-      <li>판 갈아엎기, 운명의 수레바퀴를 <b>중립</b>으로 이동</li>
-      <li>운명의 수레바퀴: 손패 교체 → 3코스트 카드 3장 뽑기</li>
-      <li>마지막 기도: 체력 4 회복, 카드 1장 뽑기</li>
-      <li>지식의 두루마리 3코 → 2코</li>
-      <li><b>중립 전설</b>(서아린, 뺑이)은 덱에 1종만 넣을 수 있음</li>
-      <li>영주와 유닛 모두 <b>최대 체력을 넘어서</b> 회복</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.6</span> 전투 연출 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li>전투 기록 6줄 표시, 최근 60줄까지 스크롤, 라운드 구분선</li>
-      <li>공격 이펙트: 사선 베기, 흡혈 할퀴기, 불, 얼음, 빛, 비전, 독·어둠, 화살, 처형, 그리고 피해·회복 숫자</li>
-      <li>상태별 테두리 색: 수호 노랑, 보호막 파랑, 빙결 서리, 중독 독빛, 공격 가능 초록, 대상 빨강</li>
-      <li>휴대폰에서 카드를 길게 누르면 설명이 나오는 기능 개선</li>
-      <li>죽음 효과가 발동하면 기록에 표시</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.5</span> 이벤트 난이도와 편의 기능 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li>이벤트 난이도를 <b>쉬움</b>과 <b>어려움</b>으로 분리</li>
-      <li>게임 설명서와 패치 노트 페이지 추가</li>
-      <li>덱 편집: 카드 <b>검색</b>, 이름을 붙이는 <b>내 덱 프리셋 3개</b></li>
-      <li>신규 중립 전설 <b>뺑이</b>(수도사), 서아린의 빙결을 <b>매혹</b>(50% 확률로 적이 자기 편을 공격)으로 변경</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.4</span> 이벤트 랭킹과 새 그림 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li>메일로 참가하는 <b>이벤트 랭킹</b>, 승리 점수, 메일을 가린 공개 랭킹</li>
-      <li>표지와 모든 카드 그림을 <b>회화풍</b>으로 교체</li>
-      <li>신규 중립 전설 <b>서아린</b>(댄서)</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.3</span> 카드 설명과 장비 <span class="date">2026.10.07</span></h2>
-    <ul>
-      <li>카드에 마우스를 올리면 뒤집히며 효과, 용어 설명, 이야기 표시</li>
-      <li>신규 장비 <b>별철 장검</b>, 손패 교체 카드 2종</li>
-      <li>보호막 유닛 수와 능력치 하향</li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.2</span> 새 메커니즘과 친구 대전 <span class="date">2026.10.06</span></h2>
-    <ul>
-      <li>마지막 카드, 과부하, 유지비, 영주 방어도 추가, 흡혈은 최대 체력을 넘어 회복</li>
-      <li>덱 47장, 전장 7칸, 시작 손패 7장, 손이 비면 9장까지 뽑기</li>
-      <li>AI 난이도(초급·중급·고급)와 <b>친구 대전</b></li>
-    </ul>
-  </article>
-
-  <article class="note-v"><h2><span class="ver">v1.0</span> 첫 공개 <span class="date">2026.10.06</span></h2>
-    <ul><li>다섯 진영 카드, 덱 편집, AI 대전</li></ul>
   </article>
   <div class="row" style="justify-content:center;margin:24px 0 8px"><button class="btn" id="notesBack2">메뉴로 돌아가기</button></div>
 </section>
@@ -1235,7 +1090,7 @@ const CARDS={
 for(const k in CARDS){const c=CARDS[k];c.type=c.type||'unit';c.key=k}
 
 /* 일러스트 파일 (public/art/<카드코드>.jpg). 파일이 없거나 못 불러오면 코드 그림으로 대신 표시 */
-const ART_VER='2',ART_FILES=new Set(["abbess", "acolyte", "ambush", "angel", "apprentice", "arcanist", "arcgolem", "archangel", "archbishop", "archer", "bandit", "banish", "bannerman", "banshee", "barrier", "bat", "bellringer", "berserker", "bless", "bolt", "bonearmor", "bonegiant", "bonewall", "bounty", "breastplate", "bride", "captain", "castellan", "catapult", "cathguard", "champion", "coin1", "coin2", "confessor", "count", "courier", "crossbow", "crusader", "curse", "deathknight", "dragon", "dub", "duelist", "execute", "fatewheel", "finalspell", "fire", "flamesprite", "frenzy", "frogify", "frostbolt", "g_dagger", "g_leather", "g_plate", "g_waraxe", "g_woodshield", "gambler", "gargoyle", "gate", "giant", "golem", "graverise", "guard", "harvest", "holyarmor", "hunter", "hymn", "inquisitor", "lancer", "lastprayer", "lich", "lionking", "manatower", "manawisp", "marshal", "martyr", "mercking", "meteor", "militia", "mirror", "monk", "necro", "newdeal", "oblivion", "owl", "pact", "paladin", "pike", "pilgrim", "pilgrims", "pillage", "plague", "prayer", "purge", "pyro", "queen", "rage", "raider", "ram", "relic", "royalguard", "sage", "saint", "scout", "scry", "seer", "sellshield", "shieldboy", "skeleton", "slinger", "spider", "squire", "storm", "sword", "templar", "thug", "timewarp", "tome", "treasury", "troll", "volley", "wall", "ward", "warhorn", "warlord", "water", "whiteknight", "witch", "wraith", "zombie"]),ARTFAIL={},
+const ART_VER='3',ART_FILES=new Set(["abbess", "acolyte", "altar", "ambush", "angel", "apprentice", "arcanist", "arcgolem", "archangel", "archbishop", "archer", "bandit", "banish", "bannerman", "banshee", "barrier", "bat", "bellringer", "berserker", "bless", "bolt", "bonearmor", "bonegiant", "bonewall", "bounty", "breastplate", "bride", "cannon", "captain", "castellan", "catapult", "cathguard", "champion", "coin1", "coin2", "confessor", "count", "courier", "crossbow", "crusader", "cultist", "curse", "deadcrow", "deathknight", "dragon", "drain", "dub", "duelist", "errant", "execute", "fatewheel", "finalspell", "fire", "flamesprite", "frenzy", "frogify", "frostbolt", "g_amulet", "g_dagger", "g_ironhelm", "g_leather", "g_plate", "g_poisonblade", "g_spurs", "g_steelshield", "g_waraxe", "g_woodshield", "gambler", "gargoyle", "gate", "ghoul", "giant", "golem", "graverise", "guard", "harvest", "herald", "holyarmor", "hunter", "hymn", "inquisitor", "joust", "lancer", "lastprayer", "lich", "lionking", "manatower", "manawisp", "marshal", "martyr", "mercking", "meteor", "militia", "mirror", "monk", "necro", "newdeal", "nun", "oath", "oblivion", "owl", "pact", "page", "paladin", "pike", "pilgrim", "pilgrims", "pillage", "plague", "prayer", "purge", "pyro", "queen", "rage", "raider", "rally", "ram", "relic", "royalguard", "sage", "saint", "scout", "scry", "seer", "sellshield", "shieldboy", "shieldwall", "skeleton", "slinger", "smite", "spider", "squire", "starblade", "storm", "sword", "templar", "thug", "timewarp", "tome", "treasury", "troll", "volley", "wall", "ward", "warhorn", "warlord", "water", "whiteknight", "witch", "wraith", "zombie"]),ARTFAIL={},
   ART_POS={marshal:'40% 35%',whiteknight:'52% 35%',lionking:'42% 30%',queen:'50% 28%',archangel:'50% 35%'};
 function artFail(k){if(ARTFAIL[k])return;ARTFAIL[k]=1;document.querySelectorAll(`[data-art="${k}"]`).forEach(el=>{el.innerHTML=art(k)});requestPaint(k)}
 /* 그림 묶음 파일 하나(art/pack.json)를 처음 한 번만 받아 브라우저에 저장해 두고 씀 */
@@ -1247,6 +1102,28 @@ function artURL(k){if(ARTURL[k])return ARTURL[k];const b=ARTPACK&&ARTPACK[k];if(
 function refreshArt(){document.querySelectorAll('[data-art]').forEach(el=>{const k=el.dataset.art;if(ART_FILES.has(k))el.innerHTML=artHTML(k)})}
 const fileArt=k=>{if(!ARTPACK){loadArtPack();return art(k)}const u=artURL(k);if(!u){ARTFAIL[k]=1;requestPaint(k);return art(k)}
   return `<img class="photo painted" src="${u}" alt="" draggable="false" decoding="async" style="object-position:${ART_POS[k]||'50% 32%'}">`};
+
+/* 카드 테두리 장식(진영별) SVG를 만들어 CSS 변수로 넣음 */
+(()=>{const P={k:['#f6d58c','#b5772c','#4a2a08'],c:['#ffffff','#b8bec9','#383d48'],m:['#bfe39a','#4a7d38','#16301a'],s:['#e2c8ff','#7444b4','#22103c'],d:['#b3c7c4','#3c4f52','#0b1214'],n:['#efc890','#8e5c2c','#33200c'],lg:['#fff4bf','#e3a92d','#5a3806']};
+  const corner=(c1,c3)=>`<path d="M2.5 20 C2.5 9 9 2.5 20 2.5" stroke="${c1}" stroke-width="1.1" fill="none"/><path d="M7 26 C6 14 14 6 26 7" stroke="${c3}" stroke-width=".9" fill="none"/><path d="M9 17 C11 12 15 9 19 9 C15.5 11.5 13.5 14 13 18 C11.5 17.5 10 17.3 9 17Z" fill="${c1}" stroke="${c3}" stroke-width=".4"/><circle cx="9" cy="9" r="1.6" fill="${c1}" stroke="${c3}" stroke-width=".4"/>`;
+  const motif=(h,c1,c3)=>{let o='';
+    if(h==='m'){for(let y=30;y<130;y+=12)o+=`<path d="M4.2 ${y} Q7 ${y+3} 4.2 ${y+6} Q1.8 ${y+9} 4.2 ${y+12}" stroke="${c1}" stroke-width=".7" fill="none"/><ellipse cx="6.3" cy="${y+3}" rx="1.4" ry=".7" fill="${c1}" transform="rotate(35 6.3 ${y+3})"/><ellipse cx="2.4" cy="${y+9}" rx="1.3" ry=".6" fill="${c1}" transform="rotate(-35 2.4 ${y+9})"/>`}
+    else if(h==='s'){for(let y=30;y<130;y+=10)o+=`<path d="M3 ${y} L4.6 ${y+2} L3 ${y+4} L4.6 ${y+6}" stroke="${c1}" stroke-width=".55" fill="none"/><circle cx="4" cy="${y+8}" r=".55" fill="${c1}"/>`}
+    else if(h==='d'){for(let y=28;y<132;y+=9)o+=`<path d="M1.4 ${y} L5.4 ${y+2.5} L1.4 ${y+5}" fill="${c1}" opacity=".85"/>`}
+    else if(h==='c'){for(let y=34;y<128;y+=16)o+=`<path d="M3.8 ${y-2.2} L4.4 ${y-.4} L6.2 ${y} L4.4 ${y+.4} L3.8 ${y+2.2} L3.2 ${y+.4} L1.4 ${y} L3.2 ${y-.4}Z" fill="${c1}"/>`}
+    else if(h==='k'){for(let y=36;y<128;y+=18)o+=`<path d="M3.9 ${y-3} C5.6 ${y-1.5} 5.6 ${y+.5} 3.9 ${y+2} C2.2 ${y+.5} 2.2 ${y-1.5} 3.9 ${y-3}Z" fill="${c1}"/><path d="M1.8 ${y+2.6} H6" stroke="${c1}" stroke-width=".6"/>`}
+    else {for(let y=28;y<134;y+=7)o+=`<path d="M2 ${y} Q4 ${y+2} 6 ${y+.6}" stroke="${c3}" stroke-width=".45" fill="none" opacity=".7"/>`}
+    return o};
+  const svg=(h,key)=>{const [c1,c2,c3]=P[key];const C=corner(c1,c3),M=motif(h,c1,c3);
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 158"><rect x="1.1" y="1.1" width="97.8" height="155.8" rx="7" fill="none" stroke="#0b0806" stroke-width="2.2"/>
+    <rect x="3.7" y="3.7" width="92.6" height="150.6" rx="5.4" fill="none" stroke="${c1}" stroke-width=".7"/><rect x="6.4" y="6.4" width="87.2" height="145.2" rx="4" fill="none" stroke="${c3}" stroke-width="1"/>
+    <g>${C}</g><g transform="translate(100 0) scale(-1 1)">${C}</g><g transform="translate(0 158) scale(1 -1)">${C}</g><g transform="translate(100 158) scale(-1 -1)">${C}</g>
+    <g>${M}</g><g transform="translate(100 0) scale(-1 1)">${M}</g>
+    <circle cx="50" cy="153.4" r="4.2" fill="${c2}" stroke="#0b0806" stroke-width="1"/><circle cx="50" cy="153.4" r="2.6" fill="none" stroke="${c1}" stroke-width=".6"/>
+    ${key==='lg'?`<path d="M43 4.2 L45 0.8 L47.5 3.4 L50 -.2 L52.5 3.4 L55 0.8 L57 4.2Z" fill="${c1}" stroke="#0b0806" stroke-width=".6"/>`:''}</svg>`};
+  const enc=t=>`url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(t.replace(/\s+/g,' '))}")`;
+  let css='';['k','c','m','s','d','n'].forEach(h=>{css+=`.card .cf.h-${h}{--ov:${enc(svg(h,h))}}.card .cf.h-${h}.lg{--ov:${enc(svg(h,'lg'))}}`});
+  const st=document.createElement('style');st.textContent=css;document.head.appendChild(st)})();
 const COLLECTIBLE=Object.keys(CARDS).filter(k=>!CARDS[k].token);
 const maxCopies=k=>CARDS[k].leg?1:2;
 
@@ -1273,7 +1150,7 @@ function art(k){if(ART[k])return ART[k];const c=CARDS[k];if(c.img)return ART[k]=
   return ART[k]=`<svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${BG[c.h]}${SUBJ[s](t,x)}</svg>`}
 function desc(c){const kw=[...(c.kw||[]).map(k=>KW[k]),c.overload&&`과부하 ${c.overload}`,c.upkeep&&`유지비 ${c.upkeep}`].filter(Boolean).join(', ');return [kw&&`<b>${kw}</b>`,c.text].filter(Boolean).join('. ')}
 function cardFace(k){const c=CARDS[k],h=H[c.h]||H.n,unit=c.type==='unit';
-  return `<span class="cf h-${c.h}${c.leg?' lg':''}${unit?'':' sp'}"><span class="art" data-art="${k}">${artHTML(k)}</span><span class="seal">${c.cost}</span><span class="emb">${h.sym}</span><span class="rib">${h.n}${c.role?' · '+c.role:''}${c.leg?' · 전설':''}</span><span class="body"><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span></span>${unit?`<span class="atk">${c.atk}</span><span class="hpv">${c.hp}</span>`:`<span class="kind">${c.item?'장비':'주문'}</span>`}</span>`}
+  return `<span class="cf h-${c.h}${c.leg?' lg':''}${unit?'':' sp'}"><span class="art" data-art="${k}">${artHTML(k)}</span><span class="seal">${c.cost}</span><span class="emb">${h.sym}</span><span class="rib">${h.n}${c.role?' · '+c.role:''}${c.leg?' · 전설':''}${unit?'':(c.item?' · 장비':' · 주문')}</span><span class="body"><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span></span>${unit?`<span class="atk">${c.atk}</span><span class="hpv">${c.hp}</span>`:`<span class="kind">${c.item?'장비':'주문'}</span>`}</span>`}
 
 const LORE={
 squire:'기사가 되겠다는 꿈 하나로 칼을 닦고 말을 돌본다. 첫 전투에서 가장 먼저 앞으로 나선 것도 그였다.',
@@ -2586,7 +2463,7 @@ $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFl
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
 $('goGuide').onclick=()=>show('guide');
-const NOTES_VER='2.4';
+const NOTES_VER='1.1';
 function markNotes(){let seen='';try{seen=localStorage.getItem('cg-notes-seen')||''}catch(e){}$('notesNew').hidden=seen===NOTES_VER}
 $('goNotes').onclick=()=>{try{localStorage.setItem('cg-notes-seen',NOTES_VER)}catch(e){}markNotes();show('notes')};
 $('notesBack').onclick=$('notesBack2').onclick=()=>{renderMenu();show('menu')};
