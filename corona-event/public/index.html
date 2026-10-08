@@ -268,6 +268,14 @@ body.oncover{background:#120c08;background-image:none}
 .herocard .cf .ct .ht{color:#6a4a20;font-weight:700}
 .herocard .cf .ct q{font-style:italic;color:#4a3a2a;line-height:1.35}
 .herocard .cf .seal{font-size:1.1em;color:#fff3c8}
+.hpow{display:inline-block;margin-left:6px;font-size:.66rem;font-weight:700;padding:1px 7px;border-radius:9px;background:#5a3a8a;color:#f4ebd2;vertical-align:middle}
+.hpow.used{background:#7a7064;opacity:.8}
+.lordbtn.pwready{cursor:pointer}
+.lordbtn.pwready .crest{box-shadow:0 0 0 3px #e0bd4f,0 0 16px 4px rgba(255,214,120,.85);animation:pwPulse 1.6s ease-in-out infinite}
+.lordbtn.pwaim .crest{box-shadow:0 0 0 3px #c88cff,0 0 18px 5px rgba(200,140,255,.9)}
+@keyframes pwPulse{50%{box-shadow:0 0 0 3px #e0bd4f,0 0 6px 2px rgba(255,214,120,.5)}}
+@media (prefers-reduced-motion:reduce){.lordbtn.pwready .crest{animation:none}}
+.herocard .cf .ct .hp2{color:#5a3a8a;font-weight:700;font-style:normal}
 .evlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto}
 .evlist li{display:grid;grid-template-columns:2.4em 1fr auto auto;gap:10px;align-items:center;padding:6px 10px;border-radius:6px;background:rgba(255,240,200,.06);font-size:.9rem}
 .evlist li.mine{background:rgba(224,189,79,.24)}
@@ -788,6 +796,7 @@ details p{margin:.4em 0}
     <li><b>공격:</b> 초록 테두리 유닛을 누른 뒤, 빨갛게 빛나는 적 유닛이나 적 영주를 누릅니다.</li>
     <li><b>카드 설명 보기:</b> 컴퓨터는 마우스를 올리거나 꾹 누르고, 휴대폰은 카드를 0.5초쯤 길게 누릅니다. 누르는 동안 카드가 금빛으로 살짝 눌리면 곧 열립니다. 카드가 뒤집히며 효과, 용어 설명, 이야기가 나옵니다.</li>
     <li><b>강화·약화 확인:</b> 전장의 유닛을 누르면 받은 강화(▲ 초록)와 약화(▼ 빨강)가 출처와 함께 잠깐 표시됩니다. 공격력·체력 숫자도 원래보다 높으면 초록, 낮으면 빨강으로 보입니다.</li>
+    <li><b>영웅 능력:</b> 전투마다 한 번, 내 턴에 빛나는 내 영웅 초상화를 누르면 씁니다. 레온하르트 「왕국의 방패」 아군 유닛 하나 체력 +1 · 세라피나 「정화의 기도」 아군 유닛 하나 빙결 해제와 체력 2 회복 · 브란 「전쟁의 함성」 아군 유닛 하나 공격력 +1 · 엘라라 「비전 미사일」 적 하나에 1 피해 · 말카스 「뼈의 부름」 뼈 조각 소환</li>
     <li><b>턴 넘기기:</b> 가운데 <b>턴 종료</b> 버튼을 누릅니다.</li>
     <li><b>전투 기록:</b> 손패 아래 기록 칸에 최근 60줄이 남습니다. 위아래로 스크롤해서 지난 행동을 다시 볼 수 있고, 금색 줄은 라운드가 바뀐 지점입니다.</li>
     <li><b>효과 표시:</b> 일반 공격은 사선으로 베이고, 불·얼음·빛·비전·독·어둠·화살 공격은 각자 다른 이펙트로 터지며, 피해와 회복 수치가 숫자로 떠오릅니다.</li>
@@ -800,6 +809,16 @@ details p{margin:.4em 0}
   <div class="row guidetop"><button class="btn ghost" id="notesBack">메뉴로</button><h1>Acta</h1></div>
   <p class="lead">패치 노트. 게임에 바뀐 내용을 최신 순서로 정리했습니다.</p>
 
+  <article class="note-v"><h2><span class="ver">v1.4</span> 영웅 능력 조정 <span class="date">2026.10.08</span></h2>
+    <ul><li>레온하르트 「왕국의 방패」, 세라피나 「정화의 기도」, 브란 「전쟁의 함성」을 모든 아군이 아니라 <b>고른 아군 유닛 하나</b>에만 적용합니다. 세라피나는 그 유닛의 빙결을 풀고 체력 2를 회복시킵니다.</li></ul>
+  </article>
+  <article class="note-v"><h2><span class="ver">v1.3</span> 영웅 능력, 이벤트 다시하기 수정 <span class="date">2026.10.08</span></h2>
+    <ul>
+      <li><b>영웅 능력</b>(전투마다 1회, 내 영웅 초상화를 눌러 사용): 레온하르트 「왕국의 방패」 아군 유닛 체력 +1 · 세라피나 「정화의 기도」 아군 빙결 해제 · 브란 「전쟁의 함성」 아군 유닛 공격력 +1 · 엘라라 「비전 미사일」 적 하나에 1 피해 · 말카스 「뼈의 부름」 뼈 조각(1/1) 소환. AI 영웅도 사용합니다.</li>
+      <li>이벤트 대전에서 진 뒤 "다시 하기"를 누르면 일반 대전으로 시작되어 점수가 오르지 않고 상대 체력이 30으로 시작하던 문제 수정</li>
+      <li>빙결된 유닛은 자기 턴이 끝날 때까지 얼어 있도록 정리 (얼음 표시가 공격 불가 기간과 일치)</li>
+    </ul>
+  </article>
   <article class="note-v"><h2><span class="ver">v1.2</span> 영웅 초상화 <span class="date">2026.10.08</span></h2>
     <ul><li>영웅 5명의 초상화를 회화풍 일러스트로 교체하고, 영웅 선택 화면을 진영별 장식 카드로 바꿨습니다.</li></ul>
   </article>
@@ -1958,12 +1977,12 @@ function logoutAcct(){EV.acct=null;EV.match=null;try{localStorage.removeItem('cg
 let heroPick=null;
 function renderHeroSel(){heroPick=HERO;const L=$('heroList');L.innerHTML='';
   Object.entries(HEROES).forEach(([k,h])=>{const b=document.createElement('button');b.className='herocard'+(heroPick===k?' on':'');b.dataset.hero=k;
-    b.innerHTML=`<span class="card hcard"><span class="cf h-${h.h}"><span class="art"><img alt=""></span><span class="seal">${H[h.h].sym}</span><span class="emb">♛</span><span class="rib">${H[h.h].n} · 영웅</span><span class="body"><span class="cn"></span><span class="ct"><span class="ht"></span><q></q></span></span></span></span>`;
-    b.querySelector('.cn').textContent=h.name;b.querySelector('.ht').textContent=h.title;b.querySelector('q').textContent=h.line;
+    b.innerHTML=`<span class="card hcard"><span class="cf h-${h.h}"><span class="art"><img alt=""></span><span class="seal">${H[h.h].sym}</span><span class="emb">♛</span><span class="rib">${H[h.h].n} · 영웅</span><span class="body"><span class="cn"></span><span class="ct"><span class="ht"></span><span class="hp2"></span><q></q></span></span></span></span>`;
+    b.querySelector('.cn').textContent=h.name;b.querySelector('.ht').textContent=h.title;b.querySelector('.hp2').textContent=`능력 「${HPOW[k].name}」 ${HPOW[k].text}`;b.querySelector('q').textContent=h.line;
     const im=b.querySelector('img');im.style.objectPosition=heroPos(k);const src=heroImg(k,()=>{im.src=HERO_IMG[k]});if(src)im.src=src;
     b.onclick=()=>{heroPick=k;L.querySelectorAll('.herocard').forEach(x=>x.classList.toggle('on',x.dataset.hero===k));$('heroOk').disabled=false};L.appendChild(b)});
   $('heroOk').disabled=!heroPick}
-function renderLobby(){const k=HERO||'leon',h=HEROES[k];$('lobName').textContent=h.name;$('lobTitle').textContent=h.title;
+function renderLobby(){const k=HERO||'leon',h=HEROES[k];$('lobName').textContent=h.name;$('lobTitle').textContent=`${h.title} · 영웅 능력 「${HPOW[k].name}」: ${HPOW[k].text}`;
   $('lobAcct').textContent=EV.acct?`${EV.acct.masked||EV.acct.email} · 덱과 프리셋이 계정에 저장됩니다`:'게스트 · 이 기기에만 저장됩니다';
   $('logout').textContent=EV.acct?'로그아웃':'처음 화면';
   const im=$('lobHero'),src=heroImg(k,()=>{im.src=HERO_IMG[k]});im.style.objectPosition=heroPos(k);if(src)im.src=src;renderMenu();loadBoard()}
@@ -2178,12 +2197,30 @@ function startTurn(s){const p=S.p[s];p.maxMana=Math.min(10,p.maxMana+1);
   const ol=p.overload||0;p.mana=Math.max(0,p.maxMana-ol)+(s===1&&S.mode==='ai'&&S.level==='evhard'?1:0);p.overload=0;if(ol)log(`${nm(s)}: 과부하로 이번 턴 금화 -${ol}`);
   p.board.forEach((u,i)=>{const up=u&&CARDS[u.key].upkeep;if(!up)return;if(p.mana>=up)p.mana-=up;else{p.board[i]=null;log(`금화가 모자라 ${u.name}이(가) 떠났다.`)}});
   S.turnNo=(S.turnNo||0)+1;log(`▸ ${Math.ceil(S.turnNo/2)}라운드 · ${nm(s)}의 차례`);
-  units(s).forEach(u=>{u.canAttack=!u.frozen;u.frozen=false});
+  units(s).forEach(u=>{u.canAttack=!u.frozen});
   if(!p.hand.length){draw(s,MAXH);log(`${nm(s)}의 손이 비어 카드를 ${MAXH}장까지 뽑았다.`)}else draw(s,1);
   units(s).forEach(u=>{const f=CARDS[u.key].onTurn;if(f){CUR_FX=FXK[u.key]||'arcane';CUR_SRC=u.name;f(s,u);CUR_FX=null;CUR_SRC=null}});cleanup();renderBattle();if(s===1&&!S.over&&S.mode==='ai')(S.level==='easy'?aiTurn():S.level==='evhard'?aiTurnBeam('evhard'):aiTurnSim(S.level==='eveasy'?'normal':S.level))}
 function poisonTick(s){let any=false;S.p[s].board.forEach((u,i)=>{if(u&&u.poisoned&&(S.turnNo||0)>u.poisonAt){u.hp=0;any=true;fxq('u'+s+'-'+i,'poison');log(`맹독이 퍼져 ${u.name}이(가) 쓰러졌다.`)}});if(any)cleanup()}
 function regenTick(s){S.p[s].board.forEach(u=>{if(u&&u.regen&&u.hp>0&&u.hp<u.maxHp){const n=u.maxHp-u.hp;u.hp=u.maxHp;if(u.poisoned)u.poisoned=false;fxq(keyOfUnit(u),'heal',n);if(!S.sim)log(`${u.name}이(가) 재생해 체력을 모두 회복했다.`)}})}
-function endTurn(){S.sel=null;S.pending=null;if(S.mode!=='guest'){poisonTick(S.cur);if(S.over){renderBattle();return}regenTick(S.cur)}S.cur=1-S.cur;startTurn(S.cur)}
+/* 영웅 능력: 전투마다 1회, 내 영웅 초상화를 눌러 사용 */
+const HPOW={
+  leon:{name:'왕국의 방패',text:'아군 유닛 하나 체력 +1',target:'friendlyUnit',fx:'holy',run:(s,t)=>{const u=unitAt(t);if(u)buff(u,0,1)}},
+  sera:{name:'정화의 기도',text:'아군 유닛 하나의 빙결을 풀어 이번 턴 공격 가능하게 하고, 체력 2 회복',target:'friendlyUnit',fx:'holy',run:(s,t)=>{const u=unitAt(t);if(!u)return;if(u.frozen){u.frozen=false;u.canAttack=true}healUnit(u,2)}},
+  bran:{name:'전쟁의 함성',text:'아군 유닛 하나 공격력 +1',target:'friendlyUnit',fx:'buff',run:(s,t)=>{const u=unitAt(t);if(u)buff(u,1,0)}},
+  elara:{name:'비전 미사일',text:'적 하나(유닛 또는 영주)에게 1 피해',target:'enemyAny',fx:'arcane',run:(s,t)=>hit(t,1)},
+  malkas:{name:'뼈의 부름',text:'뼈 조각(1/1) 하나 소환',run:s=>summon(s,'bone')}};
+const powOf=s=>S&&S.p[s]&&HPOW[S.p[s].hero];
+function canPower(s){const pw=powOf(s),p=S.p[s];if(!pw||p.pw||S.over)return false;if(pw.target)return allTargets().some(t=>validSpell(pw,t,s)&&(t.lord||unitAt(t)));if(pw===HPOW.malkas)return p.board.includes(null);return true}
+function usePower(s,t){const pw=powOf(s),p=S.p[s];if(!pw||p.pw)return false;p.pw=true;const pf=CUR_FX,ps=CUR_SRC;CUR_FX=pw.fx||'holy';CUR_SRC=pw.name;
+  try{pw.run(s,t);log(`${nm(s)}: 영웅 능력 「${pw.name}」 사용`);fxq('l'+s,'buff');cleanup()}finally{CUR_FX=pf;CUR_SRC=ps}return true}
+function aiPower(){if(!S||S.mode!=='ai'||S.over)return;const pw=powOf(1);if(!pw||S.p[1].pw||!canPower(1))return;const me=units(1),foe=units(0);let t;
+  const at=u=>({side:1,slot:S.p[1].board.indexOf(u)}),best=(arr,f)=>arr.slice().sort((a,b)=>f(b)-f(a))[0];
+  if(pw===HPOW.leon){const u=best(me,u=>(u.taunt?3:0)+u.atk-u.hp*.3);if(!u)return;t=at(u)}
+  if(pw===HPOW.bran){const u=best(me.filter(u=>u.canAttack),u=>u.atk+(u.lifesteal?1:0));if(!u)return;t=at(u)}
+  if(pw===HPOW.sera){const u=me.find(u=>u.frozen)||best(me.filter(u=>u.hp<u.maxHp),u=>u.maxHp-u.hp);if(!u)return;t=at(u)}
+  if(pw===HPOW.elara){const k=foe.find(u=>u.hp<=1&&!u.divine);if(k)t={side:0,slot:S.p[0].board.indexOf(k)};else if(S.turnNo>=8||S.p[0].hp<=1)t={side:0,lord:true};else return}
+  usePower(1,t)}
+function endTurn(){S.sel=null;S.pending=null;S.pendingPow=false;if(S.mode!=='guest'){poisonTick(S.cur);if(S.over){renderBattle();return}regenTick(S.cur);units(S.cur).forEach(u=>{u.frozen=false})}S.cur=1-S.cur;startTurn(S.cur)}
 
 /* =============== AI =============== */
 function aiTarget(c,hi){
@@ -2211,7 +2248,7 @@ function aiTarget(c,hi){
   if(c.target==='friendlyUnit'){const b=best(mine);return b?b.t:unitFallback}
   if(c.key==='dragon')return foe.length||me.mana>=9?undefined:false;
   return undefined}
-async function aiTurn(){S.busy=true;renderBattle();await sleep(800);if(!S)return;
+async function aiTurn(){S.busy=true;renderBattle();await sleep(800);if(!S)return;aiPower();renderBattle();
   let acted=true;
   while(acted&&S&&!S.over){acted=false;const p=S.p[1];
     const opts=p.hand.map((h,i)=>({i,c:CARDS[h.key]})).filter(o=>o.c.cost<=p.mana).sort((a,b)=>b.c.cost-a.c.cost);
@@ -2258,7 +2295,7 @@ function planBeam(level,W,D){const root=fastClone(S),base=inState(root,()=>evalS
       for(const a of acts){const c=fastClone(n.st);let v;try{v=inState(c,()=>{applyAction(1,a);return evalState(level)})}catch(e){continue}next.push({st:c,first:n.first||a,v})}}
     if(!next.length)break;next.sort((x,y)=>y.v-x.v);beam=next.slice(0,W);if(beam[0].v>best.v)best=beam[0]}
   return best.v>base+0.05?best.first:null}
-async function aiTurnBeam(level){S.busy=true;renderBattle();await sleep(700);
+async function aiTurnBeam(level){S.busy=true;renderBattle();await sleep(700);if(!S)return;aiPower();renderBattle();
   for(let step=0;step<40&&S&&!S.over&&S.mode==='ai';step++){const a=planBeam(level,5,4);if(!a)break;
     if(a.t==='atk'){S.sel={side:1,slot:a.s};renderBattle();await sleep(320)}
     applyAction(1,a);S.sel=null;renderBattle();await sleep(620)}
@@ -2270,7 +2307,7 @@ function simulate(a,level,depth){const real=S;S=fastClone(real);
       for(const [q,b] of nxt){if(q<=base)break;best=Math.max(best,q-base)}v+=best*(level==='evhard'?1:.9)}
     return v}catch(e){return -1e9}finally{S=real}}
 function quick(a,level){const real=S;S=fastClone(real);try{applyAction(1,a);return evalState(level)}catch(e){return -1e9}finally{S=real}}
-async function aiTurnSim(level){S.busy=true;renderBattle();await sleep(700);
+async function aiTurnSim(level){S.busy=true;renderBattle();await sleep(700);if(!S)return;aiPower();renderBattle();
   for(let step=0;step<40&&S&&!S.over&&S.mode==='ai';step++){
     const base=evalState(level),deep=level==='hard'||level==='evhard';
     let scored=enumActions(1).map(a=>[simulate(a,level,deep)-base,a]).filter(x=>x[0]>0.05).sort((a,b)=>b[0]-a[0]);
@@ -2292,6 +2329,9 @@ function onHand(i){if(S.cur!==0||S.busy||S.over)return;const p=S.p[0],c=CARDS[p.
   act({t:'play',i})}
 function onTarget(t){const u=!t.lord&&unitAt(t);if(u)showModBubble(t);
   if(S.cur!==0||S.busy||S.over)return;
+  if(S.pendingPow){const pw=powOf(0);if(pw&&validSpell(pw,t,0)&&(t.lord||u)){S.pendingPow=false;act({t:'power',tg:t})}else if(t.lord&&t.side===0){S.pendingPow=false;renderBattle()}return}
+  if(t.lord&&t.side===0&&S.pending==null&&!S.sel){const pw=powOf(0);if(!pw)return;if(S.p[0].pw)return toast('영웅 능력은 전투마다 한 번만 쓸 수 있어요.');
+    if(!canPower(0))return toast('지금은 영웅 능력을 쓸 대상이 없어요.');if(pw.target){S.pendingPow=true;renderBattle();return toast(`「${pw.name}」: 대상을 고르세요. 내 초상화를 다시 누르면 취소.`)}return act({t:'power'})}
   if(S.pending!=null){const c=CARDS[S.p[0].hand[S.pending].key];if(validSpell(c,t,0)){const i=S.pending;S.pending=null;act({t:'play',i,tg:t})}return}
   if(t.side===0&&!t.lord){if(u&&u.canAttack&&canSwing(0,u)){S.sel=(S.sel&&S.sel.slot===t.slot)?null:{side:0,slot:t.slot};renderBattle()}return}
   if(S.sel&&validAttack(0,t)){const s=S.sel.slot;S.sel=null;act({t:'atk',s,tg:t})}
@@ -2304,13 +2344,13 @@ function act(a){
     S.busy=true;S.waiting=true;renderBattle();
     clearTimeout(NET.waitT);NET.waitT=setTimeout(()=>{if(S&&S.waiting){S.waiting=false;S.busy=false;renderBattle();toast('응답이 늦습니다. 다시 시도해 주세요.')}},4500);
     return}
-  if(a.t==='end')endTurn();else{applyAction(0,a);renderBattle()}}
+  if(a.t==='end')endTurn();else if(a.t==='power'){usePower(0,a.tg);renderBattle()}else{applyAction(0,a);renderBattle()}}
 
 /* =============== 친구와 대전 (room) =============== */
 const NET={room:null,lobby:null,role:null,code:null,guestPeer:null,hostPeer:null,guestDeck:null,lastV:0,ver:0,snap:null,timer:null,offs:[]};
 const ACT_OK=(c,t,s)=>{if(!c.target)return true;if(!hasTarget(c,s))return c.type==='unit';return !!t&&validSpell(c,t,s)&&!!(t.lord||unitAt(t))};
 function snapshot(){
-  const P=S.p.map((p,s)=>({n:p.name,hr:p.hero||'',a:p.armor||0,o:p.overload||0,hp:p.hp,mx:p.maxHp,m:p.mana,mm:p.maxMana,d:p.deck.length,ho:p.house,
+  const P=S.p.map((p,s)=>({n:p.name,hr:p.hero||'',pu:p.pw?1:0,a:p.armor||0,o:p.overload||0,hp:p.hp,mx:p.maxHp,m:p.mana,mm:p.maxMana,d:p.deck.length,ho:p.house,
     h:s===1?p.hand.map(x=>x.key):p.hand.length,
     b:p.board.map(u=>u?[u.key,u.atk,u.hp,u.maxHp,(u.taunt?1:0)|(u.charge?2:0)|(u.lifesteal?4:0)|(u.poison?8:0)|(u.divine?16:0)|(u.frozen?32:0)|(u.canAttack?64:0)|(u.poisoned?128:0)|(u.regen?256:0),u.gear||[],(u.mods||[]).slice(-6).map(m=>[String(m.src).slice(0,10),m.a,m.h])]:0)}));
   const fx=(S.fxOut||[]).slice(-12);S.fxOut=[];
@@ -2323,7 +2363,7 @@ function mergeGuestLog(d){const L=(d.log||[]).map(String).slice(0,8),n=+d.logN||
   const add=Math.min(n-NET.glogN,L.length);NET.glog=[...L.slice(0,add),...NET.glog].slice(0,60);NET.glogN=n;return NET.glog.slice()}
 function applySnapshot(d){
   if(d.v<=NET.lastV)return;NET.lastV=d.v;
-  const mk=(q,mine)=>({name:String(q.n).slice(0,12),hero:HEROES[q.hr]?q.hr:null,armor:+q.a||0,overload:+q.o||0,hp:q.hp,maxHp:q.mx,mana:q.m,maxMana:q.mm,house:H[q.ho]?q.ho:'k',deck:{length:q.d},
+  const mk=(q,mine)=>({name:String(q.n).slice(0,12),hero:HEROES[q.hr]?q.hr:null,pw:!!q.pu,armor:+q.a||0,overload:+q.o||0,hp:q.hp,maxHp:q.mx,mana:q.m,maxMana:q.mm,house:H[q.ho]?q.ho:'k',deck:{length:q.d},
     hand:Array.isArray(q.h)?q.h.filter(k=>CARDS[k]).map(k=>({uid:++uid,key:k})):Array.from({length:+q.h||0},()=>({})),
     board:(q.b||[]).slice(0,BOARD).map(x=>Array.isArray(x)&&CARDS[x[0]]?{id:++uid,key:x[0],name:CARDS[x[0]].name,atk:+x[1],hp:+x[2],maxHp:+x[3],
       taunt:!!(x[4]&1),charge:!!(x[4]&2),lifesteal:!!(x[4]&4),poison:!!(x[4]&8),divine:!!(x[4]&16),frozen:!!(x[4]&32),canAttack:!!(x[4]&64),poisoned:!!(x[4]&128),regen:!!(x[4]&256),mods:Array.isArray(x[6])?x[6].slice(0,6).map(m=>({src:String(m[0]).slice(0,10),a:+m[1]||0,h:+m[2]||0})):[],gear:Array.isArray(x[5])?x[5].filter(g=>CARDS[g]).slice(0,4):[]}:null)});
@@ -2352,6 +2392,7 @@ function onGuestAct(m){
   const a=m.data||{},fix=t=>{if(!t||typeof t!=='object')return undefined;const side=t.side===0?0:1;return t.lord?{side,lord:true}:{side,slot:Math.max(0,Math.min(BOARD-1,+t.slot|0))}};
   const tg=fix(a.tg),p=S.p[1];
   if(a.t==='end'){endTurn();return}
+  if(a.t==='power'){const pw=powOf(1);if(!pw||p.pw||(pw.target&&!(tg&&validSpell(pw,tg,1)&&(tg.lord||unitAt(tg))))||!canPower(1))return scheduleBroadcast();usePower(1,tg);renderBattle();return}
   if(a.t==='play'){const i=+a.i|0,h=p.hand[i];if(!h)return scheduleBroadcast();const c=CARDS[h.key];
     if(c.cost>p.mana||(c.type==='unit'&&!p.board.includes(null))||!ACT_OK(c,tg,1))return scheduleBroadcast();
     play(1,i,tg);renderBattle();return}
@@ -2424,13 +2465,14 @@ function peerLobby(){return{kind:'peer',join:(name,role)=>new Promise((resolve,r
 /* =============== Battle render =============== */
 function isTarget(t){if(S.cur!==0||S.busy)return false;
   if(!t.lord&&!unitAt(t))return false;
+  if(S.pendingPow){const pw=powOf(0);return !!pw&&validSpell(pw,t,0)}
   if(S.pending!=null)return validSpell(CARDS[S.p[0].hand[S.pending].key],t,0);
   if(S.sel)return validAttack(0,t);return false}
-function renderLord(s){const p=S.p[s],tg=isTarget({side:s,lord:true});
+function renderLord(s){const p=S.p[s],tg=isTarget({side:s,lord:true}),pw=HPOW[p.hero],pwReady=pw&&!p.pw&&s===0&&S.cur===0&&!S.busy&&!S.over;
   const coins=Array.from({length:p.maxMana},(_,i)=>`<span class="coin ${i<p.mana?'on':''}"></span>`).join('');
-  $('lord'+s).innerHTML=`<button class="lordbtn ${tg?'target':''} ${S.fx.has('l'+s)?'hit':''}" data-side="${s}" data-lord="1" aria-label="${p.name} 영주, 체력 ${p.hp}">
+  $('lord'+s).innerHTML=`<button class="lordbtn ${tg?'target':''} ${pwReady?'pwready':''} ${S.pendingPow&&s===0?'pwaim':''} ${S.fx.has('l'+s)?'hit':''}" title="${pw?`영웅 능력 「${pw.name}」: ${pw.text} (전투마다 1회)`:''}" data-side="${s}" data-lord="1" aria-label="${p.name} 영주, 체력 ${p.hp}">
     ${p.hero&&HEROES[p.hero]&&heroImg(p.hero,()=>{if(S)renderBattle()})?`<span class="crest hero"><img alt="${HEROES[p.hero].name}" src="${heroImg(p.hero)}" style="object-position:${heroPos(p.hero)}"></span>`:`<span class="crest" style="background:${H[p.house].c}">${H[p.house].sym}</span>`}
-    <span><div class="lname">${p.name}${s===0&&S.mode!=='ai'?' (나)':''}</div><div class="hp">♥ ${Math.max(0,p.hp)}${p.armor?`<span class="arm" aria-label="방어도 ${p.armor}"><svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 3H28V15Q28 27 15 33Q2 27 2 15Z" fill="#3d6fb0" stroke="#e0bd4f" stroke-width="2.5"/></svg>${p.armor}</span>`:''}</div></span></button>
+    <span><div class="lname">${p.name}${s===0&&S.mode!=='ai'?' (나)':''}${pw?`<span class="hpow ${p.pw?'used':''}">${p.pw?'능력 사용함':(s===0?'능력: ':'')+pw.name}</span>`:''}</div><div class="hp">♥ ${Math.max(0,p.hp)}${p.armor?`<span class="arm" aria-label="방어도 ${p.armor}"><svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 3H28V15Q28 27 15 33Q2 27 2 15Z" fill="#3d6fb0" stroke="#e0bd4f" stroke-width="2.5"/></svg>${p.armor}</span>`:''}</div></span></button>
     <div class="meta"><div class="coins">${coins}</div><span>금화 ${p.mana}/${p.maxMana}${p.overload?` · 과부하 ${p.overload}`:''} · 덱 ${p.deck.length}${s===1?' · 손 '+p.hand.length:''}</span>
     ${s===1?`<div class="ehand">${p.hand.map(()=>'<span class="back"></span>').join('')}</div>`:''}</div>`}
 function renderBoard(s){$('board'+s).innerHTML=S.p[s].board.map((u,i)=>{const t={side:s,slot:i};
@@ -2446,7 +2488,7 @@ function renderBattle(){if(!S)return;renderLord(0);renderLord(1);renderBoard(0);
   const p=S.p[0];
   $('hand').innerHTML=p.hand.map((h,i)=>{const c=CARDS[h.key],cant=c.cost>p.mana||S.cur!==0||S.busy;
     return `<button class="card ${c.leg?'leg':''} ${cant?'cant':''} ${S.pending===i?'pending':''}" data-hand="${i}" aria-label="${c.name}, 비용 ${c.cost}">${cardFace(h.key)}</button>`}).join('');
-  let h;if(S.waiting)h='상대에게 전하는 중…';else if(S.cur===1)h=S.mode==='ai'?'흑기사 영주가 군대를 움직이는 중…':'상대가 생각 중입니다…';
+  let h;if(S.pendingPow)h=`「${powOf(0).name}」: 빛나는 대상을 고르세요. 내 초상화를 다시 누르면 취소됩니다.`;else if(S.waiting)h='상대에게 전하는 중…';else if(S.cur===1)h=S.mode==='ai'?'흑기사 영주가 군대를 움직이는 중…':'상대가 생각 중입니다…';
   else if(S.pending!=null)h=`${CARDS[p.hand[S.pending].key].name}: 빛나는 대상을 고르세요. 카드를 다시 누르면 취소됩니다.`;
   else if(S.sel)h='공격할 적 유닛이나 적 영주를 고르세요.';
   else h='카드를 내거나, 테두리가 빛나는 유닛을 눌러 공격하세요.';
@@ -2484,7 +2526,7 @@ $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFl
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
 $('goGuide').onclick=()=>show('guide');
-const NOTES_VER='1.2';
+const NOTES_VER='1.4';
 function markNotes(){let seen='';try{seen=localStorage.getItem('cg-notes-seen')||''}catch(e){}$('notesNew').hidden=seen===NOTES_VER}
 $('goNotes').onclick=()=>{try{localStorage.setItem('cg-notes-seen',NOTES_VER)}catch(e){}markNotes();show('notes')};
 $('notesBack').onclick=$('notesBack2').onclick=()=>{renderMenu();show('menu')};
@@ -2499,7 +2541,7 @@ $('evEmail').addEventListener('keydown',e=>{if(e.key==='Enter')evRegister()});
 $('evModal').addEventListener('click',e=>{if(e.target.id==='evModal')closeEv()});
 $('host').onclick=hostRoom;$('join').onclick=joinRoom;$('cancelHost').onclick=leaveRoom;
 $('joinCode').addEventListener('keydown',e=>{if(e.key==='Enter')joinRoom()});
-$('goBattle').onclick=startBattle;$('again').onclick=()=>{if(S&&S.mode==='host')startPvp();else startBattle()};
+$('goBattle').onclick=startBattle;$('again').onclick=()=>{if(S&&S.mode==='host')return startPvp();const lv=S&&S.mode==='ai'?S.level:LEVEL;if(isEv(lv))startEvent(lv);else{LEVEL=lv;startBattle()}};
 $('goEdit').onclick=()=>{renderEditor();show('editor')};
 $('edBack').onclick=()=>{renderMenu();show('menu')};
 $('quit').onclick=quitBattle;$('toMenu').onclick=quitBattle;
