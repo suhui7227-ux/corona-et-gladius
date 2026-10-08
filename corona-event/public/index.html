@@ -1095,7 +1095,9 @@ const ART_VER='3',ART_FILES=new Set(["abbess", "acolyte", "altar", "ambush", "an
 function artFail(k){if(ARTFAIL[k])return;ARTFAIL[k]=1;document.querySelectorAll(`[data-art="${k}"]`).forEach(el=>{el.innerHTML=art(k)});requestPaint(k)}
 /* 그림 묶음 파일 하나(art/pack.json)를 처음 한 번만 받아 브라우저에 저장해 두고 씀 */
 let ARTPACK=null,artPackP=null;const ARTURL={};
-function loadArtPack(){if(!artPackP)artPackP=fetch('art/pack.json?v='+ART_VER).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{ARTPACK=j||{};refreshArt()})
+const ART_SRCS=()=>['art/pack.json?v='+ART_VER,'/_blob/1432ba14502edc7a3c5d58cdd39ca2ee'];
+async function fetchPack(){for(const u of ART_SRCS()){try{const r=await fetch(u);if(r.ok){const j=await r.json();if(j&&typeof j==='object'&&Object.keys(j).length)return j}}catch(e){}}throw 0}
+function loadArtPack(){if(!artPackP)artPackP=fetchPack().then(j=>{ARTPACK=j||{};refreshArt()})
   .catch(()=>{ARTPACK={};ART_FILES.forEach(k=>artFail(k))});return artPackP}
 function artURL(k){if(ARTURL[k])return ARTURL[k];const b=ARTPACK&&ARTPACK[k];if(!b)return null;try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
   ARTURL[k]=URL.createObjectURL(new Blob([u],{type:'image/jpeg'}))}catch(e){ARTURL[k]='data:image/jpeg;base64,'+b}return ARTURL[k]}
