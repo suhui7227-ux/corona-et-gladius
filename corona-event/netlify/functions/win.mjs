@@ -11,7 +11,7 @@ export default async (req) => {
   if (!p.match || b.matchId !== p.match.id) return bad("유효하지 않은 대전입니다. 새 대전을 시작해 주세요.", 409);
   if (Date.now() - p.match.startedAt < SETTINGS.minMatchMs) return bad("대전 시간이 너무 짧아 기록하지 않았습니다.", 422);
   const hp = Math.floor(Number(b.hp)), deckLeft = Math.floor(Number(b.deckLeft));
-  if (!(hp >= 1 && hp <= 200) || !(deckLeft >= 0 && deckLeft <= 47)) return bad("기록 값이 올바르지 않습니다.", 422);
+  if (!(hp >= 1 && hp <= 200) || !(deckLeft >= 0 && deckLeft <= 50)) return bad("기록 값이 올바르지 않습니다.", 422);
   const today = kstDay();
   if (p.day !== today) { p.day = today; p.dayWins = 0; }
   if (p.dayWins >= SETTINGS.maxWinsPerDay) return bad("오늘 기록할 수 있는 승리 횟수를 모두 채웠습니다.", 429);

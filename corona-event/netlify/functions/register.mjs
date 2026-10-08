@@ -12,7 +12,7 @@ export default async (req) => {
   const key = await keyFor(email);
   const ex = await s.get(key, { type: "json" });
   // 이미 참가한 메일이면 기존 기록을 그대로 이어 간다 (다른 기기에서 접속해도 같은 점수·승수)
-  if (ex) return json({ ok: true, resumed: true, token: ex.token, masked: ex.masked, score: ex.score, wins: ex.wins });
+  if (ex) return json({ ok: true, resumed: true, token: ex.token, masked: ex.masked, score: ex.score, wins: ex.wins, profile: ex.profile || null });
   const { blobs } = await s.list({ prefix: "p_" });
   if (blobs.length >= SETTINGS.maxPlayers) return bad("참가 인원이 가득 찼습니다.", 429);
   const p = {

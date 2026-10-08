@@ -3,7 +3,7 @@ import { getStore } from "@netlify/blobs";
 
 export const SETTINGS = {
   endsAt: process.env.EVENT_END || "",          // 예: 2026-11-30T23:59:59+09:00 (비우면 무기한)
-  minMatchMs: 60 * 1000,                         // 이보다 짧은 대전의 승리는 기록하지 않음
+  minMatchMs: 20 * 1000,                         // 이보다 짧은 대전의 승리는 기록하지 않음 (압승도 기록되도록 20초로 완화)
   maxWinsPerDay: 40,                             // 하루(한국 시간) 기록 가능한 승리 수
   maxPlayers: 5000,
 };
