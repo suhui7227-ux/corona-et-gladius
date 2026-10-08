@@ -272,6 +272,7 @@ body.oncover{background:#120c08;background-image:none}
 .cover .seg button[data-level^="ev"]{color:#ffb39a}
 .cover .seg button[data-level^="ev"][aria-pressed="true"]{background:#8e1b1b;color:#fff3dc}
 .art img.photo,.uart img.photo{filter:saturate(1.08) contrast(1.04)}
+.art img.photo.painted,.uart img.photo.painted{filter:none}
 .card .art img,.unit .uart img{width:100%;height:100%;object-fit:cover;display:block}
 .panel{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .chips{display:flex;gap:5px;flex-wrap:wrap}
@@ -450,6 +451,37 @@ details p{margin:.4em 0}
 .mgroup .sub{margin:0}
 .btn.go{padding:.7em 1.8em;font-size:1.05rem}
 .segsep{width:1px;background:rgba(224,189,79,.45);margin:5px 0}
+
+/* ---------- 카드 프레임 (테두리 디자인) ---------- */
+.card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:visible}
+.card .cf{--u:calc(var(--w) / 100);position:absolute;inset:0;display:block;border-radius:calc(var(--u)*7);background:linear-gradient(155deg,var(--f1),var(--f2) 42%,var(--f3));
+  box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*5) rgba(0,0,0,.5),inset 0 0 0 calc(var(--u)*.9) rgba(255,255,255,.4),inset 0 0 0 calc(var(--u)*2.6) var(--f3),inset 0 0 0 calc(var(--u)*3.4) var(--f1);
+  font-size:calc(var(--u)*10.5);color:#2b1f15;text-align:center;line-height:1.2}
+.card .cf::before{content:"";position:absolute;inset:calc(var(--u)*4.2);border-radius:calc(var(--u)*5);border:calc(var(--u)*.7) solid rgba(255,255,255,.25);pointer-events:none}
+.cf.h-k{--f1:#f3cf86;--f2:#b47a32;--f3:#4e300c}.cf.h-c{--f1:#ffffff;--f2:#b9bec8;--f3:#3a3e48}.cf.h-m{--f1:#b7e08e;--f2:#3f7a34;--f3:#15331a}
+.cf.h-s{--f1:#d6b8ff;--f2:#6a3fa8;--f3:#24113f}.cf.h-d{--f1:#a9c2bf;--f2:#36484a;--f3:#0c1315}.cf.h-n{--f1:#e9c189;--f2:#8a5a2e;--f3:#352009}
+.card .cf.lg{--f1:#fff3b8;--f2:#e2a72c;--f3:#5e3c08;box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*5) rgba(0,0,0,.5),0 0 calc(var(--u)*7) rgba(255,200,80,.65),inset 0 0 0 calc(var(--u)*.9) rgba(255,255,255,.5),inset 0 0 0 calc(var(--u)*2.6) var(--f3),inset 0 0 0 calc(var(--u)*3.4) var(--f1)}
+.card .cf .art{position:absolute;left:9%;right:9%;top:6.5%;height:46%;border-radius:50% 50% 7% 7% / 36% 36% 7% 7%;overflow:hidden;border:calc(var(--u)*2.2) solid var(--f3);
+  box-shadow:0 0 0 calc(var(--u)*1.1) var(--f1),inset 0 0 calc(var(--u)*5) rgba(0,0,0,.55);background:#1a1410;margin:0}
+.card .cf .art img,.card .cf .art svg{width:100%;height:100%;object-fit:cover;display:block}
+.card .cf .seal{position:absolute;left:-5%;top:-3.5%;width:27%;height:auto;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.3em;color:#fff;
+  text-shadow:0 1px 2px #000,0 0 5px #000;background:radial-gradient(circle at 34% 28%,#fff 0,var(--f1) 20%,var(--f2) 58%,var(--f3));border:0;box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.2) var(--f1),0 calc(var(--u)*1.2) calc(var(--u)*3) rgba(0,0,0,.55);z-index:3}
+.card .cf .emb{position:absolute;right:-3%;top:-2.5%;width:20%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:.9em;color:var(--f1);
+  background:radial-gradient(circle at 34% 28%,var(--f2),var(--f3));box-shadow:0 0 0 calc(var(--u)*1.2) var(--f1),0 calc(var(--u)*1) calc(var(--u)*2.5) rgba(0,0,0,.5);z-index:3}
+.card .cf .rib{position:absolute;left:10%;right:10%;top:49.5%;padding:.18em .5em;font-size:.68em;font-weight:800;color:#fff;letter-spacing:.04em;
+  background:linear-gradient(var(--f2),var(--f3));clip-path:polygon(0 0,100% 0,93% 50%,100% 100%,0 100%,7% 50%);text-shadow:0 1px 1px #000;z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .cf .body{position:absolute;left:8%;right:8%;top:56.5%;bottom:10%;background:linear-gradient(#fbf4e2,#eadcbc);border-radius:calc(var(--u)*3.5);
+  box-shadow:inset 0 0 0 calc(var(--u)*.8) rgba(80,50,20,.4),inset 0 calc(var(--u)*2) calc(var(--u)*4) rgba(120,80,30,.18);display:flex;flex-direction:column;align-items:center;padding:.4em .35em .2em;overflow:hidden;gap:.15em}
+.card .cf .cn{font-weight:800;font-size:.95em;line-height:1.15;color:#2b1f15}
+.card .cf .ct{font-size:.66em;line-height:1.25;color:#4a3a2a;overflow:hidden;flex:1}
+.card .cf .ct b{color:#2b1f15}
+.card .cf .atk,.card .cf .hpv{position:absolute;bottom:-3%;width:23%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.2em;color:#fff;text-shadow:0 1px 2px #000,0 0 4px #000;z-index:3}
+.card .cf .atk{left:-4%;background:radial-gradient(circle at 34% 28%,#fff6dc,#b9a16e 45%,#5a4420);box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.1) var(--f1)}
+.card .cf .atk::before{content:"⚔︎";position:absolute;font-size:1.6em;color:rgba(40,25,5,.28);text-shadow:none;z-index:-1}
+.card .cf .hpv{right:-4%;background:radial-gradient(circle at 34% 28%,#ffb0a0,#c8281f 50%,#5a0806);box-shadow:0 0 0 calc(var(--u)*1.3) var(--f3),0 0 0 calc(var(--u)*2.1) var(--f1)}
+.card .cf .kind{position:absolute;bottom:2.6%;left:0;right:0;font-size:.6em;font-weight:800;color:var(--f1);text-shadow:0 1px 1px #000,0 0 3px #000}
+.coll .card .own{top:43%!important;right:10%!important;z-index:4}
+.face.card .cf{font-size:calc(var(--u)*10.5)}
 </style>
 </head>
 <body>
@@ -750,6 +782,17 @@ details p{margin:.4em 0}
 <section id="notes" class="wrap guide notes" hidden>
   <div class="row guidetop"><button class="btn ghost" id="notesBack">메뉴로</button><h1>Acta</h1></div>
   <p class="lead">패치 노트. 게임에 바뀐 내용을 최신 순서로 정리했습니다.</p>
+
+  <article class="note-v"><h2><span class="ver">v2.4</span> 새 카드 일러스트와 카드 테두리 <span class="date">2026.10.08</span></h2>
+    <ul>
+      <li>카드 130장에 회화풍 일러스트 적용 (그림은 화면에 보일 때만 불러와 접속이 가볍습니다)</li>
+      <li>카드 테두리 새 디자인: 진영별 금속 테두리(왕국 금동, 교단 은, 용병 녹색, 비전 보라, 망령 흑철, 중립 나무), 아치형 그림 창, 진영 리본, 비용·공격력·체력 원형 인장, 전설은 금빛으로 빛남</li>
+    </ul>
+  </article>
+
+  <article class="note-v"><h2><span class="ver">v2.3</span> 새 일러스트 <span class="date">2026.10.08</span></h2>
+    <ul><li>왕국 원수, 백마 기사, 사자왕, 백합의 왕비, 대천사 카드에 새로 그린 회화풍 일러스트 적용</li></ul>
+  </article>
 
   <article class="note-v"><h2><span class="ver">v2.2</span> 움직이는 메인 화면 <span class="date">2026.10.08</span></h2>
     <ul>
@@ -1190,6 +1233,20 @@ const CARDS={
  frog:{h:'s',token:1,name:'개구리',cost:0,atk:1,hp:1,art:['frog']},
 };
 for(const k in CARDS){const c=CARDS[k];c.type=c.type||'unit';c.key=k}
+
+/* 일러스트 파일 (public/art/<카드코드>.jpg). 파일이 없거나 못 불러오면 코드 그림으로 대신 표시 */
+const ART_VER='2',ART_FILES=new Set(["abbess", "acolyte", "ambush", "angel", "apprentice", "arcanist", "arcgolem", "archangel", "archbishop", "archer", "bandit", "banish", "bannerman", "banshee", "barrier", "bat", "bellringer", "berserker", "bless", "bolt", "bonearmor", "bonegiant", "bonewall", "bounty", "breastplate", "bride", "captain", "castellan", "catapult", "cathguard", "champion", "coin1", "coin2", "confessor", "count", "courier", "crossbow", "crusader", "curse", "deathknight", "dragon", "dub", "duelist", "execute", "fatewheel", "finalspell", "fire", "flamesprite", "frenzy", "frogify", "frostbolt", "g_dagger", "g_leather", "g_plate", "g_waraxe", "g_woodshield", "gambler", "gargoyle", "gate", "giant", "golem", "graverise", "guard", "harvest", "holyarmor", "hunter", "hymn", "inquisitor", "lancer", "lastprayer", "lich", "lionking", "manatower", "manawisp", "marshal", "martyr", "mercking", "meteor", "militia", "mirror", "monk", "necro", "newdeal", "oblivion", "owl", "pact", "paladin", "pike", "pilgrim", "pilgrims", "pillage", "plague", "prayer", "purge", "pyro", "queen", "rage", "raider", "ram", "relic", "royalguard", "sage", "saint", "scout", "scry", "seer", "sellshield", "shieldboy", "skeleton", "slinger", "spider", "squire", "storm", "sword", "templar", "thug", "timewarp", "tome", "treasury", "troll", "volley", "wall", "ward", "warhorn", "warlord", "water", "whiteknight", "witch", "wraith", "zombie"]),ARTFAIL={},
+  ART_POS={marshal:'40% 35%',whiteknight:'52% 35%',lionking:'42% 30%',queen:'50% 28%',archangel:'50% 35%'};
+function artFail(k){if(ARTFAIL[k])return;ARTFAIL[k]=1;document.querySelectorAll(`[data-art="${k}"]`).forEach(el=>{el.innerHTML=art(k)});requestPaint(k)}
+/* 그림 묶음 파일 하나(art/pack.json)를 처음 한 번만 받아 브라우저에 저장해 두고 씀 */
+let ARTPACK=null,artPackP=null;const ARTURL={};
+function loadArtPack(){if(!artPackP)artPackP=fetch('art/pack.json?v='+ART_VER).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{ARTPACK=j||{};refreshArt()})
+  .catch(()=>{ARTPACK={};ART_FILES.forEach(k=>artFail(k))});return artPackP}
+function artURL(k){if(ARTURL[k])return ARTURL[k];const b=ARTPACK&&ARTPACK[k];if(!b)return null;try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+  ARTURL[k]=URL.createObjectURL(new Blob([u],{type:'image/jpeg'}))}catch(e){ARTURL[k]='data:image/jpeg;base64,'+b}return ARTURL[k]}
+function refreshArt(){document.querySelectorAll('[data-art]').forEach(el=>{const k=el.dataset.art;if(ART_FILES.has(k))el.innerHTML=artHTML(k)})}
+const fileArt=k=>{if(!ARTPACK){loadArtPack();return art(k)}const u=artURL(k);if(!u){ARTFAIL[k]=1;requestPaint(k);return art(k)}
+  return `<img class="photo painted" src="${u}" alt="" draggable="false" decoding="async" style="object-position:${ART_POS[k]||'50% 32%'}">`};
 const COLLECTIBLE=Object.keys(CARDS).filter(k=>!CARDS[k].token);
 const maxCopies=k=>CARDS[k].leg?1:2;
 
@@ -1211,12 +1268,12 @@ function presetDeck(hs){const main=hs[0],sec=hs[1],d=[];
   return d.slice(0,DECKSIZE)}
 
 const ART={};
-const photo=c=>`<img class="photo" src="${c.img}" alt="" draggable="false" style="object-position:${c.imgPos||'50% 30%'}">`;
+const photo=c=>`<img class="photo${c.painted?' painted':''}" src="${c.img}" alt="" draggable="false" style="object-position:${c.imgPos||'50% 30%'}">`;
 function art(k){if(ART[k])return ART[k];const c=CARDS[k];if(c.img)return ART[k]=photo(c);const [s,t,x]=c.art;
   return ART[k]=`<svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${BG[c.h]}${SUBJ[s](t,x)}</svg>`}
 function desc(c){const kw=[...(c.kw||[]).map(k=>KW[k]),c.overload&&`과부하 ${c.overload}`,c.upkeep&&`유지비 ${c.upkeep}`].filter(Boolean).join(', ');return [kw&&`<b>${kw}</b>`,c.text].filter(Boolean).join('. ')}
-function cardFace(k){const c=CARDS[k];
-  return `<span class="seal" style="${sealSty(c.h)}">${c.cost}</span><span class="art" data-art="${k}">${artHTML(k)}</span><span class="hb" style="background:${H[c.h].c}">${H[c.h].n}${c.role?' · '+c.role:''}${c.leg?' 전설':''}</span><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span>${c.type==='spell'?`<span class="kind">${c.item?'장비':'주문'}</span>`:`<span class="st"><span>⚔${VS} ${c.atk}</span><span class="ch">♥ ${c.hp}</span></span>`}`}
+function cardFace(k){const c=CARDS[k],h=H[c.h]||H.n,unit=c.type==='unit';
+  return `<span class="cf h-${c.h}${c.leg?' lg':''}${unit?'':' sp'}"><span class="art" data-art="${k}">${artHTML(k)}</span><span class="seal">${c.cost}</span><span class="emb">${h.sym}</span><span class="rib">${h.n}${c.role?' · '+c.role:''}${c.leg?' · 전설':''}</span><span class="body"><span class="cn">${c.name}</span><span class="ct">${desc(c)||'&nbsp;'}</span></span>${unit?`<span class="atk">${c.atk}</span><span class="hpv">${c.hp}</span>`:`<span class="kind">${c.item?'장비':'주문'}</span>`}</span>`}
 
 const LORE={
 squire:'기사가 되겠다는 꿈 하나로 칼을 닦고 말을 돌본다. 첫 전투에서 가장 먼저 앞으로 나선 것도 그였다.',
@@ -1882,8 +1939,8 @@ const Paint=(()=>{
   return {renderCard,renderCover,rng,heroArt}})();
 
 const PAINTED={},PQ=[];let painting=false;
-function artHTML(k){if(CARDS[k].img)return photo(CARDS[k]);requestPaint(k);return PAINTED[k]?`<img src="${PAINTED[k]}" alt="" draggable="false">`:art(k)}
-function requestPaint(k,low){if(CARDS[k]&&CARDS[k].img)return;if(k in PAINTED||PQ.includes(k))return;if(low)PQ.push(k);else PQ.unshift(k);if(!painting)setTimeout(pump,0)}
+function artHTML(k){if(CARDS[k].img)return photo(CARDS[k]);if(ART_FILES.has(k)&&!ARTFAIL[k])return fileArt(k);requestPaint(k);return PAINTED[k]?`<img src="${PAINTED[k]}" alt="" draggable="false">`:art(k)}
+function requestPaint(k,low){if(CARDS[k]&&CARDS[k].img)return;if(ART_FILES.has(k)&&!ARTFAIL[k])return;if(k in PAINTED||PQ.includes(k))return;if(low)PQ.push(k);else PQ.unshift(k);if(!painting)setTimeout(pump,0)}
 async function pump(){if(painting)return;painting=true;
   while(PQ.length){const k=PQ.shift();if(k in PAINTED)continue;
     try{PAINTED[k]=await Paint.renderCard(k)}catch(e){PAINTED[k]=null}
@@ -2529,7 +2586,7 @@ $('inspClose').onclick=closeInspect;$('inspTurn').onclick=()=>{const f=$('inspFl
 $('insp').addEventListener('click',e=>{if(e.target.id==='insp')closeInspect();else if(e.target.closest('.flipper'))e.target.closest('.flipper').classList.toggle('flipped')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspect()});
 $('goGuide').onclick=()=>show('guide');
-const NOTES_VER='2.2';
+const NOTES_VER='2.4';
 function markNotes(){let seen='';try{seen=localStorage.getItem('cg-notes-seen')||''}catch(e){}$('notesNew').hidden=seen===NOTES_VER}
 $('goNotes').onclick=()=>{try{localStorage.setItem('cg-notes-seen',NOTES_VER)}catch(e){}markNotes();show('notes')};
 $('notesBack').onclick=$('notesBack2').onclick=()=>{renderMenu();show('menu')};
